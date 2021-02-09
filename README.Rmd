@@ -58,7 +58,7 @@ For IG and IGL copulas:
 - `<name>` corresponds to the possible names:
     - `igcop` and `iglcop` correspond to an IG copula and IGL copula, respectively.
     - `condigcop12` and `condiglcop12` correspond to a conditional distribution of the first variable given the second, of an IG copula and IGL copula respectively. 
-    - `condigcop21` and `condiglcop21` correspond to a conditional distribution of the second variable given the first, of an IG copula and IGL copula respectively (also available as `condigcop` and `condiglcop` to match the syntax of the CopulaModel package).
+    - `condigcop21` and `condiglcop21` correspond to a conditional distribution of the second variable given the first, of an IG copula and IGL copula respectively (also available as `condigcop` and `condiglcop` to match the syntax of the [CopulaModel](https://github.com/vincenzocoia/CopulaModel) package).
 
 All of these functions have a `cpar` argument expecting the value of the copula parameters. For an IG copula, this is `c(theta, k)`, and just `k` for an IGL copula.
 

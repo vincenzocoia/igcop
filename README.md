@@ -71,7 +71,8 @@ For IG and IGL copulas:
         distribution of the second variable given the first, of an IG
         copula and IGL copula respectively (also available as
         `condigcop` and `condiglcop` to match the syntax of the
-        CopulaModel package).
+        [CopulaModel](https://github.com/vincenzocoia/CopulaModel)
+        package).
 
 All of these functions have a `cpar` argument expecting the value of the
 copula parameters. For an IG copula, this is `c(theta, k)`, and just `k`
@@ -117,11 +118,11 @@ Generating 5 values from an IG copula:
 ``` r
 rigcop(5, cpar = c(5, 4))
 #> # A tibble: 5 x 2
-#>        u      v
-#>    <dbl>  <dbl>
-#> 1 0.604  0.382 
-#> 2 0.733  0.973 
-#> 3 0.469  0.0380
-#> 4 0.0111 0.508 
-#> 5 0.635  0.261
+#>       u     v
+#>   <dbl> <dbl>
+#> 1 0.928 0.867
+#> 2 0.671 0.446
+#> 3 0.213 0.392
+#> 4 0.954 0.713
+#> 5 0.729 0.718
 ```
