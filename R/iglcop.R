@@ -17,7 +17,7 @@
 #' @rdname iglcop
 #' @export
 qcondiglcop <- function(tau, u, cpar) {
-    1 - igl_gen((1 - u)/qgamma(tau, cpar-1), cpar)
+    1 - igl_gen((1 - u) / qgamma(tau, cpar - 1), cpar)
 }
 
 #' @rdname iglcop
@@ -45,21 +45,23 @@ pcondiglcop12 <- function(u, v, cpar) {
 #' @export
 qcondiglcop12 <- function(tau, v, cpar) {
     pkinv <- igl_geninv(1 - v, cpar)
-    1 - pkinv * qgamma((1 - tau) * pgamma(1/pkinv, cpar), cpar)
+    1 - pkinv * qgamma((1 - tau) * pgamma(1 / pkinv, cpar), cpar)
 }
 
 #' @rdname iglcop
 #' @export
 diglcop <- function(u, v, cpar) {
     pkinv <- igl_geninv(1 - v, cpar)
-    (1-u)^(cpar-1) / pkinv^cpar * exp(-(1-u)/pkinv) / (gamma(cpar) * pgamma(1/pkinv, cpar))
+    e <- exp(-(1 - u) / pkinv)
+    pg <- pgamma(1 / pkinv, cpar)
+    (1 - u) ^ (cpar - 1) / pkinv ^ cpar * e / (gamma(cpar) * pg)
 }
 
 #' @rdname iglcop
 #' @export
 piglcop <- function(u, v, cpar) {
-    pkinv <- igl_geninv(1-v, cpar)
-    u + v - 1 + (1-u) * igl_gen(pkinv / (1-u), cpar)
+    pkinv <- igl_geninv(1 - v, cpar)
+    u + v - 1 + (1 - u) * igl_gen(pkinv / (1 - u), cpar)
 }
 
 #' @rdname igcop
@@ -68,5 +70,10 @@ riglcop <- function(n, cpar) {
     u <- runif(n)
     tau <- runif(n)
     v <- qcondiglcop(tau, u, cpar)
-    matrix(c(u, v), ncol=2)
+    res <- matrix(c(u, v), ncol = 2)
+    colnames(res) <- c("u", "v")
+    if (requireNamespace("tibble", quietly = TRUE)) {
+        res <- tibble::as_tibble(res)
+    }
+    res
 }

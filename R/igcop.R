@@ -14,43 +14,39 @@
 #' @rdname igcond
 #' @export
 igcond <- function(t, k, eta) {
-    fun <- function(t, eta) pgamma(eta*log(t), k-1, lower.tail=FALSE) / t
-    eval_lims(fun, t, replx=Inf, replf=0, eta=eta)
+    pgamma(eta * log(t), k - 1, lower.tail = FALSE) / t
 }
 
 #' @rdname igcond
 #' @export
 igcondinv <- function(p, k, eta, mxiter=40, eps=1.e-6, bd=5) {
     ## Algorithm:
-    fun <- function(p, eta) {
-        ## Get starting values
-        xp1 <- 1/p
-        xp2 <- exp(qgamma(1-p,k-1)/eta)
-        xpm <- pmin(xp1,xp2)
-        tt <- pmax(xpm - eps, 1 + (xpm-1)/2) # xpm-eps might overshoot left of 1.
-        iter <- 0
-        diff <- 1
-        ## Begin Newton-Raphson algorithm
-        while(iter<mxiter & max(abs(diff))>eps){
-            ## Helpful quantities
-            etalog <- eta * log(tt)
-            ## Evaluate functions
-            g <- tt * p - pgamma(etalog, k-1, lower.tail=FALSE)
-            ## When eta=0, derivative is NaN when 1<k<2, when should just be p.
-            gpfun <- function(eta) p + dgamma(etalog, k-1) * eta / tt
-            gp <- eval_lims(gpfun, eta, replx=0, replf=p)
-            diff <- g/gp
-            tt <- tt-diff
-            while(max(abs(diff))>bd | any(tt<=1))
-            { diff <- diff/2; tt <- tt+diff }
-            iter <- iter+1
-            # cat(paste0("-----", iter, "-----\n"))
-            # cat(diff, "\n")
-            # cat(tt, "\n")
-        }
-        return(tt)
+    ## Get starting values
+    xp1 <- 1/p
+    xp2 <- exp(qgamma(1-p,k-1)/eta)
+    xpm <- pmin(xp1,xp2)
+    tt <- pmax(xpm - eps, 1 + (xpm-1)/2) # xpm-eps might overshoot left of 1.
+    iter <- 0
+    diff <- 1
+    ## Begin Newton-Raphson algorithm
+    while(iter<mxiter & max(abs(diff))>eps){
+        ## Helpful quantities
+        etalog <- eta * log(tt)
+        ## Evaluate functions
+        g <- tt * p - pgamma(etalog, k-1, lower.tail=FALSE)
+        ## When eta=0, derivative is NaN when 1<k<2, when should just be p.
+        gpfun <- function(eta) p + dgamma(etalog, k-1) * eta / tt
+        gp <- eval_lims(gpfun, eta, replx=0, replf=p)
+        diff <- g/gp
+        tt <- tt-diff
+        while(max(abs(diff))>bd | any(tt<=1))
+        { diff <- diff/2; tt <- tt+diff }
+        iter <- iter+1
+        # cat(paste0("-----", iter, "-----\n"))
+        # cat(diff, "\n")
+        # cat(tt, "\n")
     }
-    eval_lims(fun, p, replx=c(0, 1), replf=c(Inf, 1), eta=eta)
+    tt
 }
 
 
@@ -74,8 +70,8 @@ pcondigcop <- function(v, u, cpar) {
     theta <- cpar[1]
     k <- cpar[2]
     if (theta == Inf) return(pcondiglcop(v, u, k))
-    Hkinv <- ig_geninv(1-v, theta, k)
-    1 - igcond(Hkinv, k, theta * (1-u))
+    Hkinv <- ig_geninv(1 - v, theta, k)
+    1 - igcond(Hkinv, k, theta * (1 - u))
 }
 
 #' @param tau Vector of quantile levels in [0,1] to evaluate a quantile function
@@ -86,7 +82,7 @@ qcondigcop <- function(tau, u, cpar) {
     theta <- cpar[1]
     k <- cpar[2]
     if (theta == Inf) return(qcondiglcop(tau, u, k))
-    inv <- igcondinv(1-tau, k, theta*(1-u))
+    inv <- igcondinv(1 - tau, k, theta * (1 - u))
     1 - ig_gen(inv, theta, k)
 }
 
@@ -104,8 +100,8 @@ pcondigcop12 <- function(u, v, cpar) {
     theta <- cpar[1]
     k <- cpar[2]
     if (theta == Inf) return(pcondiglcop12(u, v, k))
-    Hkinv <- ig_geninv(1-v, theta, k)
-    1 - (1-u) * ig_D1gen(Hkinv, theta*(1-u), k) / ig_D1gen(Hkinv, theta, k)
+    Hkinv <- ig_geninv(1 - v, theta, k)
+    1 - (1 - u) * ig_D1gen(Hkinv, theta * (1 - u), k) / ig_D1gen(Hkinv, theta, k)
 }
 
 #' @rdname igcop
@@ -133,15 +129,17 @@ digcop <- function(u, v, cpar) {
 
 #' @rdname igcop
 #' @export
-logdigcop <- function(u, v, cpar) log(digcop(u, v, cpar))
+logdigcop <- function(u, v, cpar) {
+    log(digcop(u, v, cpar))
+}
 
 #' @rdname igcop
 #' @export
 pigcop <- function(u, v, cpar) {
     theta <- cpar[1]
     k <- cpar[2]
-    Hinv <- ig_geninv(1-v, theta, k)
-    u + v - 1 + (1-u) * ig_gen(Hinv, theta * (1-u), k)
+    Hinv <- ig_geninv(1 - v, theta, k)
+    u + v - 1 + (1 - u) * ig_gen(Hinv, theta * (1 - u), k)
 }
 
 #' @rdname igcop
@@ -150,5 +148,10 @@ rigcop <- function(n, cpar) {
     u <- runif(n)
     tau <- runif(n)
     v <- qcondigcop(tau, u, cpar)
-    matrix(c(u, v), ncol=2)
+    res <- matrix(c(u, v), ncol = 2)
+    colnames(res) <- c("u", "v")
+    if (requireNamespace("tibble", quietly = TRUE)) {
+        res <- tibble::as_tibble(res)
+    }
+    res
 }

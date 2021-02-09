@@ -48,7 +48,8 @@ This package piggybacks on the base R syntax for distributions, whose
 functions adopt the convention `<prefix><name>`. For IG and IGL copulas:
 
   - `<prefix>` corresponds to one of:
-      - `r` for random number generation,
+      - `r` for random number generation (currently not supported for
+        conditional distributions),
       - `p` for cdf,
       - `d` for density, and
       - `q` for quantile (for conditional distributions only).
