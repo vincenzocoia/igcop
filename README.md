@@ -74,7 +74,8 @@ copula at (0.3, 0.6):
 
 ``` r
 library(igcop)
-# digcop(0.3, 0.6, cpar = c(3, 2))
+digcop(0.3, 0.6, cpar = c(3, 2))
+#> [1] 1.047923
 ```
 
 Computations are vectorized over both `u` and `v` (first and second
@@ -84,8 +85,12 @@ values:
 ``` r
 u <- seq(0.1, 0.9, length.out = 9)
 v <- seq(0.9, 0.5, length.out = 9)
-# piglcop(u, v, cpar = 4)
-# diglcop(0.2, v, cpar = 4)
+piglcop(u, v, cpar = 4)
+#> [1] 0.1000000 0.1999991 0.2998577 0.3973520 0.4830642 0.5410399 0.5597112
+#> [8] 0.5411682 0.4994190
+diglcop(0.2, v, cpar = 4)
+#> [1] 2.609373e-06 1.536488e-03 2.655176e-02 1.202567e-01 2.905683e-01
+#> [6] 5.044099e-01 7.261548e-01 9.344919e-01 1.120663e+00
 ```
 
 It doesn’t make sense to talk about quantiles for a multivariate
@@ -94,11 +99,21 @@ Note that the “2 given 1” distributions swap the `u` and `v` arguments
 to better align with the conditioning.
 
 ``` r
-# qcondigcop(v, u, cpar = c(5, 3))
+qcondigcop(v, u, cpar = c(5, 3))
+#> [1] 0.7241694 0.7000652 0.6876793 0.6832910 0.6850545 0.6916766 0.7015285
+#> [8] 0.7111306 0.7112040
 ```
 
 Generating 5 values from an IG copula:
 
 ``` r
-# rigcop(5, cpar = c(5, 4))
+rigcop(5, cpar = c(5, 4))
+#> # A tibble: 5 x 2
+#>       u     v
+#>   <dbl> <dbl>
+#> 1 0.968 0.972
+#> 2 0.687 0.493
+#> 3 0.930 0.388
+#> 4 0.583 0.286
+#> 5 0.838 0.915
 ```

@@ -19,29 +19,30 @@ igcond <- function(t, k, eta) {
 
 #' @rdname igcond
 #' @export
-igcondinv <- function(p, k, eta, mxiter=40, eps=1.e-6, bd=5) {
+igcondinv <- function(p, k, eta, mxiter = 40, eps = 1.e-6, bd = 5) {
     ## Algorithm:
     ## Get starting values
-    xp1 <- 1/p
-    xp2 <- exp(qgamma(1-p,k-1)/eta)
-    xpm <- pmin(xp1,xp2)
-    tt <- pmax(xpm - eps, 1 + (xpm-1)/2) # xpm-eps might overshoot left of 1.
+    xp1 <- 1 / p
+    xp2 <- exp(qgamma(1 - p, k - 1) / eta)
+    xpm <- pmin(xp1, xp2)
+    tt <- pmax(xpm - eps, 1 + (xpm - 1) / 2) # xpm-eps might overshoot left of 1.
     iter <- 0
     diff <- 1
     ## Begin Newton-Raphson algorithm
-    while(iter<mxiter & max(abs(diff))>eps){
+    while(iter < mxiter & max(abs(diff)) > eps){
         ## Helpful quantities
         etalog <- eta * log(tt)
         ## Evaluate functions
-        g <- tt * p - pgamma(etalog, k-1, lower.tail=FALSE)
+        g <- tt * p - pgamma(etalog, k - 1, lower.tail = FALSE)
         ## When eta=0, derivative is NaN when 1<k<2, when should just be p.
-        gpfun <- function(eta) p + dgamma(etalog, k-1) * eta / tt
-        gp <- eval_lims(gpfun, eta, replx=0, replf=p)
-        diff <- g/gp
-        tt <- tt-diff
-        while(max(abs(diff))>bd | any(tt<=1))
-        { diff <- diff/2; tt <- tt+diff }
-        iter <- iter+1
+        gp <- p + dgamma(etalog, k - 1) * eta / tt
+        diff <- g / gp
+        tt <- tt - diff
+        while(max(abs(diff)) > bd | any(tt <= 1)) {
+            diff <- diff / 2
+            tt <- tt + diff
+        }
+        iter <- iter + 1
         # cat(paste0("-----", iter, "-----\n"))
         # cat(diff, "\n")
         # cat(tt, "\n")
