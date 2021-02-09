@@ -18,6 +18,8 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![CRAN status](https://www.r-pkg.org/badges/version/igcop)](https://CRAN.R-project.org/package=igcop)
+[![Codecov test coverage](https://codecov.io/gh/vincenzocoia/igcop/branch/master/graph/badge.svg)](https://codecov.io/gh/vincenzocoia/igcop?branch=master)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://cran.r-project.org/web/licenses/MIT)
 <!-- badges: end -->
 
 The goal of igcop is to provide tools for computing on the Integrated Gamma (IG) and Integrated Gamma Limit (IGL) copula families. 
@@ -40,7 +42,13 @@ What makes the IG copula interesting is in regression analysis, where the respon
 
 ## Usage
 
-This package piggybacks on the base R syntax for distributions, whose functions adopt the convention `<prefix><name>`. For IG and IGL copulas:
+This package piggybacks on the base R syntax for distributions, whose functions adopt the convention:
+
+```
+<prefix><name>
+```
+
+For IG and IGL copulas:
 
 - `<prefix>` corresponds to one of:
     - `r` for random number generation (currently not supported for conditional distributions),

@@ -9,6 +9,10 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/igcop)](https://CRAN.R-project.org/package=igcop)
+[![Codecov test
+coverage](https://codecov.io/gh/vincenzocoia/igcop/branch/master/graph/badge.svg)](https://codecov.io/gh/vincenzocoia/igcop?branch=master)
+[![License:
+MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://cran.r-project.org/web/licenses/MIT)
 <!-- badges: end -->
 
 The goal of igcop is to provide tools for computing on the Integrated
@@ -45,7 +49,11 @@ the response variable.
 ## Usage
 
 This package piggybacks on the base R syntax for distributions, whose
-functions adopt the convention `<prefix><name>`. For IG and IGL copulas:
+functions adopt the convention:
+
+    <prefix><name>
+
+For IG and IGL copulas:
 
   - `<prefix>` corresponds to one of:
       - `r` for random number generation (currently not supported for
@@ -109,11 +117,11 @@ Generating 5 values from an IG copula:
 ``` r
 rigcop(5, cpar = c(5, 4))
 #> # A tibble: 5 x 2
-#>       u     v
-#>   <dbl> <dbl>
-#> 1 0.968 0.972
-#> 2 0.687 0.493
-#> 3 0.930 0.388
-#> 4 0.583 0.286
-#> 5 0.838 0.915
+#>        u      v
+#>    <dbl>  <dbl>
+#> 1 0.604  0.382 
+#> 2 0.733  0.973 
+#> 3 0.469  0.0380
+#> 4 0.0111 0.508 
+#> 5 0.635  0.261
 ```
