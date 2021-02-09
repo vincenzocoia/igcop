@@ -1,11 +1,12 @@
 Package: igcop
 Title: Computational Tools for the Integrated Gamma Copula Family
 Version: 0.0.0.9000
-Authors@R: 
-    person(given = "Vincenzo",
-           family = "Coia",
+Authors@R: c(
+    person("Vincenzo", "Coia", 
            role = c("aut", "cre"),
-           email = "vincen.coia@stat.ubc.ca")
+           email = "vincen.coia@stat.ubc.ca"),
+    person("Harry", "Joe", role = "aut")
+    )
 Description: Compute distributional quantities for an
     Integrated Gamma (IG) or IG Limit (IGL) copula, such
     as a cdf and density, along with conditional quantities
