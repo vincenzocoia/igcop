@@ -1,0 +1,23 @@
+Package: igcop
+Title: Computational Tools for the Integrated Gamma Copula Family
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Vincenzo",
+           family = "Coia",
+           role = c("aut", "cre"),
+           email = "vincen.coia@stat.ubc.ca")
+Description: Compute distributional quantities for an
+    Integrated Gamma (IG) or IG Limit (IGL) copula, such
+    as a cdf and density, along with conditional quantities
+    such as the cdf, quantiles, and densities. Generate
+    data from a copula.
+License: MIT + file LICENSE
+Suggests: 
+    testthat,
+    knitr,
+    rmarkdown
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+VignetteBuilder: knitr

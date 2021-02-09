@@ -1,0 +1,103 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# igcop
+
+<!-- badges: start -->
+
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/igcop)](https://CRAN.R-project.org/package=igcop)
+<!-- badges: end -->
+
+The goal of igcop is to provide tools for computing on the Integrated
+Gamma (IG) and Integrated Gamma Limit (IGL) copula families.
+
+## Installation
+
+igcop is not yet available on [CRAN](https://CRAN.R-project.org), but
+can be downloaded from this repository using devtools. Just execute this
+line of code in an R instance, after ensuring you have the devtools R
+package installed:
+
+``` r
+devtools::install_github("vincenzocoia/igcop")
+```
+
+## Definition
+
+The IG copula family is defined by parameters \(\theta > 0\) and
+\(k > 1\), although computations are problematic for \(k < 2\), although
+mostly just for \(k\) close to 1.
+
+…
+
+What makes the IG copula interesting is in regression analysis, where
+the response is the second variable. If the response is heavy-tailed,
+and is linked to a predictor via an IG copula, then its conditional
+distributions have lighter tails with a non-constant extreme value index
+across the predictor space. The IGL copula is interesting in a similar
+light, except its conditional distributions are all light-tailed (\!) –
+meaning that the predictor is solely responsible for the heavy tail of
+the response variable.
+
+## Usage
+
+This package piggybacks on the base R syntax for distributions, whose
+functions adopt the convention `<prefix><name>`. For IG and IGL copulas:
+
+  - `<prefix>` corresponds to one of:
+      - `r` for random number generation,
+      - `p` for cdf,
+      - `d` for density, and
+      - `q` for quantile (for conditional distributions only).
+  - `<name>` corresponds to the possible names:
+      - `igcop` and `iglcop` correspond to an IG copula and IGL copula,
+        respectively.
+      - `condigcop12` and `condiglcop12` correspond to a conditional
+        distribution of the first variable given the second, of an IG
+        copula and IGL copula respectively.
+      - `condigcop21` and `condiglcop21` correspond to a conditional
+        distribution of the second variable given the first, of an IG
+        copula and IGL copula respectively (also available as
+        `condigcop` and `condiglcop` to match the syntax of the
+        CopulaModel package).
+
+All of these functions have a `cpar` argument expecting the value of the
+copula parameters. For an IG copula, this is `c(theta, k)`, and just `k`
+for an IGL copula.
+
+Here are some examples, starting with evaluating the density of an IG
+copula at (0.3, 0.6):
+
+``` r
+library(igcop)
+# digcop(0.3, 0.6, cpar = c(3, 2))
+```
+
+Computations are vectorized over both `u` and `v` (first and second
+variables). Here’s the cdf and density of an IGL copula at different
+values:
+
+``` r
+u <- seq(0.1, 0.9, length.out = 9)
+v <- seq(0.9, 0.5, length.out = 9)
+# piglcop(u, v, cpar = 4)
+# diglcop(0.2, v, cpar = 4)
+```
+
+It doesn’t make sense to talk about quantiles for a multivariate
+distribution, so this is only defined for conditional distributions.
+Note that the “2 given 1” distributions swap the `u` and `v` arguments
+to better align with the conditioning.
+
+``` r
+# qcondigcop(v, u, cpar = c(5, 3))
+```
+
+Generating 5 values from an IG copula:
+
+``` r
+# rigcop(5, cpar = c(5, 4))
+```

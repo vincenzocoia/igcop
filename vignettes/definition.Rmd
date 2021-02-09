@@ -1,0 +1,19 @@
+---
+title: "Integrated Gamma Copula Definition"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Integrated Gamma Copula Definition}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(igcop)
+```
