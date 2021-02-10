@@ -41,6 +41,8 @@ u <- c(seq(.1, .9, .2), c(0.2, 0.6, 0.9))
 uu <- rep(list(u), length(cpar))
 v <- c(seq(.1, .9, .2), c(0.8, 0.2, 0.4))
 vv <- rep(list(v), length(cpar))
+tau <- v
+tautau <- vv
 knitr::opts_chunk$set(error = TRUE)
 ```
 
@@ -177,7 +179,7 @@ test_that("Vectorization works for pigcop", {
 ```{r}
 digcop_looped <- function(u, v, cpar) {
     pdf <- numeric()
-    for(i in 1:length(u)) {
+    for (i in 1:length(u)) {
         pdf[i] <- digcop(u[i], v[i], cpar)
     }
     pdf
@@ -192,6 +194,29 @@ tibble(pdf_vectorized = pdf1,
     DT::datatable()
 test_that("Vectorization works for digcop", {
     expect_equal(pdf1, pdf2)
+})
+```
+
+### Calculate qcondigcop looping across tau and u
+
+```{r}
+qcondigcop_looped <- function(tau, u, cpar) {
+    qcond <- numeric()
+    for (i in 1:length(u)) {
+        qcond[i] <- qcondigcop(tau[i], u[i], cpar)
+    }
+    qcond
+}
+qcond1 <- purrr::map(cpar, ~ qcondigcop(tau, u, .x))
+qcond2 <- purrr::map(cpar, ~ qcondigcop_looped(tau, u, .x))
+tibble(qcond_vectorized = qcond1,
+       qcond_looped = qcond2,
+       cpar = cpar) %>%
+    unnest(starts_with("qcond")) %>%
+    unnest_wider(cpar, names_sep = "_") %>%
+    DT::datatable()
+test_that("Vectorization works for digcop", {
+    expect_equal(qcond1, qcond2)
 })
 ```
 
@@ -336,10 +361,5 @@ ggplot(eval, aes(norm_score)) +
 # It might be better to implement the negative log-likelihood as a loop
 # rather than in vectorized mode.
 # Try first on a subset of deseasonailzed data or simulated data.
-
-
-
-
-
 ```
 

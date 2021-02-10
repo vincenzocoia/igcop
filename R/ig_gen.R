@@ -22,7 +22,7 @@ ig_D1gen <- function(t, eta, k) {
     if (k > 2) {
         replf <- -1
     } else if (k == 2) {
-        replf <- -(1 + eta/2)
+        replf <- -(1 + eta / 2)
     } else {
         replf <- -Inf
     }
