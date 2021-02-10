@@ -7,13 +7,226 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+
+## Preliminary Functions
+
+The (Upper) Incomplete Gamma function is defined as
+$$\Gamma^{*}(\alpha, x) = \int_x^{\infty} t ^ {\alpha - 1} e ^ {-t} dt$$
+for $\alpha > 0$ and $x \ge 0$, and the Gamma function is defined as $\Gamma(\alpha) = \Gamma^{*}(\alpha, 0)$.
+
+In R, the Gamma function is accessible through the function `gamma()`, and the igcop package makes the Incomplete Gamma function accessible through the `igamma()` function. 
+
+The `igamma()` function uses the Gamma distribution function `pgamma()` with `scale` or `rate` equal to 1, and `shape` equal to $\alpha$ as an indirect way of accessing the Incomplete Gamma function. Denoting this Gamma cdf as $F_{\alpha}$, the relationship is
+$$F_{\alpha}(x) = 1 - \frac{\Gamma^{*}(\alpha, x)}{\Gamma(x)}.$$
+
+## Generating Function
+
+Both the IG and IGL copula families rely on $\Psi_{k}:[0, \infty) \rightarrow (0, 1]$,
+a concave distribution function defined by 
+$$
+\Psi_{k}(y) = 
+\begin{cases}
+y \frac{\Gamma(k) - \Gamma^{*}(k, y^{-1})}{\Gamma(k-1)}+\frac{\Gamma^{*}(k-1,y^{-1})}{\Gamma(k-1)}, & y>0;\\
+0, & y=0
+\end{cases}
+$$
+(function `igl_gen()` in the igcop package).
+This is the function that _generates_ the IGL copula family when it is viewed as being part of a wider class of copulas defined by Durante and Jaworski. In the igcop package, $\Psi_k$ is programmed as the function `igl_gen()`.
+
+The "kappa" version of $\Psi_k$ is useful for some computations:
+$$\kappa_k(t) = \Psi_k(t) - t \Psi_k'(t)$$
+
+The IG copula family relies on a function $H_{k}(\cdot; \theta): [1,\infty) \rightarrow (0, 1]$ defined by 
+$$
+H_{k}(y; \theta) =
+\begin{cases}
+\frac{1}{y}\Psi_{k}\left(\frac{1}{\theta \log y}\right), & y>1;\\
+1, & y=1
+\end{cases}
+$$
+(function `ig_gen()` in the igcop package).
+Note that $H_{k}(\cdot; \theta)$ is strictly decreasing
+for all $\theta > 0$ and $k > 1$, so $H_{k}^{\leftarrow}(\cdot; \theta)$
+is the unique inverse function of $H_{k}(\cdot; \theta)$.
+
+## IG and IGL Copula Families 
+
+The IGL copula family can be defined as 
+$$C_{\text{IGL}}(u, v; k) = 
+u + v - 1 + (1 - u) \Psi_{k}\left((1 - u) ^ {-1} \Psi_{k}^{\leftarrow}(1 - v)\right)$$
+(function `piglcop()`). The parameter space is $k > 1$.
+The reflection copula is
+$$\hat{C}_{IGL}(u, v; k) = u \Psi_{k}(u ^ {-1} \Psi_{k} ^ {\leftarrow}(v)).$$
+
+The IG copula family can be defined as 
+$$C_{IG}(u, v; \theta, k) = 
+u + v - 1 + (1 - u) H_{k}\left(H_k ^ {\leftarrow}(1 - v; \theta); \theta (1 - u)\right)$$
+(function `pigcop()`). The parameter space is $\theta \ge 0$, $k > 1$. The reflection copula is 
+$$\hat{C}_{\text{IG}}(u, v; k, \theta) = u H_{k}\left(H_{k} ^ {\leftarrow}(v; \theta); \theta u).$$
+The copula family is named "Integrated Gamma" because $\Psi_{k}'(1 / \cdot)$ is proportional to the Gamma distribution cdf with scale parameter 1 and shape parameter $k$. 
+
+**Note**: Values of $k < 2$ lead to unstable computations -- especially with $k$ close to 1. 
+
+These two families are related, in that 
+$$\lim_{\theta \rightarrow \infty} C_{IG}(u, v; \theta, k) = C_{IGL}(u, v; k)$$
+for all $k$. Further, taking $\theta = 0$ results in the independence copula, so that the IG copula family is an "interpolation" between the independence copula and each IGL copula.
+
+## Conditional Distributions
+
+Plugging in the generating function in place of the generic formulas, we get:
+
+$$C_{\text{IGL}, 2|1}(v | u; k) = 
+\kappa_k\left(u ^ {-1} \Psi_k ^ {\leftarrow}(v) \right)$$
+and
+$$C_{\text{IGL}, 1|2}(u | v; k) = 
+\frac{\Psi_k'\left(u^{-1} \Psi_k ^ {\leftarrow}(v)\right)}
+     {\Psi_k'\left(\Psi_k^{\leftarrow}\left(v\right)\right)}$$
+
+IG:
+$$C_{\text{IG}, 2 | 1}(v | u; \theta, k) = 
+\frac{1}{t} \kappa_k \left(\frac{1}{\theta u \log t}\right).$$
+Corresponding quantile function:
+$$C_{\text{IG}, 2 | 1} ^ {\leftarrow}(\tau | u; \theta, k) = 
+H_k\left(H_{\kappa_{\psi}}^{\leftarrow}(\tau; \theta u); \theta \right)$$
+1|2:
+$$C_{\text{IG}, 1 | 2} (u | v; \theta, k) = u
+\frac{
+  \Psi_k\left(\frac{1}{\theta u \log t}\right) + 
+  \frac{1}{\theta u (\log t) ^ 2} 
+  \Psi_k'\left(\frac{1}{\theta u\log t}\right)
+} {
+  \Psi_k\left(\frac{1}{\theta \log t}\right) +
+  \frac{1}{\theta (\log t) ^ 2} 
+  \Psi_k'\left(\frac{1}{\theta \log t}\right)
+}$$
+
+
+
+## Densities
+
+Plugging in the generating function in place of the generic formulas, we get:
+
+$$c_{\text{IGL}}(u, v; k) = 
+-\frac{\Psi_k^{\leftarrow}(v) \Psi_k''\left(u^{-1} \Psi_k^{\leftarrow}(v)\right)}
+      {u ^ 2 \Psi_k'\left(\Psi_k^{\leftarrow}(v)\right)}$$
+
+$$c_{\text{IG}}(u, v; \theta, k) = 
+\frac{
+  \kappa_k\left(\frac{1}{\theta u \log t}\right) +
+  \frac{1}{\theta u (\log t) ^ 2}
+  \kappa_k'\left(\frac{1}{\theta u \log t}\right)
+} {
+  \Psi_k\left(\frac{1}{\theta \log t}\right) +
+  \frac{1}{\theta (\log t) ^ 2}
+  \Psi_k'\left(\frac{1}{\theta \log t}\right)
+}$$
+
+## `igcond` and `igcondinv` functions
+
+The computation of the IGL 2|1 quantile function is simple. But, computing
+the IGL 2|1 quantile function in a "direct" way first requires
+computing an inverse. This section describes a way to avoid this "nested
+inverse" with functions in the igcop package called `igcond`
+and `igcondinv`.
+
+The 2|1 distribution function of an IG copula is
+$$
+C_{IGL,2|1}(v | u; \theta, k) 
+= 1 - \frac{\bar{F}_{k-1}\left(\theta \bar{u} \log H_{k} ^ {\leftarrow}(\bar{v}; \theta)\right)}
+           {H_{k} ^ {\leftarrow} (\bar{v}; \theta)}\\ 
+= 1- \varphi_{k}\left(H_{k} ^ {\leftarrow}(\bar{v}; \theta); \theta \bar{u} \right),
+$$
+where $\bar{u} = 1 - u$ and $\bar{v} = 1 - v$, and $\bar{F}_{k-1}\left(x\right)=\Gamma^{*}\left(k-1,x\right)/\Gamma\left(k-1\right)$
+for $x \geq 0$ is the Gamma survival function with shape parameter
+$k-1$ and unit scale parameter, and 
+$$
+\varphi_{k}(x; \eta) = x^{-1} \bar{F}_{k-1}(\eta \log x)
+$$
+for $x>1$. So, computing $C_{2|1}^{\leftarrow}$ amounts to computing
+the inverse of $\varphi_{k}\left(\cdot;\theta\right)$:
+$$
+C_{IGL, 2|1} ^ {\leftarrow}(\tau | u; \theta, k) 
+= 1 - H_{k}\left(\varphi_{k} ^ {\leftarrow}(1 - \tau; \theta \bar{u}); \theta \right),
+$$
+$\tau \in (0, 1)$. Without this $\varphi_{k}$ function,
+one would first need to compute $H_{k}^{\leftarrow}(\bar{v}; \theta)$
+to compute $C_{IGL, 2|1} ^ {\leftarrow}(v | u; \theta, k)$, and
+this may lead to inaccuracies due to error amplification.
+
+In the the igcop package package, `igcond` is $\varphi_{k}$,
+and `igcondinv` is $\varphi_{k}^{\leftarrow}$. Here are some
+plots of $\varphi_{k}$:
+
+```{r plots, fig.width=5, fig.height=2, warning=FALSE, echo=FALSE} 
+library(ggplot2)
+phi <- function(theta, k) function(x) pgamma(theta*log(x), k-1, lower.tail=FALSE) / x
+ggplot(data.frame(x=c(1,10)), aes(x)) +
+   stat_function(fun=phi(2,1.3), mapping=aes(colour="theta=2")) +
+   stat_function(fun=phi(5,1.3), mapping=aes(colour="theta=5")) +
+   stat_function(fun=phi(10,1.3), mapping=aes(colour="theta=10")) +
+   labs(title="k=1.3", y=expression(varphi[k])) +
+   theme(axis.title.y=element_text(angle=0))
+ggplot(data.frame(x=c(1,10)), aes(x)) +
+   stat_function(fun=phi(2,3), mapping=aes(colour="theta=2")) +
+   stat_function(fun=phi(5,3), mapping=aes(colour="theta=5")) +
+   stat_function(fun=phi(10,3), mapping=aes(colour="theta=10")) +
+   labs(title="k=3", y=expression(varphi[k])) +
+   theme(axis.title.y=element_text(angle=0))
+ggplot(data.frame(x=c(1,10)), aes(x)) +
+   stat_function(fun=phi(2,10), mapping=aes(colour="theta=2")) +
+   stat_function(fun=phi(5,10), mapping=aes(colour="theta=5")) +
+   stat_function(fun=phi(10,10), mapping=aes(colour="theta=10")) +
+   labs(title="k=10", y=expression(varphi[k])) +
+   theme(axis.title.y=element_text(angle=0))
 ```
 
-```{r setup}
-library(igcop)
-```
+To compute `igcondinv` by solving $\varphi_{k}(x; \eta) = p$
+for $x$, the Newton-Raphson algorithm is used to solve $g(x) = 0$
+for $x$, where
+\[
+g\left(x\right)=xp-\bar{F}_{k-1}\left(\eta\log x\right),
+\]
+with derivative
+\[
+g'\left(x\right)=p+\frac{\eta}{x}f_{k-1}\left(\eta\log x\right).
+\]
+A starting value is used by noting that $\varphi_{k}$ is the product
+of two invertible survival functions, and is therefore smaller than
+those two survival functions. The smaller of the two *roots*
+of these survival functions is therefore an upper bound for the root
+of $\varphi_{k}$. The starting point is taken to be immediately to
+the left of this upper bound.
+
+\section{`ig_geninv` function{#sec:ig_geninv}}
+
+Although computing $H_{k}^{\leftarrow}$ can be bypassed when computing
+the IG 2|1 quantile function, it is needed when computing other copula
+quantities, such as the copula distribution function. The inverse
+$H_{k}^{\leftarrow}$ is called `ig_geninv` in the igcop package.
+
+To compute $H_{k}^{\leftarrow}\left(p,\theta\right)$ for $p\in\left(0,1\right)$
+and some $\theta>0$, Newton-Raphson can be used to solve $h\left(x\right)=0$
+for $x$, where
+\[
+h\left(x\right)=xp-\Psi_{k}\left(\frac{1}{\theta\log x}\right).
+\]
+This function has derivative
+\[
+h'\left(x\right)=p+\frac{1}{\theta x\left(\log x\right)^{2}}\Psi_{k}'\left(\frac{1}{\theta\log x}\right).
+\]
+ 
+
+To get a good starting value for the algorithm, note that the function
+$H_{k}$ is a product of two survival functions, just like $\varphi_{k}$
+is (as described in Section~\@ref(sec:igcondinv)). And like inverting
+$\varphi_{k}$, the inverse $H_{k}^{\leftarrow}\left(p;\theta\right)$
+for some $\theta>0$ has an upper bound that's the minimum of the
+roots of the individual survival functions:
+\[
+\min\left\{ \frac{1}{p},\exp\left(\frac{1}{\theta\Psi_{k}^{\leftarrow}\left(p\right)}\right)\right\} ,
+\]
+where $\Psi_{k}$ is defined in Equation~(\@ref(eq:cnstr-Psi)). Computing
+the inverse $\Psi_{k}^{\leftarrow}$ should not be problematic in
+terms of accuracy of the final result, since this computation is only
+used to determine a starting value.
+\end{document}
