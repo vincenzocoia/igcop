@@ -33,8 +33,26 @@ $$
 (function `igl_gen()` in the igcop package).
 This is the function that _generates_ the IGL copula family when it is viewed as being part of a wider class of copulas defined by Durante and Jaworski. In the igcop package, $\Psi_k$ is programmed as the function `igl_gen()`.
 
+Derivatives:
+$$
+\Psi_{k}'(y) = 
+\frac{\Gamma(k) - \Gamma^{*}(k, 1  / y)}
+     {\Gamma(k - 1)}
+$$
+and
+$$
+\Psi_{k}''(y) = 
+-\frac{y ^ {-k - 1} \exp(-1 / y)}
+      {\Gamma(k - 1)}
+$$
+
 The "kappa" version of $\Psi_k$ is useful for some computations:
-$$\kappa_k(t) = \Psi_k(t) - t \Psi_k'(t)$$
+$$
+\kappa_k(y) = 
+\Psi_k(y) - y \Psi_k'(y) = 
+\frac{\Gamma^{*}(k - 1, 1 / y)}
+     {\Gamma(k - 1)}
+$$
 
 The IG copula family relies on a function $H_{k}(\cdot; \theta): [1,\infty) \rightarrow (0, 1]$ defined by 
 $$
@@ -49,20 +67,48 @@ Note that $H_{k}(\cdot; \theta)$ is strictly decreasing
 for all $\theta > 0$ and $k > 1$, so $H_{k}^{\leftarrow}(\cdot; \theta)$
 is the unique inverse function of $H_{k}(\cdot; \theta)$.
 
+Derivatives:
+$$
+\text{D}_1 H_k(t; \eta) = 
+-\frac{1}{t^{2}}\left[\Psi_k\left(\frac{1}{\eta\log t}\right)+\frac{1}{\eta\left(\log t\right)^{2}}\Psi_k'\left(\frac{1}{\eta\log t}\right)\right] = \\
+-\frac{
+  (\log t + 1) (\Gamma(k) - \Gamma^{*}(k, \eta \log t)) +
+  \eta (\log t) ^ 2 \Gamma^{*}(k - 1, \eta \log t)
+}{
+  \eta (t \log t) ^ 2 \Gamma(k - 1)
+}
+$$
+and
+$$
+\text{D}_2 H_k(t; \eta) = 
+-\frac{1}{t\eta^{2}\log t}\Psi_k'\left(\frac{1}{\eta\log t}\right) = \\
+-\frac{1}{t \eta ^ 2 \log t}
+\frac{\Gamma(k) - \Gamma^{*}(k,\eta \log t)}{\Gamma(k)}
+$$
+
 ## IG and IGL Copula Families 
 
 The IGL copula family can be defined as 
-$$C_{\text{IGL}}(u, v; k) = 
-u + v - 1 + (1 - u) \Psi_{k}\left((1 - u) ^ {-1} \Psi_{k}^{\leftarrow}(1 - v)\right)$$
+$$
+C_{\text{IGL}}(u, v; k) = 
+u + v - 1 + (1 - u) \Psi_{k}\left((1 - u) ^ {-1} \Psi_{k}^{\leftarrow}(1 - v)\right)
+$$
 (function `piglcop()`). The parameter space is $k > 1$.
 The reflection copula is
-$$\hat{C}_{IGL}(u, v; k) = u \Psi_{k}(u ^ {-1} \Psi_{k} ^ {\leftarrow}(v)).$$
+$$
+\hat{C}_{\text{IGL}}(u, v; k) = 
+u \Psi_{k}(u ^ {-1} \Psi_{k} ^ {\leftarrow}(v)).
+$$
 
 The IG copula family can be defined as 
-$$C_{IG}(u, v; \theta, k) = 
-u + v - 1 + (1 - u) H_{k}\left(H_k ^ {\leftarrow}(1 - v; \theta); \theta (1 - u)\right)$$
+$$
+C_{\text{IG}}(u, v; \theta, k) = 
+u + v - 1 + (1 - u) H_{k}\left(H_k ^ {\leftarrow}(1 - v; \theta); \theta (1 - u)\right)
+$$
 (function `pigcop()`). The parameter space is $\theta \ge 0$, $k > 1$. The reflection copula is 
-$$\hat{C}_{\text{IG}}(u, v; k, \theta) = u H_{k}\left(H_{k} ^ {\leftarrow}(v; \theta); \theta u).$$
+$$
+\hat{C}_{\text{IG}}(u, v; k, \theta) = u H_{k}\left(H_{k} ^ {\leftarrow}(v; \theta); \theta u \right).
+$$
 The copula family is named "Integrated Gamma" because $\Psi_{k}'(1 / \cdot)$ is proportional to the Gamma distribution cdf with scale parameter 1 and shape parameter $k$. 
 
 **Note**: Values of $k < 2$ lead to unstable computations -- especially with $k$ close to 1. 
@@ -75,21 +121,44 @@ for all $k$. Further, taking $\theta = 0$ results in the independence copula, so
 
 Plugging in the generating function in place of the generic formulas, we get:
 
-$$C_{\text{IGL}, 2|1}(v | u; k) = 
-\kappa_k\left(u ^ {-1} \Psi_k ^ {\leftarrow}(v) \right)$$
+$$
+C_{\text{IGL}, 2|1}(v | u; k) = 
+\kappa_k\left(u ^ {-1} \Psi_k ^ {\leftarrow}(v) \right) = \\
+1- \frac{\Gamma^{*}\left(k - 1, (1 - u) / 
+           \Psi_{k} ^ {\leftarrow}(1 - v)\right)}
+        {\Gamma\left(k-1\right)} = \\
+\text{pgamma}\left(\frac{1-u}{\Psi_{k}^{\leftarrow}\left(1-v\right)}, \text{ shape} = k - 1, \text{ rate} = 1\right)
+$$
 and
-$$C_{\text{IGL}, 1|2}(u | v; k) = 
-\frac{\Psi_k'\left(u^{-1} \Psi_k ^ {\leftarrow}(v)\right)}
-     {\Psi_k'\left(\Psi_k^{\leftarrow}\left(v\right)\right)}$$
+$$
+C_{\text{IGL}, 1|2}(u | v; k) = 
+\frac{\Psi_k'\left(u ^ {-1} \Psi_k ^ {\leftarrow}(v)\right)}
+     {\Psi_k'\left(\Psi_k ^ {\leftarrow}(v)\right)} = \\
+1 - \frac{\Gamma(k) - \Gamma^{*}\left(k, (1 - u) / 
+            \Psi_{k} ^ {\leftarrow}(1 - v)\right)}
+         {\Gamma(k) - \Gamma^{*}\left(k, 1 / 
+            \Psi_{k} ^ {\leftarrow}(1 - v)\right)}
+$$
 
 IG:
-$$C_{\text{IG}, 2 | 1}(v | u; \theta, k) = 
-\frac{1}{t} \kappa_k \left(\frac{1}{\theta u \log t}\right).$$
+$$
+C_{\text{IG}, 2 | 1}(v | u; \theta, k) = 
+\frac{1}{t} \kappa_k \left(\frac{1}{\theta u \log t}\right) = 
+1 - \frac{
+  \Gamma^{*}\left(k - 1, \theta (1 - u) 
+  \log\left(H_k^{\leftarrow}(1 - v; \theta)\right)\right)
+}{
+  H_k^{\leftarrow}(1 - v; \theta) \Gamma(k - 1)
+}.
+$$
 Corresponding quantile function:
-$$C_{\text{IG}, 2 | 1} ^ {\leftarrow}(\tau | u; \theta, k) = 
-H_k\left(H_{\kappa_{\psi}}^{\leftarrow}(\tau; \theta u); \theta \right)$$
+$$
+C_{\text{IG}, 2 | 1} ^ {\leftarrow}(\tau | u; \theta, k) = 
+H_k\left(H_{\kappa_{\psi}}^{\leftarrow}(\tau; \theta u); \theta \right)
+$$
 1|2:
-$$C_{\text{IG}, 1 | 2} (u | v; \theta, k) = u
+$$
+C_{\text{IG}, 1 | 2} (u | v; \theta, k) = u
 \frac{
   \Psi_k\left(\frac{1}{\theta u \log t}\right) + 
   \frac{1}{\theta u (\log t) ^ 2} 
@@ -98,7 +167,16 @@ $$C_{\text{IG}, 1 | 2} (u | v; \theta, k) = u
   \Psi_k\left(\frac{1}{\theta \log t}\right) +
   \frac{1}{\theta (\log t) ^ 2} 
   \Psi_k'\left(\frac{1}{\theta \log t}\right)
-}$$
+} = \\
+1 - (1 - u) \frac{
+  \text{D}_1 H_{\psi}\left(H_{\psi}^{\leftarrow}(1 - v; \theta); 
+  \theta(1 - u)\right)
+}{
+  \text{D}_1 H_{\psi}\left(H_{\psi}^{\leftarrow}(1 - v; \theta); 
+  \theta\right)
+} 
+\\(why.is.it.H_{\psi}.and.not.H_k??.Thesis.says.H_{\psi})
+$$
 
 
 
@@ -106,11 +184,25 @@ $$C_{\text{IG}, 1 | 2} (u | v; \theta, k) = u
 
 Plugging in the generating function in place of the generic formulas, we get:
 
-$$c_{\text{IGL}}(u, v; k) = 
--\frac{\Psi_k^{\leftarrow}(v) \Psi_k''\left(u^{-1} \Psi_k^{\leftarrow}(v)\right)}
-      {u ^ 2 \Psi_k'\left(\Psi_k^{\leftarrow}(v)\right)}$$
+$$
+c_{\text{IGL}}(u, v; k) = 
+-\frac{
+  \Psi_k ^ {\leftarrow}(v) 
+  \Psi_k''\left(u^{-1} \Psi_k^{\leftarrow}(v)\right)
+}{
+  u ^ 2 \Psi_k'\left(\Psi_k^{\leftarrow}(v)\right)
+} = \\
+\frac{
+  (1 - u)^{k-1}
+  \left[\Psi_{k}^{\leftarrow}(1 - v)\right] ^ {-k}
+  \exp\left\{-(1 - u) / \Psi_{k}^{\leftarrow}(1 - v)\right\} 
+}{
+  \Gamma(k) - \Gamma\left(k, 1 / \Psi_{k}^{\leftarrow}(1 - v)\right)
+}
+$$
 
-$$c_{\text{IG}}(u, v; \theta, k) = 
+$$
+c_{\text{IG}}(u, v; \theta, k) = 
 \frac{
   \kappa_k\left(\frac{1}{\theta u \log t}\right) +
   \frac{1}{\theta u (\log t) ^ 2}
@@ -119,7 +211,9 @@ $$c_{\text{IG}}(u, v; \theta, k) =
   \Psi_k\left(\frac{1}{\theta \log t}\right) +
   \frac{1}{\theta (\log t) ^ 2}
   \Psi_k'\left(\frac{1}{\theta \log t}\right)
-}$$
+} = \\
+-\frac{\theta^{k-1}\left(1-u\right)^{k-1}\left(\log t_{v}\right)^{k-2}t_{v}^{-\theta\left(1-u\right)}+\Gamma^{*}\left(k-1,\theta\left(1-u\right)\log t_{v}\right)}{\Gamma\left(k-1\right)t_{v}^{2}\text{D}_{1}H_{k}\left(t_{v};\theta\right)}
+$$
 
 ## `igcond` and `igcondinv` functions
 
@@ -130,24 +224,18 @@ inverse" with functions in the igcop package called `igcond`
 and `igcondinv`.
 
 The 2|1 distribution function of an IG copula is
-$$
-C_{IGL,2|1}(v | u; \theta, k) 
+$$C_{IGL,2|1}(v | u; \theta, k) 
 = 1 - \frac{\bar{F}_{k-1}\left(\theta \bar{u} \log H_{k} ^ {\leftarrow}(\bar{v}; \theta)\right)}
            {H_{k} ^ {\leftarrow} (\bar{v}; \theta)}\\ 
-= 1- \varphi_{k}\left(H_{k} ^ {\leftarrow}(\bar{v}; \theta); \theta \bar{u} \right),
-$$
+= 1- \varphi_{k}\left(H_{k} ^ {\leftarrow}(\bar{v}; \theta); \theta \bar{u} \right),$$
 where $\bar{u} = 1 - u$ and $\bar{v} = 1 - v$, and $\bar{F}_{k-1}\left(x\right)=\Gamma^{*}\left(k-1,x\right)/\Gamma\left(k-1\right)$
 for $x \geq 0$ is the Gamma survival function with shape parameter
 $k-1$ and unit scale parameter, and 
-$$
-\varphi_{k}(x; \eta) = x^{-1} \bar{F}_{k-1}(\eta \log x)
-$$
+$$\varphi_{k}(x; \eta) = x^{-1} \bar{F}_{k-1}(\eta \log x)$$
 for $x>1$. So, computing $C_{2|1}^{\leftarrow}$ amounts to computing
 the inverse of $\varphi_{k}\left(\cdot;\theta\right)$:
-$$
-C_{IGL, 2|1} ^ {\leftarrow}(\tau | u; \theta, k) 
-= 1 - H_{k}\left(\varphi_{k} ^ {\leftarrow}(1 - \tau; \theta \bar{u}); \theta \right),
-$$
+$$C_{IGL, 2|1} ^ {\leftarrow}(\tau | u; \theta, k) 
+= 1 - H_{k}\left(\varphi_{k} ^ {\leftarrow}(1 - \tau; \theta \bar{u}); \theta \right),$$
 $\tau \in (0, 1)$. Without this $\varphi_{k}$ function,
 one would first need to compute $H_{k}^{\leftarrow}(\bar{v}; \theta)$
 to compute $C_{IGL, 2|1} ^ {\leftarrow}(v | u; \theta, k)$, and
