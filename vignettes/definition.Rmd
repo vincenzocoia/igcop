@@ -1,6 +1,9 @@
 ---
 title: "Integrated Gamma Copula Definition"
-output: rmarkdown::html_vignette
+output: 
+    rmarkdown::html_vignette:
+        toc: true
+        number_sections: true
 vignette: >
   %\VignetteIndexEntry{Integrated Gamma Copula Definition}
   %\VignetteEngine{knitr::rmarkdown}
@@ -8,7 +11,9 @@ vignette: >
 ---
 
 
-## Preliminary Functions
+# Preliminary Functions
+
+## Incomplete Gamma Function
 
 The (Upper) Incomplete Gamma function is defined as
 $$\Gamma^{*}(\alpha, x) = \int_x^{\infty} t ^ {\alpha - 1} e ^ {-t} dt$$
@@ -21,10 +26,10 @@ $$F_{\alpha}(x) = 1 - \frac{\Gamma^{*}(\alpha, x)}{\Gamma(x)}.$$
 
 ## Generating Function
 
-Both the IG and IGL copula families rely on $\Psi_{k}:[0, \infty) \rightarrow (0, 1]$,
+Both the IG and IGL copula families rely on $\Psi_k:[0, \infty) \rightarrow (0, 1]$,
 a concave distribution function defined by 
 $$
-\Psi_{k}(y) = 
+\Psi_k(y) = 
 \begin{cases}
 y \frac{\Gamma(k) - \Gamma^{*}(k, y^{-1})}{\Gamma(k-1)}+\frac{\Gamma^{*}(k-1,y^{-1})}{\Gamma(k-1)}, & y>0;\\
 0, & y=0
@@ -35,187 +40,237 @@ This is the function that _generates_ the IGL copula family when it is viewed as
 
 Derivatives:
 $$
-\Psi_{k}'(y) = 
+\Psi_k'(y) = 
 \frac{\Gamma(k) - \Gamma^{*}(k, 1  / y)}
      {\Gamma(k - 1)}
 $$
 and
 $$
-\Psi_{k}''(y) = 
+\Psi_k''(y) = 
 -\frac{y ^ {-k - 1} \exp(-1 / y)}
       {\Gamma(k - 1)}
 $$
 
 The "kappa" version of $\Psi_k$ is useful for some computations:
 $$
-\kappa_k(y) = 
-\Psi_k(y) - y \Psi_k'(y) = 
+\kappa_{\psi}(y) = 
+\psi(y) - y \psi'(y) 
+$$
+
+For the IG and IGL copula families, 
+
+$$
+\kappa_k(y) := \kappa_{\Psi_k}(y) = 
 \frac{\Gamma^{*}(k - 1, 1 / y)}
      {\Gamma(k - 1)}
 $$
 
-The IG copula family relies on a function $H_{k}(\cdot; \theta): [1,\infty) \rightarrow (0, 1]$ defined by 
-$$
-H_{k}(y; \theta) =
-\begin{cases}
-\frac{1}{y}\Psi_{k}\left(\frac{1}{\theta \log y}\right), & y>1;\\
-1, & y=1
-\end{cases}
-$$
-(function `ig_gen()` in the igcop package).
-Note that $H_{k}(\cdot; \theta)$ is strictly decreasing
-for all $\theta > 0$ and $k > 1$, so $H_{k}^{\leftarrow}(\cdot; \theta)$
-is the unique inverse function of $H_{k}(\cdot; \theta)$.
 
-Derivatives:
-$$
-\text{D}_1 H_k(t; \eta) = 
--\frac{1}{t^{2}}\left[\Psi_k\left(\frac{1}{\eta\log t}\right)+\frac{1}{\eta\left(\log t\right)^{2}}\Psi_k'\left(\frac{1}{\eta\log t}\right)\right] = \\
+
+
+## Interpolating Function
+
+Generic:
+
+| Function | Formula |
+|:--------:|:-------:|
+| $H_{\psi}(y; \eta)$ | $$
+\begin{cases}
+  \frac{1}{y}\psi\left(\frac{1}{\eta \log y}\right), & y > 1;\\
+  1, & y = 1
+\end{cases}
+$$ |
+| $\text{D}_1 H_{\psi}(t; \eta)$ | $$
+  -\frac{1}{t ^ 2}
+  \left[
+    \psi\left(\frac{1}{\eta \log t}\right) + 
+    \frac{1}{\eta (\log t) ^ 2} \psi'\left(\frac{1}{\eta \log t}\right)
+  \right]
+$$ |
+| $\text{D}_2 H_k(t; \eta)$ | $$
+-\frac{1}{t \eta ^ 2 \log t}
+\psi'\left(\frac{1}{\eta \log t}\right)
+$$ |
+
+
+
+For IG:
+
+| Function | Formula | igcop function |
+|:--------:|:-------:|:--------------:|
+| $H_k(t; \eta)$ | $$
+\begin{cases}
+  \frac{1}{t}\Psi_k\left(\frac{1}{\eta \log t}\right), & t > 1;\\
+  1, & t = 1
+\end{cases}
+$$ | `ig_gen()` |
+| $\text{D}_1 H_k(t; \eta)$ | $$
 -\frac{
   (\log t + 1) (\Gamma(k) - \Gamma^{*}(k, \eta \log t)) +
   \eta (\log t) ^ 2 \Gamma^{*}(k - 1, \eta \log t)
 }{
   \eta (t \log t) ^ 2 \Gamma(k - 1)
 }
-$$
-and
-$$
-\text{D}_2 H_k(t; \eta) = 
--\frac{1}{t\eta^{2}\log t}\Psi_k'\left(\frac{1}{\eta\log t}\right) = \\
+$$ | `ig_D1gen()` |
+| $\text{D}_2 H_k(t; \eta)$ | $$
 -\frac{1}{t \eta ^ 2 \log t}
 \frac{\Gamma(k) - \Gamma^{*}(k,\eta \log t)}{\Gamma(k)}
-$$
+$$ | NA |
 
-## IG and IGL Copula Families 
 
-The IGL copula family can be defined as 
-$$
-C_{\text{IGL}}(u, v; k) = 
-u + v - 1 + (1 - u) \Psi_{k}\left((1 - u) ^ {-1} \Psi_{k}^{\leftarrow}(1 - v)\right)
-$$
-(function `piglcop()`). The parameter space is $k > 1$.
-The reflection copula is
-$$
-\hat{C}_{\text{IGL}}(u, v; k) = 
-u \Psi_{k}(u ^ {-1} \Psi_{k} ^ {\leftarrow}(v)).
-$$
 
-The IG copula family can be defined as 
-$$
-C_{\text{IG}}(u, v; \theta, k) = 
-u + v - 1 + (1 - u) H_{k}\left(H_k ^ {\leftarrow}(1 - v; \theta); \theta (1 - u)\right)
-$$
-(function `pigcop()`). The parameter space is $\theta \ge 0$, $k > 1$. The reflection copula is 
-$$
-\hat{C}_{\text{IG}}(u, v; k, \theta) = u H_{k}\left(H_{k} ^ {\leftarrow}(v; \theta); \theta u \right).
-$$
-The copula family is named "Integrated Gamma" because $\Psi_{k}'(1 / \cdot)$ is proportional to the Gamma distribution cdf with scale parameter 1 and shape parameter $k$. 
+The IG copula family relies on a function $H_k(\cdot; \theta): [1,\infty) \rightarrow (0, 1]$ defined by 
 
-**Note**: Values of $k < 2$ lead to unstable computations -- especially with $k$ close to 1. 
+
+For the IG copula, $H_k := H_{\Psi_k}$ (function `ig_gen()` in the igcop package). Note that $H_k(\cdot; \theta)$ is strictly decreasing
+for all $\theta > 0$ and $k > 1$, so $H_k^{-1}(\cdot; \theta)$
+is the unique inverse function of $H_k(\cdot; \theta)$.
+
+
+# ALL FORMULAS
+
+## IGL copula
+
+The parameter space is $k > 1$. **Note**: Values of $k < 2$ lead to unstable computations -- especially with $k$ close to 1. 
+
+| Quantity | Formula | distplyr function |
+|:--------:|:-------:|:-----------------:|
+| $C(u, v; k)$ | $$
+u + v - 1 + (1 - u) \Psi_k\left((1 - u) ^ {-1} \Psi_k^{-1}(1 - v)\right)
+$$ | `piglcop()` |
+| $C_{2 | 1}(v | u; k)$ | $$
+1- \frac{\Gamma^{*}\left(k - 1, (1 - u) / 
+           \Psi_k ^ {-1}(1 - v)\right)}
+        {\Gamma\left(k-1\right)}
+$$ | `pcondiglcop()`, `pcondiglcop21()` |
+| $C_{1 | 2}(u | v; k)$ | $$
+1 - \frac{\Gamma(k) - \Gamma^{*}\left(k, (1 - u) / 
+            \Psi_k ^ {-1}(1 - v)\right)}
+         {\Gamma(k) - \Gamma^{*}\left(k, 1 / 
+            \Psi_k ^ {-1}(1 - v)\right)}
+$$ | `pcondiglcop12()` |
+| $c(u, v; k)$ | $$\frac{
+  (1 - u)^{k-1}
+  \left[\Psi_k^{-1}(1 - v)\right] ^ {-k}
+  \exp\left\{-(1 - u) / \Psi_k^{-1}(1 - v)\right\} 
+}{
+  \Gamma(k) - \Gamma\left(k, 1 / \Psi_k^{-1}(1 - v)\right)
+}$$ | `diglcop()` |
+| $C_{2 | 1}^{-1}(\tau | u; k)$ |  | `qcondiglcop()`, `qcondiglcop21()` |
+| $C_{1 | 2}^{-1}(\tau | v; k)$ |  | `qcondiglcop12()` |
+
+
+## IG copula
+
+The parameter space is $\theta \ge 0$, $k > 1$. **Note**: Values of $k < 2$ lead to unstable computations -- especially with $k$ close to 1. 
+
+| Quantity | Formula | distplyr function |
+|:--------:|:-------:|:-----------------:|
+| $C(u, v; \theta, k)$ | $$
+u + v - 1 + (1 - u) H_k\left(H_k ^ {-1}(1 - v; \theta); \theta (1 - u)\right)
+$$ | `pigcop()` |
+| $C_{2 | 1}(v | u; \theta, k)$ | $$
+1 - \frac{
+  \Gamma^{*}\left(k - 1, \theta (1 - u) 
+  \log\left(H_k^{-1}(1 - v; \theta)\right)\right)
+}{
+  H_k^{-1}(1 - v; \theta) \Gamma(k - 1)
+}
+$$ | `pcondigcop()`, ``pcondigcop21()`` |
+| $C_{1 | 2}(u | v; \theta, k)$ | $$
+1 - (1 - u) \frac{
+  \text{D}_1 H_k\left(H_k^{-1}(1 - v; \theta); 
+  \theta(1 - u)\right)
+}{
+  \text{D}_1 H_k\left(H_k^{-1}(1 - v; \theta); 
+  \theta\right)
+} 
+$$ | `pcondigcop12()` |
+| $c(u, v; \theta, k)$ | $$
+-\frac{
+  \theta ^ {k - 1} (1 - u) ^ {k-1} (\log t_v) ^ {k - 2} t_v ^ {-\theta (1 - u)} + 
+  \Gamma^{*}(k - 1, \theta (1 - u) \log  t_v)
+}{
+  \Gamma(k - 1) t_v ^ 2 \text{D}_1 H_k(t_v; \theta)
+}
+$$ | `digcop()` |
+| $C_{2 | 1}^{-1}(\tau | u; \theta, k)$ |  | `qcondigcop()`, `qcondigcop21()` |
+| $C_{1 | 2}^{-1}(\tau | v; \theta, k)$ |  | `qcondigcop12()` |
+
+(Note that @coia mistakenly writes $H_{\psi}$ instead of $H_k$ in the formula for $C_{\text{IG}, 1 | 2}$.)
+
+The copula family is named "Integrated Gamma" because $\Psi_k'(1 / \cdot)$ is proportional to the Gamma distribution cdf with scale parameter 1 and shape parameter $k$. 
 
 These two families are related, in that 
 $$\lim_{\theta \rightarrow \infty} C_{IG}(u, v; \theta, k) = C_{IGL}(u, v; k)$$
 for all $k$. Further, taking $\theta = 0$ results in the independence copula, so that the IG copula family is an "interpolation" between the independence copula and each IGL copula.
 
-## Conditional Distributions
 
-Plugging in the generating function in place of the generic formulas, we get:
+## Durante-Jaworski Copula Class
 
-$$
-C_{\text{IGL}, 2|1}(v | u; k) = 
-\kappa_k\left(u ^ {-1} \Psi_k ^ {\leftarrow}(v) \right) = \\
-1- \frac{\Gamma^{*}\left(k - 1, (1 - u) / 
-           \Psi_{k} ^ {\leftarrow}(1 - v)\right)}
-        {\Gamma\left(k-1\right)} = \\
-\text{pgamma}\left(\frac{1-u}{\Psi_{k}^{\leftarrow}\left(1-v\right)}, \text{ shape} = k - 1, \text{ rate} = 1\right)
-$$
-and
-$$
-C_{\text{IGL}, 1|2}(u | v; k) = 
-\frac{\Psi_k'\left(u ^ {-1} \Psi_k ^ {\leftarrow}(v)\right)}
-     {\Psi_k'\left(\Psi_k ^ {\leftarrow}(v)\right)} = \\
-1 - \frac{\Gamma(k) - \Gamma^{*}\left(k, (1 - u) / 
-            \Psi_{k} ^ {\leftarrow}(1 - v)\right)}
-         {\Gamma(k) - \Gamma^{*}\left(k, 1 / 
-            \Psi_{k} ^ {\leftarrow}(1 - v)\right)}
-$$
-
-IG:
-$$
-C_{\text{IG}, 2 | 1}(v | u; \theta, k) = 
-\frac{1}{t} \kappa_k \left(\frac{1}{\theta u \log t}\right) = 
-1 - \frac{
-  \Gamma^{*}\left(k - 1, \theta (1 - u) 
-  \log\left(H_k^{\leftarrow}(1 - v; \theta)\right)\right)
-}{
-  H_k^{\leftarrow}(1 - v; \theta) \Gamma(k - 1)
-}.
-$$
-Corresponding quantile function:
-$$
-C_{\text{IG}, 2 | 1} ^ {\leftarrow}(\tau | u; \theta, k) = 
-H_k\left(H_{\kappa_{\psi}}^{\leftarrow}(\tau; \theta u); \theta \right)
-$$
-1|2:
-$$
-C_{\text{IG}, 1 | 2} (u | v; \theta, k) = u
-\frac{
-  \Psi_k\left(\frac{1}{\theta u \log t}\right) + 
-  \frac{1}{\theta u (\log t) ^ 2} 
-  \Psi_k'\left(\frac{1}{\theta u\log t}\right)
-} {
-  \Psi_k\left(\frac{1}{\theta \log t}\right) +
-  \frac{1}{\theta (\log t) ^ 2} 
-  \Psi_k'\left(\frac{1}{\theta \log t}\right)
-} = \\
-1 - (1 - u) \frac{
-  \text{D}_1 H_{\psi}\left(H_{\psi}^{\leftarrow}(1 - v; \theta); 
-  \theta(1 - u)\right)
-}{
-  \text{D}_1 H_{\psi}\left(H_{\psi}^{\leftarrow}(1 - v; \theta); 
-  \theta\right)
-} 
-\\(why.is.it.H_{\psi}.and.not.H_k??.Thesis.says.H_{\psi})
-$$
-
-
-
-## Densities
-
-Plugging in the generating function in place of the generic formulas, we get:
-
-$$
-c_{\text{IGL}}(u, v; k) = 
+| Quantity | Formula | 
+|:--------:|:-------:|
+| $C(u, v; \psi)$ | $$
+u + v - 1 + (1 - u) \psi\left((1 - u) ^ {-1} \psi^{\leftarrow}(1 - v)\right)
+$$ |
+| $C_{2 | 1}(v | u; \psi)$ | $$
+\kappa_{\psi}\left(u ^ {-1} \psi ^ {\leftarrow}(v) \right)
+$$ |
+| $C_{1 | 2}(u | v; \psi)$ | $$
+\frac{\psi'\left(u ^ {-1} \psi ^ {\leftarrow}(v)\right)}
+     {\psi'\left(\psi ^ {\leftarrow}(v)\right)}
+$$ |
+| $c(u, v; \psi)$ | $$
 -\frac{
-  \Psi_k ^ {\leftarrow}(v) 
-  \Psi_k''\left(u^{-1} \Psi_k^{\leftarrow}(v)\right)
+  \psi ^ {\leftarrow}(v) 
+  \psi''\left(u^{-1} \psi^{\leftarrow}(v)\right)
 }{
-  u ^ 2 \Psi_k'\left(\Psi_k^{\leftarrow}(v)\right)
-} = \\
-\frac{
-  (1 - u)^{k-1}
-  \left[\Psi_{k}^{\leftarrow}(1 - v)\right] ^ {-k}
-  \exp\left\{-(1 - u) / \Psi_{k}^{\leftarrow}(1 - v)\right\} 
-}{
-  \Gamma(k) - \Gamma\left(k, 1 / \Psi_{k}^{\leftarrow}(1 - v)\right)
+  u ^ 2 \psi'\left(\psi^{\leftarrow}(v)\right)
 }
-$$
+$$ |
+| $C_{2 | 1}^{-1}(\tau | u; \psi)$ |  |
+| $C_{1 | 2}^{-1}(\tau | v; \psi)$ |  |
 
-$$
-c_{\text{IG}}(u, v; \theta, k) = 
-\frac{
-  \kappa_k\left(\frac{1}{\theta u \log t}\right) +
-  \frac{1}{\theta u (\log t) ^ 2}
-  \kappa_k'\left(\frac{1}{\theta u \log t}\right)
+## Interpolated Durante-Jaworski Copula Class
+
+| Quantity | Formula | 
+|:--------:|:-------:|
+| $C(u, v; \theta, \psi)$ | $$
+u + v - 1 + (1 - u) H_{\psi}\left(H_{\psi} ^ {\leftarrow}(1 - v; \theta); \theta (1 - u)\right)
+$$ |
+| $C_{2 | 1}(v | u; \theta, \psi)$ | $$
+\frac{1}{t} \kappa_{\psi} \left(\frac{1}{\theta u \log t}\right)
+$$ |
+| $C_{1 | 2}(u | v; \theta, \psi)$ | $$
+u \frac{
+  \psi\left(\frac{1}{\theta u \log t}\right) + 
+  \frac{1}{\theta u (\log t) ^ 2} 
+  \psi'\left(\frac{1}{\theta u\log t}\right)
 } {
-  \Psi_k\left(\frac{1}{\theta \log t}\right) +
+  \psi\left(\frac{1}{\theta \log t}\right) +
+  \frac{1}{\theta (\log t) ^ 2} 
+  \psi'\left(\frac{1}{\theta \log t}\right)
+}
+$$ |
+| $c(u, v; \theta, \psi)$ | $$
+\frac{
+  \kappa_{\psi}\left(\frac{1}{\theta u \log t}\right) +
+  \frac{1}{\theta u (\log t) ^ 2}
+  \kappa_{\psi}'\left(\frac{1}{\theta u \log t}\right)
+} {
+  \psi\left(\frac{1}{\theta \log t}\right) +
   \frac{1}{\theta (\log t) ^ 2}
-  \Psi_k'\left(\frac{1}{\theta \log t}\right)
-} = \\
--\frac{\theta^{k-1}\left(1-u\right)^{k-1}\left(\log t_{v}\right)^{k-2}t_{v}^{-\theta\left(1-u\right)}+\Gamma^{*}\left(k-1,\theta\left(1-u\right)\log t_{v}\right)}{\Gamma\left(k-1\right)t_{v}^{2}\text{D}_{1}H_{k}\left(t_{v};\theta\right)}
-$$
+  \psi'\left(\frac{1}{\theta \log t}\right)
+}
+$$ |
+| $C_{2 | 1}^{-1}(\tau | u; \theta, \psi)$ | $$
+H_{\psi}\left(H_{\kappa_{\psi}}^{\leftarrow}(\tau; \theta u); \theta \right)
+$$ |
+| $C_{1 | 2}^{-1}(\tau | v; \theta, \psi)$ |  |
 
-## `igcond` and `igcondinv` functions
+
+
+# `igcond` and `igcondinv` functions
 
 The computation of the IGL 2|1 quantile function is simple. But, computing
 the IGL 2|1 quantile function in a "direct" way first requires
@@ -225,25 +280,25 @@ and `igcondinv`.
 
 The 2|1 distribution function of an IG copula is
 $$C_{IGL,2|1}(v | u; \theta, k) 
-= 1 - \frac{\bar{F}_{k-1}\left(\theta \bar{u} \log H_{k} ^ {\leftarrow}(\bar{v}; \theta)\right)}
-           {H_{k} ^ {\leftarrow} (\bar{v}; \theta)}\\ 
-= 1- \varphi_{k}\left(H_{k} ^ {\leftarrow}(\bar{v}; \theta); \theta \bar{u} \right),$$
+= 1 - \frac{\bar{F}_{k-1}\left(\theta \bar{u} \log H_k ^ {-1}(\bar{v}; \theta)\right)}
+           {H_k ^ {-1} (\bar{v}; \theta)}\\ 
+= 1- \varphi_k\left(H_k ^ {-1}(\bar{v}; \theta); \theta \bar{u} \right),$$
 where $\bar{u} = 1 - u$ and $\bar{v} = 1 - v$, and $\bar{F}_{k-1}\left(x\right)=\Gamma^{*}\left(k-1,x\right)/\Gamma\left(k-1\right)$
 for $x \geq 0$ is the Gamma survival function with shape parameter
 $k-1$ and unit scale parameter, and 
-$$\varphi_{k}(x; \eta) = x^{-1} \bar{F}_{k-1}(\eta \log x)$$
+$$\varphi_k(x; \eta) = x^{-1} \bar{F}_{k-1}(\eta \log x)$$
 for $x>1$. So, computing $C_{2|1}^{\leftarrow}$ amounts to computing
-the inverse of $\varphi_{k}\left(\cdot;\theta\right)$:
+the inverse of $\varphi_k\left(\cdot;\theta\right)$:
 $$C_{IGL, 2|1} ^ {\leftarrow}(\tau | u; \theta, k) 
-= 1 - H_{k}\left(\varphi_{k} ^ {\leftarrow}(1 - \tau; \theta \bar{u}); \theta \right),$$
-$\tau \in (0, 1)$. Without this $\varphi_{k}$ function,
-one would first need to compute $H_{k}^{\leftarrow}(\bar{v}; \theta)$
+= 1 - H_k\left(\varphi_k ^ {\leftarrow}(1 - \tau; \theta \bar{u}); \theta \right),$$
+$\tau \in (0, 1)$. Without this $\varphi_k$ function,
+one would first need to compute $H_k^{\leftarrow}(\bar{v}; \theta)$
 to compute $C_{IGL, 2|1} ^ {\leftarrow}(v | u; \theta, k)$, and
 this may lead to inaccuracies due to error amplification.
 
-In the the igcop package package, `igcond` is $\varphi_{k}$,
-and `igcondinv` is $\varphi_{k}^{\leftarrow}$. Here are some
-plots of $\varphi_{k}$:
+In the the igcop package package, `igcond` is $\varphi_k$,
+and `igcondinv` is $\varphi_k^{\leftarrow}$. Here are some
+plots of $\varphi_k$:
 
 ```{r plots, fig.width=5, fig.height=2, warning=FALSE, echo=FALSE} 
 library(ggplot2)
@@ -268,7 +323,7 @@ ggplot(data.frame(x=c(1,10)), aes(x)) +
    theme(axis.title.y=element_text(angle=0))
 ```
 
-To compute `igcondinv` by solving $\varphi_{k}(x; \eta) = p$
+To compute `igcondinv` by solving $\varphi_k(x; \eta) = p$
 for $x$, the Newton-Raphson algorithm is used to solve $g(x) = 0$
 for $x$, where
 \[
@@ -278,43 +333,43 @@ with derivative
 \[
 g'\left(x\right)=p+\frac{\eta}{x}f_{k-1}\left(\eta\log x\right).
 \]
-A starting value is used by noting that $\varphi_{k}$ is the product
+A starting value is used by noting that $\varphi_k$ is the product
 of two invertible survival functions, and is therefore smaller than
 those two survival functions. The smaller of the two *roots*
 of these survival functions is therefore an upper bound for the root
-of $\varphi_{k}$. The starting point is taken to be immediately to
+of $\varphi_k$. The starting point is taken to be immediately to
 the left of this upper bound.
 
 \section{`ig_geninv` function{#sec:ig_geninv}}
 
-Although computing $H_{k}^{\leftarrow}$ can be bypassed when computing
+Although computing $H_k^{\leftarrow}$ can be bypassed when computing
 the IG 2|1 quantile function, it is needed when computing other copula
 quantities, such as the copula distribution function. The inverse
-$H_{k}^{\leftarrow}$ is called `ig_geninv` in the igcop package.
+$H_k^{\leftarrow}$ is called `ig_geninv` in the igcop package.
 
-To compute $H_{k}^{\leftarrow}\left(p,\theta\right)$ for $p\in\left(0,1\right)$
+To compute $H_k^{\leftarrow}\left(p,\theta\right)$ for $p\in\left(0,1\right)$
 and some $\theta>0$, Newton-Raphson can be used to solve $h\left(x\right)=0$
 for $x$, where
 \[
-h\left(x\right)=xp-\Psi_{k}\left(\frac{1}{\theta\log x}\right).
+h\left(x\right)=xp-\Psi_k\left(\frac{1}{\theta\log x}\right).
 \]
 This function has derivative
 \[
-h'\left(x\right)=p+\frac{1}{\theta x\left(\log x\right)^{2}}\Psi_{k}'\left(\frac{1}{\theta\log x}\right).
+h'\left(x\right)=p+\frac{1}{\theta x\left(\log x\right)^2}\Psi_k'\left(\frac{1}{\theta\log x}\right).
 \]
  
 
 To get a good starting value for the algorithm, note that the function
-$H_{k}$ is a product of two survival functions, just like $\varphi_{k}$
+$H_k$ is a product of two survival functions, just like $\varphi_k$
 is (as described in Section~\@ref(sec:igcondinv)). And like inverting
-$\varphi_{k}$, the inverse $H_{k}^{\leftarrow}\left(p;\theta\right)$
+$\varphi_k$, the inverse $H_k^{\leftarrow}\left(p;\theta\right)$
 for some $\theta>0$ has an upper bound that's the minimum of the
 roots of the individual survival functions:
 \[
-\min\left\{ \frac{1}{p},\exp\left(\frac{1}{\theta\Psi_{k}^{\leftarrow}\left(p\right)}\right)\right\} ,
+\min\left\{ \frac{1}{p},\exp\left(\frac{1}{\theta\Psi_k^{\leftarrow}\left(p\right)}\right)\right\} ,
 \]
-where $\Psi_{k}$ is defined in Equation~(\@ref(eq:cnstr-Psi)). Computing
-the inverse $\Psi_{k}^{\leftarrow}$ should not be problematic in
+where $\Psi_k$ is defined in Equation~(\@ref(eq:cnstr-Psi)). Computing
+the inverse $\Psi_k^{\leftarrow}$ should not be problematic in
 terms of accuracy of the final result, since this computation is only
 used to determine a starting value.
 \end{document}
