@@ -24,7 +24,7 @@
 #' @export
 igl_gen <- function(t, k) {
     tinv <- 1 / t
-    1 - pgamma(tinv, k - 1) + (k - 1) * t * pgamma(tinv, k)
+    (k - 1) * t * pgamma(tinv, k) + pgamma(tinv, k - 1, lower.tail = FALSE)
 }
 
 
