@@ -70,7 +70,7 @@ Taking our specific generating function in place of $\psi$:
 | $\kappa_k(y) := \kappa_{\Psi_k}(y)$ | $$
 \frac{\Gamma^{*}(k - 1, 1 / y)}
      {\Gamma(k - 1)} = 1 - \text{pgamma}(1 / y, k - 1)
-$$ | NA |
+$$ | `igl_kappa()` |
 | $\kappa_k'(y)$ | $$
 \frac{\exp(-1/y)}{y ^ k \Gamma(k - 1)} =
 \frac{\text{dgamma}(1 / y, k - 1)}{y ^ 2}

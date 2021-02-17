@@ -54,7 +54,7 @@ ig_geninv <- function(p, eta, k, mxiter = 40, eps = 1.e-12, bd = 5) {
         etalog <- eta * logt
         etaloginv <- 1 / etalog
         ## Evaluate functions
-        g <- tt*p - igl_gen(etaloginv, k)
+        g <- tt * p - igl_gen(etaloginv, k)
         gp <- p + etaloginv / tt / logt * igl_Dgen(etaloginv, k)
         diff <- g / gp
         flag <- diff > tt - 1
@@ -65,9 +65,6 @@ ig_geninv <- function(p, eta, k, mxiter = 40, eps = 1.e-12, bd = 5) {
             tt <- tt + diff
         }
         iter <- iter + 1
-        # cat(paste0("-----", iter, "-----\n"))
-        # cat(diff, "\n")
-        # cat(tt, "\n")
     }
     tt
 }
