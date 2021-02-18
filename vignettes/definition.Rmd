@@ -325,35 +325,9 @@ $$
 
 
 
-# `igcond` and `igcondinv` functions
+# Computing `qcondigcop()`
 
-The computation of the IGL 2|1 quantile function is simple. But, computing
-the IGL 2|1 quantile function in a "direct" way first requires
-computing an inverse. This section describes a way to avoid this "nested
-inverse" with functions in the igcop package called `igcond`
-and `igcondinv`.
 
-The 2|1 distribution function of an IG copula is
-$$C_{IGL,2|1}(v | u; \theta, k) 
-= 1 - \frac{\bar{F}_{k-1}\left(\theta \bar{u} \log H_k ^ {-1}(\bar{v}; \theta)\right)}
-           {H_k ^ {-1} (\bar{v}; \theta)}\\ 
-= 1- \varphi_k\left(H_k ^ {-1}(\bar{v}; \theta); \theta \bar{u} \right),$$
-where $\bar{u} = 1 - u$ and $\bar{v} = 1 - v$, and $\bar{F}_{k-1}\left(x\right)=\Gamma^{*}\left(k-1,x\right)/\Gamma\left(k-1\right)$
-for $x \geq 0$ is the Gamma survival function with shape parameter
-$k-1$ and unit scale parameter, and 
-$$\varphi_k(x; \eta) = x^{-1} \bar{F}_{k-1}(\eta \log x)$$
-for $x>1$. So, computing $C_{2|1}^{\leftarrow}$ amounts to computing
-the inverse of $\varphi_k\left(\cdot;\theta\right)$:
-$$C_{IGL, 2|1} ^ {\leftarrow}(\tau | u; \theta, k) 
-= 1 - H_k\left(\varphi_k ^ {\leftarrow}(1 - \tau; \theta \bar{u}); \theta \right),$$
-$\tau \in (0, 1)$. Without this $\varphi_k$ function,
-one would first need to compute $H_k^{\leftarrow}(\bar{v}; \theta)$
-to compute $C_{IGL, 2|1} ^ {\leftarrow}(v | u; \theta, k)$, and
-this may lead to inaccuracies due to error amplification.
-
-In the the igcop package package, `igcond` is $\varphi_k$,
-and `igcondinv` is $\varphi_k^{\leftarrow}$. Here are some
-plots of $\varphi_k$:
 
 ```{r plots, fig.width=5, fig.height=2, warning=FALSE, echo=FALSE} 
 library(ggplot2)
@@ -378,7 +352,7 @@ ggplot(data.frame(x=c(1,10)), aes(x)) +
    theme(axis.title.y=element_text(angle=0))
 ```
 
-To compute `igcondinv` by solving $\varphi_k(x; \eta) = p$
+To compute by solving $\varphi_k(x; \eta) = p$
 for $x$, the Newton-Raphson algorithm is used to solve $g(x) = 0$
 for $x$, where
 \[
@@ -395,12 +369,7 @@ of these survival functions is therefore an upper bound for the root
 of $\varphi_k$. The starting point is taken to be immediately to
 the left of this upper bound.
 
-\section{`interp_gen_inv` function{#sec:interp_gen_inv}}
-
-Although computing $H_k^{\leftarrow}$ can be bypassed when computing
-the IG 2|1 quantile function, it is needed when computing other copula
-quantities, such as the copula distribution function. The inverse
-$H_k^{\leftarrow}$ is called `interp_gen_inv` in the igcop package.
+### Computing `interp_gen_inv`
 
 To compute $H_k^{\leftarrow}\left(p,\theta\right)$ for $p\in\left(0,1\right)$
 and some $\theta>0$, Newton-Raphson can be used to solve $h\left(x\right)=0$
@@ -416,7 +385,7 @@ h'\left(x\right)=p+\frac{1}{\theta x\left(\log x\right)^2}\Psi_k'\left(\frac{1}{
 
 To get a good starting value for the algorithm, note that the function
 $H_k$ is a product of two survival functions, just like $\varphi_k$
-is (as described in Section~\@ref(sec:igcondinv)). And like inverting
+is. And like inverting
 $\varphi_k$, the inverse $H_k^{\leftarrow}\left(p;\theta\right)$
 for some $\theta>0$ has an upper bound that's the minimum of the
 roots of the individual survival functions:

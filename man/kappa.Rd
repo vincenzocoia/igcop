@@ -2,9 +2,12 @@
 % Please edit documentation in R/igl_kappa.R
 \name{igl_kappa}
 \alias{igl_kappa}
+\alias{igl_kappa_D}
 \title{Kappa version of generating function}
 \usage{
 igl_kappa(t, k)
+
+igl_kappa_D(t, k)
 }
 \arguments{
 \item{t}{Numeric argument of the kappa function. Vectorized.}
@@ -16,6 +19,11 @@ This function is a nearly direct application of the
 \code{stats::pgamma()} function.
 }
 \description{
-Defined as \eqn{\kappa(t) = \psi(t) - t \psi'(t)}, where
-\eqn{\psi} is the IGL generating function \code{igl_gen()}.
+The kappa version of a generating function \eqn{\psi} is
+defined as \eqn{\kappa(t) = \psi(t) - t \psi'(t)}.
+\code{igl_kappa} takes \eqn{\psi} to be the IGL generating
+function, \code{igl_gen()}.
+}
+\details{
+\code{igl_kappa_D()} is the derivative.
 }

@@ -67,21 +67,6 @@ test_that("IG generator inverse works", {
     expect_equal(u2, uu)
 })
 
-v2 <- purrr::map(cpar, ~ {
-    theta <- .x[1]
-    k <- .x[2]
-    eta <- theta * (1 - u)
-    igcond(igcondinv(v, k, eta), k, eta)
-})
-tibble(cpar = cpar,
-       v_original = vv,
-       v_through_inverse = v2) %>%
-    unnest_wider(cpar, names_sep = "_") %>%
-    unnest(starts_with("v_")) %>%
-    DT::datatable()
-test_that("igcond inverse works", {
-    expect_equal(v2, vv)
-})
 
 ## ------- COMPATIBILITY-BASED CHECKS ------
 
