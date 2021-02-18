@@ -1,56 +1,3 @@
-#' Functions for IG copula 2|1 computations
-#'
-#' @param t Vector of values to evaluate the assistant function at, >=1.
-#' @param p Vector of values to evaluate the inverse assistant function at,
-#' in [0,1].
-#' @param k Single numeric, greater than 1.
-#' @param eta eta parameter. Vectorized to match \code{t} and \code{p}.
-#' @param mxiter Maximum number of iterations to run the Newton-Raphson
-#' algorithm for.
-#' @param eps The Newton-Raphson
-#' algorithm is stopped if all step sizes are below this value.
-#' @param bd Largest acceptable step size in the Newton-Raphson algorithm;
-#' steps larger than this will be reduced.
-#' @rdname igcond
-#' @export
-igcond <- function(t, k, eta) {
-    pgamma(eta * log(t), k - 1, lower.tail = FALSE) / t
-}
-
-#' @rdname igcond
-#' @export
-igcondinv <- function(p, k, eta, mxiter = 40, eps = 1.e-6, bd = 5) {
-    ## Algorithm:
-    ## Get starting values
-    xp1 <- 1 / p
-    xp2 <- exp(qgamma(1 - p, k - 1) / eta)
-    xpm <- pmin(xp1, xp2)
-    tt <- pmax(xpm - eps, 1 + (xpm - 1) / 2) # xpm-eps might overshoot left of 1.
-    iter <- 0
-    diff <- 1
-    ## Begin Newton-Raphson algorithm
-    while(iter < mxiter & max(abs(diff)) > eps){
-        ## Helpful quantities
-        etalog <- eta * log(tt)
-        ## Evaluate functions
-        g <- tt * p - pgamma(etalog, k - 1, lower.tail = FALSE)
-        ## When eta=0, derivative is NaN when 1<k<2, when should just be p.
-        gp <- p + dgamma(etalog, k - 1) * eta / tt
-        diff <- g / gp
-        tt <- tt - diff
-        while(max(abs(diff)) > bd | any(tt <= 1)) {
-            diff <- diff / 2
-            tt <- tt + diff
-        }
-        iter <- iter + 1
-        # cat(paste0("-----", iter, "-----\n"))
-        # cat(diff, "\n")
-        # cat(tt, "\n")
-    }
-    tt
-}
-
-
 #' IG Copula Family Functions
 #'
 #' Functions related to the IG copula family, denoted  by \code{'igcop'}.
@@ -72,7 +19,7 @@ pcondigcop <- function(v, u, cpar) {
     k <- cpar[2]
     if (theta == Inf) return(pcondiglcop(v, u, k))
     Hkinv <- interp_gen_inv(1 - v, theta, k)
-    1 - igcond(Hkinv, k, theta * (1 - u))
+    1 - interp_kappa(Hkinv, theta * (1 - u), k)
 }
 
 #' @param tau Vector of quantile levels in [0,1] to evaluate a quantile function
@@ -83,7 +30,7 @@ qcondigcop <- function(tau, u, cpar) {
     theta <- cpar[1]
     k <- cpar[2]
     if (theta == Inf) return(qcondiglcop(tau, u, k))
-    inv <- igcondinv(1 - tau, k, theta * (1 - u))
+    inv <- interp_kappa_inv(1 - tau, theta * (1 - u), k)
     1 - interp_gen(inv, theta, k)
 }
 
@@ -102,7 +49,8 @@ pcondigcop12 <- function(u, v, cpar) {
     k <- cpar[2]
     if (theta == Inf) return(pcondiglcop12(u, v, k))
     Hkinv <- interp_gen_inv(1 - v, theta, k)
-    1 - (1 - u) * interp_gen_D1(Hkinv, theta * (1 - u), k) /
+    1 - (1 - u) *
+        interp_gen_D1(Hkinv, theta * (1 - u), k) /
         interp_gen_D1(Hkinv, theta, k)
 }
 
@@ -112,20 +60,16 @@ digcop <- function(u, v, cpar) {
     theta <- cpar[1]
     k <- cpar[2]
     if (theta == Inf) return(diglcop(u, v, k))
-    # negu <- 1-u
-    # t <- interp_gen_inv(1-v, theta, k)
-    # x <- theta * negu * log(t)
-    # -(dgamma(x, k-1) * theta + pgamma(x, k-1, lower.tail=FALSE)) / t^2 /
-    #     interp_gen_D1(t, theta, k)
-    u <- 1 - u
-    v <- 1 - v
-    tv <- interp_gen_inv(v, theta, k)
-    ltv <- log(tv)
-    # num1 <- (theta * u) ^ (k - 1) * ltv ^ (k - 2) * tv ^ (-theta * u) / gamma(k - 1)
-    num1 <- theta * u * stats::dgamma(theta * u * ltv, k - 1)
-    num2 <- stats::pgamma(theta * u * ltv, k - 1, lower.tail = FALSE)
-    den1 <- (ltv + 1) * (k - 1) / (theta * ltv ^ 2) * stats::pgamma(theta * ltv, k)
-    den2 <- stats::pgamma(theta * ltv, k - 1, lower.tail = FALSE)
+    t <- interp_gen_inv(1 - v, theta, k)
+    logt <- log(t)
+    th_logt <- theta * logt
+    th_logt_1mu <- th_logt * (1 - u)
+    th_logt2 <- th_logt * logt
+    th_logt2_1mu <- th_logt2 * (1 - u)
+    num1 <- igl_kappa(1 / th_logt_1mu, k)
+    num2 <- igl_kappa_D(1 / th_logt_1mu, k) / th_logt2_1mu
+    den1 <- igl_gen(1 / th_logt, k)
+    den2 <- igl_gen_D(1 / th_logt, k) / th_logt2
     (num1 + num2) / (den1 + den2)
 }
 

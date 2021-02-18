@@ -24,20 +24,22 @@
 #' @export
 igl_gen <- function(t, k) {
     tinv <- 1 / t
-    (k - 1) * t * pgamma(tinv, k) + pgamma(tinv, k - 1, lower.tail = FALSE)
+    (k - 1) * t * stats::pgamma(tinv, k) +
+        stats::pgamma(tinv, k - 1, lower.tail = FALSE)
 }
 
 
 #' @rdname igl_gen
 #' @export
 igl_gen_D <- function(t, k) {
-    (k - 1) * pgamma(1 / t, k)
+    (k - 1) * stats::pgamma(1 / t, k)
 }
 
 #' @rdname igl_gen
 #' @export
 igl_gen_DD <- function(t, k) {
-    -t ^ (-k - 1) * exp(-1 / t) / gamma(k - 1)
+    # -t ^ (-k - 1) * exp(-1 / t) / gamma(k - 1)
+    stats::dgamma(1 / t, k - 1) / t ^ 2
 }
 
 #' @rdname igl_gen
@@ -54,8 +56,8 @@ igl_gen_inv <- function(w, k, mxiter = 20, eps = 1.e-12, bd = 5){
     ## Begin Newton-Raphson algorithm
     while(iter < mxiter & max(abs(diff)) > eps) {
         ## Helpful quantities
-        igam1 <- gkm1 * pgamma(1 / tt, k - 1, lower.tail = FALSE)
-        igam0 <- gk * pgamma(1 / tt, k)
+        igam1 <- gkm1 * stats::pgamma(1 / tt, k - 1, lower.tail = FALSE)
+        igam0 <- gk * stats::pgamma(1 / tt, k)
         ## Evaluate functions
         g <- tt * igam0 + igam1 - w * gkm1
         gp <- igam0

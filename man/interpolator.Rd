@@ -3,6 +3,7 @@
 \name{interp_gen}
 \alias{interp_gen}
 \alias{interp_kappa}
+\alias{interp_kappa_inv}
 \alias{interp_gen_D1}
 \alias{interp_gen_inv}
 \title{Interpolating Functions}
@@ -10,6 +11,8 @@
 interp_gen(t, eta, k)
 
 interp_kappa(t, eta, k)
+
+interp_kappa_inv(p, eta, k)
 
 interp_gen_D1(t, eta, k)
 
