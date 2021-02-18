@@ -2,18 +2,18 @@
 % Please edit documentation in R/igl_gen.R
 \name{igl_gen}
 \alias{igl_gen}
-\alias{igl_Dgen}
-\alias{igl_DDgen}
-\alias{igl_geninv}
+\alias{igl_gen_D}
+\alias{igl_gen_DD}
+\alias{igl_gen_inv}
 \title{Generating function for the IGL copula family}
 \usage{
 igl_gen(t, k)
 
-igl_Dgen(t, k)
+igl_gen_D(t, k)
 
-igl_DDgen(t, k)
+igl_gen_DD(t, k)
 
-igl_geninv(w, k, mxiter = 20, eps = 1e-12, bd = 5)
+igl_gen_inv(w, k, mxiter = 20, eps = 1e-12, bd = 5)
 }
 \arguments{
 \item{t}{Vector of values to evaluate the function at, >=0.}
@@ -24,20 +24,20 @@ igl_geninv(w, k, mxiter = 20, eps = 1e-12, bd = 5)
 0 and 1 (inclusive)}
 }
 \description{
-\code{igl_gen} is the function itself, and \code{igl_geninv} is
-its inverse; \code{igl_Dgen} is the
-derivative; and \code{igl_DDgen} is the second derivative.
+\code{igl_gen} is the function itself, and \code{igl_gen_inv} is
+its inverse; \code{igl_gen_D} is the
+derivative; and \code{igl_gen_DD} is the second derivative.
 }
 \examples{
 ## Some examples of evaluating the functions.
 arg <- c(0, 0.5, 3, Inf, NA)
 igl_gen(arg, k=2)
-igl_Dgen(arg, k=1.2)
-igl_Dgen(arg, k=2)
-igl_Dgen(arg, k=3)
-igl_geninv(c(0, 0.5, 1), k=1.5)
+igl_gen_D(arg, k=1.2)
+igl_gen_D(arg, k=2)
+igl_gen_D(arg, k=3)
+igl_gen_inv(c(0, 0.5, 1), k=1.5)
 
 ## Visual
-foo <- function(u) igl_geninv(u, k=1.5)
+foo <- function(u) igl_gen_inv(u, k=1.5)
 curve(foo)
 }

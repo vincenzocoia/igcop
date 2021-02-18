@@ -1,8 +1,8 @@
 #' Generating function for the IGL copula family
 #'
-#' \code{igl_gen} is the function itself, and \code{igl_geninv} is
-#' its inverse; \code{igl_Dgen} is the
-#' derivative; and \code{igl_DDgen} is the second derivative.
+#' \code{igl_gen} is the function itself, and \code{igl_gen_inv} is
+#' its inverse; \code{igl_gen_D} is the
+#' derivative; and \code{igl_gen_DD} is the second derivative.
 #'
 #' @param t Vector of values to evaluate the function at, >=0.
 #' @param w Vector of values to evaluate the inverse function at, between
@@ -12,13 +12,13 @@
 #' ## Some examples of evaluating the functions.
 #' arg <- c(0, 0.5, 3, Inf, NA)
 #' igl_gen(arg, k=2)
-#' igl_Dgen(arg, k=1.2)
-#' igl_Dgen(arg, k=2)
-#' igl_Dgen(arg, k=3)
-#' igl_geninv(c(0, 0.5, 1), k=1.5)
+#' igl_gen_D(arg, k=1.2)
+#' igl_gen_D(arg, k=2)
+#' igl_gen_D(arg, k=3)
+#' igl_gen_inv(c(0, 0.5, 1), k=1.5)
 #'
 #' ## Visual
-#' foo <- function(u) igl_geninv(u, k=1.5)
+#' foo <- function(u) igl_gen_inv(u, k=1.5)
 #' curve(foo)
 #' @rdname igl_gen
 #' @export
@@ -30,19 +30,19 @@ igl_gen <- function(t, k) {
 
 #' @rdname igl_gen
 #' @export
-igl_Dgen <- function(t, k) {
+igl_gen_D <- function(t, k) {
     (k - 1) * pgamma(1 / t, k)
 }
 
 #' @rdname igl_gen
 #' @export
-igl_DDgen <- function(t, k) {
+igl_gen_DD <- function(t, k) {
     -t ^ (-k - 1) * exp(-1 / t) / gamma(k - 1)
 }
 
 #' @rdname igl_gen
 #' @export
-igl_geninv <- function(w, k, mxiter = 20, eps = 1.e-12, bd = 5){
+igl_gen_inv <- function(w, k, mxiter = 20, eps = 1.e-12, bd = 5){
     ## Compute gamma(k-1) and gamma(k)
     gkm1 <- gamma(k - 1)
     gk <- (k - 1) * gkm1

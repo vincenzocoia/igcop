@@ -49,10 +49,10 @@ knitr::opts_chunk$set(error = TRUE)
 ## TEST THE HELPER FUNCTIONS
 
 
-### `igl_gen` and `igl_geninv`
+### `igl_gen` and `igl_gen_inv`
 
 ```{r}
-u2 <- purrr::map(cpar, ~ igl_gen(igl_geninv(u, .x[2]), .x[2]))
+u2 <- purrr::map(cpar, ~ igl_gen(igl_gen_inv(u, .x[2]), .x[2]))
 tibble(cpar = cpar,
        u_original = uu,
        u_through_inverse = u2) %>%
@@ -65,10 +65,12 @@ test_that("IGL generator inverse works", {
 ```
 
 
-### `ig_gen` and `ig_geninv`
+### `interp_gen` and `interp_gen_inv`
 
 ```{r}
-u2 <- purrr::map(cpar, ~ ig_gen(ig_geninv(u, .x[1], .x[2]), .x[1], .x[2]))
+u2 <- purrr::map(cpar, ~ {
+    interp_gen(interp_gen_inv(u, .x[1], .x[2]), .x[1], .x[2])
+})
 tibble(cpar = cpar,
        u_original = uu,
        u_through_inverse = u2) %>%
@@ -112,7 +114,7 @@ Does this computation match an alternative, less simplified version of the calcu
 pcondigcop_2 <- function(v, u, cpar) {
     theta <- cpar[1]
     k     <- cpar[2]
-    Hkinv <- ig_geninv(1 - v, theta, k)
+    Hkinv <- interp_gen_inv(1 - v, theta, k)
     inner <- theta * (1 - u) * log(Hkinv)
     1 - pgamma(inner, k - 1, lower.tail = FALSE) / Hkinv
 }

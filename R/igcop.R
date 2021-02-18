@@ -71,7 +71,7 @@ pcondigcop <- function(v, u, cpar) {
     theta <- cpar[1]
     k <- cpar[2]
     if (theta == Inf) return(pcondiglcop(v, u, k))
-    Hkinv <- ig_geninv(1 - v, theta, k)
+    Hkinv <- interp_gen_inv(1 - v, theta, k)
     1 - igcond(Hkinv, k, theta * (1 - u))
 }
 
@@ -84,7 +84,7 @@ qcondigcop <- function(tau, u, cpar) {
     k <- cpar[2]
     if (theta == Inf) return(qcondiglcop(tau, u, k))
     inv <- igcondinv(1 - tau, k, theta * (1 - u))
-    1 - ig_gen(inv, theta, k)
+    1 - interp_gen(inv, theta, k)
 }
 
 #' @rdname igcop
@@ -101,8 +101,9 @@ pcondigcop12 <- function(u, v, cpar) {
     theta <- cpar[1]
     k <- cpar[2]
     if (theta == Inf) return(pcondiglcop12(u, v, k))
-    Hkinv <- ig_geninv(1 - v, theta, k)
-    1 - (1 - u) * ig_D1gen(Hkinv, theta * (1 - u), k) / ig_D1gen(Hkinv, theta, k)
+    Hkinv <- interp_gen_inv(1 - v, theta, k)
+    1 - (1 - u) * interp_gen_D1(Hkinv, theta * (1 - u), k) /
+        interp_gen_D1(Hkinv, theta, k)
 }
 
 #' @rdname igcop
@@ -112,13 +113,13 @@ digcop <- function(u, v, cpar) {
     k <- cpar[2]
     if (theta == Inf) return(diglcop(u, v, k))
     # negu <- 1-u
-    # t <- ig_geninv(1-v, theta, k)
+    # t <- interp_gen_inv(1-v, theta, k)
     # x <- theta * negu * log(t)
     # -(dgamma(x, k-1) * theta + pgamma(x, k-1, lower.tail=FALSE)) / t^2 /
-    #     ig_D1gen(t, theta, k)
+    #     interp_gen_D1(t, theta, k)
     u <- 1 - u
     v <- 1 - v
-    tv <- ig_geninv(v, theta, k)
+    tv <- interp_gen_inv(v, theta, k)
     ltv <- log(tv)
     # num1 <- (theta * u) ^ (k - 1) * ltv ^ (k - 2) * tv ^ (-theta * u) / gamma(k - 1)
     num1 <- theta * u * stats::dgamma(theta * u * ltv, k - 1)
@@ -139,8 +140,8 @@ logdigcop <- function(u, v, cpar) {
 pigcop <- function(u, v, cpar) {
     theta <- cpar[1]
     k <- cpar[2]
-    Hinv <- ig_geninv(1 - v, theta, k)
-    u + v - 1 + (1 - u) * ig_gen(Hinv, theta * (1 - u), k)
+    Hinv <- interp_gen_inv(1 - v, theta, k)
+    u + v - 1 + (1 - u) * interp_gen(Hinv, theta * (1 - u), k)
 }
 
 #' @rdname igcop

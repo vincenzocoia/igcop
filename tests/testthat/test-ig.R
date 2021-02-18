@@ -3,7 +3,7 @@ library(tidyverse)
 library(copsupp)
 
 # Tests from Harry Joe
-# check ig_geninv in vectorized mode
+# check interp_gen_inv in vectorized mode
 # check pigcop, digcop numerical derivatives
 # check pcondigcop21 and pcondigcop12
 # check Spearman rho via rhoS in CopulaModel
@@ -43,7 +43,7 @@ vv <- rep(list(v), length(cpar))
 
 ## ------ TEST THE HELPER FUNCTIONS ------
 
-u2 <- purrr::map(cpar, ~ igl_gen(igl_geninv(u, .x[2]), .x[2]))
+u2 <- purrr::map(cpar, ~ igl_gen(igl_gen_inv(u, .x[2]), .x[2]))
 tibble(cpar = cpar,
        u_original = uu,
        u_through_inverse = u2) %>%
@@ -54,7 +54,9 @@ test_that("IGL generator inverse works", {
     expect_equal(u2, uu)
 })
 
-u2 <- purrr::map(cpar, ~ ig_gen(ig_geninv(u, .x[1], .x[2]), .x[1], .x[2]))
+u2 <- purrr::map(cpar, ~ {
+    interp_gen(interp_gen_inv(u, .x[1], .x[2]), .x[1], .x[2])
+})
 tibble(cpar = cpar,
        u_original = uu,
        u_through_inverse = u2) %>%
@@ -86,7 +88,7 @@ test_that("igcond inverse works", {
 pcondigcop_2 <- function(v, u, cpar) {
     theta <- cpar[1]
     k     <- cpar[2]
-    Hkinv <- ig_geninv(1 - v, theta, k)
+    Hkinv <- interp_gen_inv(1 - v, theta, k)
     inner <- theta * (1 - u) * log(Hkinv)
     1 - pgamma(inner, k - 1, lower.tail = FALSE) / Hkinv
 }

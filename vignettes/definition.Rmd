@@ -48,11 +48,11 @@ $$ | `igl_gen()` |
 | $\Psi_k'(y)$ | $$
 \frac{\Gamma(k) - \Gamma^{*}(k, 1  / y)}
      {\Gamma(k - 1)}
-$$ | `igl_Dgen()` |
+$$ | `igl_gen_D()` |
 | $\Psi_k''(y)$ | $$
 -\frac{y ^ {-k - 1} \exp(-1 / y)}
       {\Gamma(k - 1)}
-$$ | `igl_DDgen()` |
+$$ | `igl_gen_DD()` |
 
 The "kappa" version of the generating function is also important. 
 
@@ -115,7 +115,7 @@ Definition of the interpolating function using the IGL generating function $\Psi
   \frac{1}{t}\Psi_k\left(\frac{1}{\eta \log t}\right), & t > 1;\\
   1, & t = 1
 \end{cases}
-$$ | `ig_gen()` |
+$$ | `interp_gen()` |
 | $\text{D}_1 H_k(t; \eta)$ | $$
 -\frac{
   (\log t + 1) (\Gamma(k) - \Gamma^{*}(k, \eta \log t)) +
@@ -123,7 +123,7 @@ $$ | `ig_gen()` |
 }{
   \eta (t \log t) ^ 2 \Gamma(k - 1)
 }
-$$ | `ig_D1gen()` |
+$$ | `interp_gen_D1()` |
 | $\text{D}_2 H_k(t; \eta)$ | $$
 -\frac{1}{t \eta ^ 2 \log t}
 \frac{\Gamma(k) - \Gamma^{*}(k,\eta \log t)}{\Gamma(k)}
@@ -134,7 +134,7 @@ $$ | NA |
 
 
 
-For the IG copula, $H_k := H_{\Psi_k}$ (function `ig_gen()` in the igcop package). Note that $H_k(\cdot; \theta)$ is strictly decreasing
+For the IG copula, $H_k := H_{\Psi_k}$ (function `interp_gen()` in the igcop package). Note that $H_k(\cdot; \theta)$ is strictly decreasing
 for all $\theta > 0$ and $k > 1$, so $H_k^{-1}(\cdot; \theta)$
 is the unique inverse function of $H_k(\cdot; \theta)$.
 
@@ -197,7 +197,7 @@ $$ | `pcondiglcop12()` |
   \left[\Psi_k^{-1}(1 - v)\right] ^ {-k}
   \exp\left\{-(1 - u) / \Psi_k^{-1}(1 - v)\right\} 
 }{
-  \Gamma(k) - \Gamma\left(k, 1 / \Psi_k^{-1}(1 - v)\right)
+  \Gamma(k) - \Gamma^{*}\left(k, 1 / \Psi_k^{-1}(1 - v)\right)
 }$$ | `diglcop()` |
 | $C_{2 | 1}^{-1}(\tau | u; k)$ | $$
 1 - \Psi_k\left(\frac{1 - u}{\text{qgamma}(\tau, k - 1)}\right)
@@ -395,12 +395,12 @@ of these survival functions is therefore an upper bound for the root
 of $\varphi_k$. The starting point is taken to be immediately to
 the left of this upper bound.
 
-\section{`ig_geninv` function{#sec:ig_geninv}}
+\section{`interp_gen_inv` function{#sec:interp_gen_inv}}
 
 Although computing $H_k^{\leftarrow}$ can be bypassed when computing
 the IG 2|1 quantile function, it is needed when computing other copula
 quantities, such as the copula distribution function. The inverse
-$H_k^{\leftarrow}$ is called `ig_geninv` in the igcop package.
+$H_k^{\leftarrow}$ is called `interp_gen_inv` in the igcop package.
 
 To compute $H_k^{\leftarrow}\left(p,\theta\right)$ for $p\in\left(0,1\right)$
 and some $\theta>0$, Newton-Raphson can be used to solve $h\left(x\right)=0$

@@ -18,7 +18,7 @@
 #     print(dfrow)
 #     theta_ <- dfrow$theta
 #     k_ <- dfrow$k
-#     taunew <- ig_gen(ig_geninv(tau, theta_, k_), theta_, k_)
+#     taunew <- interp_gen(interp_gen_inv(tau, theta_, k_), theta_, k_)
 #     expect_equal(tau, taunew)
 # })
 #
