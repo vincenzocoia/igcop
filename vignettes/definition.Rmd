@@ -8,6 +8,7 @@ vignette: >
   %\VignetteIndexEntry{Integrated Gamma Copula Definition}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+bibliography: ref.bib
 ---
 
 
@@ -139,6 +140,32 @@ for all $\theta > 0$ and $k > 1$, so $H_k^{-1}(\cdot; \theta)$
 is the unique inverse function of $H_k(\cdot; \theta)$.
 
 
+OLD PLOTS (OF SOMETHING LIKE H_KAPPA)
+
+```{r plots, fig.width=5, fig.height=2, warning=FALSE, echo=FALSE} 
+library(ggplot2)
+phi <- function(theta, k) function(x) pgamma(theta*log(x), k-1, lower.tail=FALSE) / x
+ggplot(data.frame(x=c(1,10)), aes(x)) +
+   stat_function(fun=phi(2,1.3), mapping=aes(colour="theta=2")) +
+   stat_function(fun=phi(5,1.3), mapping=aes(colour="theta=5")) +
+   stat_function(fun=phi(10,1.3), mapping=aes(colour="theta=10")) +
+   labs(title="k=1.3", y=expression(varphi[k])) +
+   theme(axis.title.y=element_text(angle=0))
+ggplot(data.frame(x=c(1,10)), aes(x)) +
+   stat_function(fun=phi(2,3), mapping=aes(colour="theta=2")) +
+   stat_function(fun=phi(5,3), mapping=aes(colour="theta=5")) +
+   stat_function(fun=phi(10,3), mapping=aes(colour="theta=10")) +
+   labs(title="k=3", y=expression(varphi[k])) +
+   theme(axis.title.y=element_text(angle=0))
+ggplot(data.frame(x=c(1,10)), aes(x)) +
+   stat_function(fun=phi(2,10), mapping=aes(colour="theta=2")) +
+   stat_function(fun=phi(5,10), mapping=aes(colour="theta=5")) +
+   stat_function(fun=phi(10,10), mapping=aes(colour="theta=10")) +
+   labs(title="k=10", y=expression(varphi[k])) +
+   theme(axis.title.y=element_text(angle=0))
+```
+
+
 # Copula Formulas
 
 ## DJ Copula Class
@@ -170,7 +197,7 @@ $$ |
 $$ |
 | $C_{1 | 2}^{-1}(\tau | v; \psi)$ |  |
 
-Note that @coia in E.1.2 writes these distributional quantities in terms of the reflection copula. 
+Note that @coia2017 in E.1.2 writes these distributional quantities as if the family was defined as reflections.
 
 ## DJ Copula Class with $\Psi_k$: IGL Copula Class
 
@@ -243,7 +270,7 @@ $$ where $t = H_{\psi} ^ {\leftarrow}(1 - v; \theta)$ |
 $$ |
 | $C_{1 | 2}^{-1}(\tau | v; \theta, \psi)$ |  |
 
-Note that @coia in E.2.2 writes these distributional quantities in terms of the reflection copula. 
+Note that @coia2017 in E.2.2 writes these distributional quantities in terms of the reflection copula. 
 
 
 ## Interpolated DJ Copula Class with $\Psi_k$: IG copula
@@ -283,7 +310,7 @@ $$ | `digcop()` |
 | $C_{2 | 1}^{-1}(\tau | u; \theta, k)$ |  | `qcondigcop()`, `qcondigcop21()` |
 | $C_{1 | 2}^{-1}(\tau | v; \theta, k)$ |  | `qcondigcop12()` |
 
-(Note that @coia mistakenly writes $H_{\psi}$ instead of $H_k$ in the formula for $C_{\text{IG}, 1 | 2}$.)
+(Note that @coia2017 mistakenly writes $H_{\psi}$ instead of $H_k$ in the formula for $C_{\text{IG}, 1 | 2}$.)
 
 The copula family is named "Integrated Gamma" because $\Psi_k'(1 / \cdot)$ is proportional to the Gamma distribution cdf with scale parameter 1 and shape parameter $k$. 
 
@@ -325,32 +352,9 @@ $$
 
 
 
-# Computing `qcondigcop()`
+# Computing inverses
 
 
-
-```{r plots, fig.width=5, fig.height=2, warning=FALSE, echo=FALSE} 
-library(ggplot2)
-phi <- function(theta, k) function(x) pgamma(theta*log(x), k-1, lower.tail=FALSE) / x
-ggplot(data.frame(x=c(1,10)), aes(x)) +
-   stat_function(fun=phi(2,1.3), mapping=aes(colour="theta=2")) +
-   stat_function(fun=phi(5,1.3), mapping=aes(colour="theta=5")) +
-   stat_function(fun=phi(10,1.3), mapping=aes(colour="theta=10")) +
-   labs(title="k=1.3", y=expression(varphi[k])) +
-   theme(axis.title.y=element_text(angle=0))
-ggplot(data.frame(x=c(1,10)), aes(x)) +
-   stat_function(fun=phi(2,3), mapping=aes(colour="theta=2")) +
-   stat_function(fun=phi(5,3), mapping=aes(colour="theta=5")) +
-   stat_function(fun=phi(10,3), mapping=aes(colour="theta=10")) +
-   labs(title="k=3", y=expression(varphi[k])) +
-   theme(axis.title.y=element_text(angle=0))
-ggplot(data.frame(x=c(1,10)), aes(x)) +
-   stat_function(fun=phi(2,10), mapping=aes(colour="theta=2")) +
-   stat_function(fun=phi(5,10), mapping=aes(colour="theta=5")) +
-   stat_function(fun=phi(10,10), mapping=aes(colour="theta=10")) +
-   labs(title="k=10", y=expression(varphi[k])) +
-   theme(axis.title.y=element_text(angle=0))
-```
 
 To compute by solving $\varphi_k(x; \eta) = p$
 for $x$, the Newton-Raphson algorithm is used to solve $g(x) = 0$
@@ -396,4 +400,5 @@ where $\Psi_k$ is defined in Equation~(\@ref(eq:cnstr-Psi)). Computing
 the inverse $\Psi_k^{\leftarrow}$ should not be problematic in
 terms of accuracy of the final result, since this computation is only
 used to determine a starting value.
-\end{document}
+
+# References
