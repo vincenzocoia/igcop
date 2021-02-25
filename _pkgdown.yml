@@ -1,0 +1,18 @@
+destination: docs
+
+home:
+  title: igcop
+  description: Tools for computing on the IG and IGL copula families.
+
+navbar:
+  right:
+   - icon: fa-github
+     href: https://github.com/vincenzocoia/igcop
+
+authors:
+  Vincenzo Coia:
+    href: http://vincenzocoia.com
+
+# template:
+#   params:
+#     ganalytics: UA-163983022-1

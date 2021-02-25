@@ -31,13 +31,13 @@ derivative; and \code{igl_gen_DD} is the second derivative.
 \examples{
 ## Some examples of evaluating the functions.
 arg <- c(0, 0.5, 3, Inf, NA)
-igl_gen(arg, k=2)
-igl_gen_D(arg, k=1.2)
-igl_gen_D(arg, k=2)
-igl_gen_D(arg, k=3)
-igl_gen_inv(c(0, 0.5, 1), k=1.5)
+#igl_gen(arg, k=2)
+#igl_gen_D(arg, k=1.2)
+#igl_gen_D(arg, k=2)
+#igl_gen_D(arg, k=3)
+#igl_gen_inv(c(0, 0.5, 1), k=1.5)
 
 ## Visual
-foo <- function(u) igl_gen_inv(u, k=1.5)
-curve(foo)
+#foo <- function(u) igl_gen_inv(u, k=1.5)
+#curve(foo)
 }
