@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# igcop
+# igcop <img src="man/figures/igcop-240x278.png" align="right" height="150" />
 
 <!-- badges: start -->
 
