@@ -5,20 +5,23 @@
 #' derivative; and \code{igl_gen_DD} is the second derivative.
 #'
 #' @param t Vector of values to evaluate the function at, >=0.
-#' @param w Vector of values to evaluate the inverse function at, between
-#' 0 and 1 (inclusive)
+#' @param w Single value to evaluate the inverse function at, between
+#' 0 and 1 (inclusive).
 #' @param k Single numeric >1. Parameter of the function.
 #' @examples
 #' ## Some examples of evaluating the functions.
 #' arg <- c(0, 0.5, 3, Inf, NA)
-#' #igl_gen(arg, k=2)
-#' #igl_gen_D(arg, k=1.2)
-#' #igl_gen_D(arg, k=2)
-#' #igl_gen_D(arg, k=3)
-#' #igl_gen_inv(c(0, 0.5, 1), k=1.5)
+#' #igl_gen(arg, k = 2)
+#' #igl_gen_D(arg, k = 1.2)
+#' #igl_gen_D(arg, k = 1.2)
+#' #igl_gen_D(arg, k = 2)
+#' #igl_gen_D(arg, k = 3)
+#' #igl_gen_inv(0, k = 1.5)
+#' #igl_gen_inv(0.5, k = 1.5)
+#' #igl_gen_inv(1, k = 1.5)
 #'
 #' ## Visual
-#' #foo <- function(u) igl_gen_inv(u, k=1.5)
+#' #foo <- function(u) igl_gen_inv(u, k = 1.5)
 #' #curve(foo)
 #' @rdname igl_gen
 #' @export
@@ -45,35 +48,49 @@ igl_gen_DD <- function(t, k) {
 
 #' @rdname igl_gen
 #' @export
-igl_gen_inv <- function(w, k, mxiter = 20, eps = 1.e-12, bd = 5){
+igl_gen_inv_algo <- function(w, k, mxiter = 20, eps = 1.e-12, bd = 5){
+    if (length(w) != 1L) stop("Algorithm requires a single `w`.")
+    if (length(k) != 1L) stop("Algorithm requires a single `k`.")
+    if (w == 0) return(0)
+    if (w == 1) return(Inf)
     ## Compute gamma(k-1) and gamma(k)
     gkm1 <- gamma(k - 1)
     gk <- (k - 1) * gkm1
     ## Algorithm:
-    ## Empirically, it looks like this tt is a good start:
-    tt <- (1 - w) ^ (-1 / (k - 1)) - 1
+    ## Empirically, it looks like this t is a good start:
+    t <- (1 - w) ^ (-1 / (k - 1)) - 1
     ## Lower bound (invert igl_gen after removing (k - 1) * t * pgamma(1/t, k) term)
     # t_low <- 1 / qgamma(1 - w, k - 1)
     iter <- 0
     diff <- 1
     ## Begin Newton-Raphson algorithm
-    while(iter < mxiter & max(abs(diff)) > eps) {
+    while (iter < mxiter & abs(diff) > eps) {
         ## Helpful quantities
-        igam1 <- gkm1 * stats::pgamma(1 / tt, k - 1, lower.tail = FALSE)
-        igam0 <- gk * stats::pgamma(1 / tt, k)
+        igam1 <- gkm1 * stats::pgamma(1 / t, k - 1, lower.tail = FALSE)
+        igam0 <- gk * stats::pgamma(1 / t, k)
         ## Evaluate functions
-        g <- tt * igam0 + igam1 - w * gkm1
+        g <- t * igam0 + igam1 - w * gkm1
         gp <- igam0
         diff <- g / gp
-        flag <- diff > tt
-        diff[flag] <- tt[flag] / 2
-        tt <- tt - diff
-        while(max(abs(diff)) > bd | any(tt <= 0)) {
+        if (diff > t) diff <- t / 2
+        t <- t - diff
+        while (abs(diff) > bd | t <= 0) {
             diff <- diff / 2
-            tt <- tt + diff
+            t <- t + diff
         }
         iter <- iter + 1
-        #cat(iter,diff,tt,"\n")
+        #cat(iter,diff,t,"\n")
     }
-    tt
+    t
 }
+
+
+#' @rdname igl_gen
+#' @export
+igl_gen_inv <- function(w, k, mxiter = 20, eps = 1.e-12, bd = 5){
+    vapply(w, function(.w) {
+        igl_gen_inv_algo(.w, k = k, mxiter = mxiter, eps = eps, bd = bd)
+    },
+    FUN.VALUE = numeric(1L))
+}
+
