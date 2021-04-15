@@ -22,3 +22,9 @@ igl_kappa <- function(t, k) {
 igl_kappa_D <- function(t, k) {
   -t * igl_gen_DD(t, k)
 }
+
+#' @rdname kappa
+#' @export
+igl_kappa_inv <- function(p, k) {
+  1 / stats::qgamma(1 - p, shape = k - 1)
+}
