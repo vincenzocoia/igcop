@@ -42,6 +42,7 @@ igl_gen_DD <- function(t, k) {
     stats::dgamma(1 / t, k - 1) / t ^ 2
 }
 
+
 #' @rdname igl_gen
 #' @export
 igl_gen_inv <- function(w, k, mxiter = 20, eps = 1.e-12, bd = 5){
@@ -51,6 +52,8 @@ igl_gen_inv <- function(w, k, mxiter = 20, eps = 1.e-12, bd = 5){
     ## Algorithm:
     ## Empirically, it looks like this tt is a good start:
     tt <- (1 - w) ^ (-1 / (k - 1)) - 1
+    ## Lower bound (invert igl_gen after removing (k - 1) * t * pgamma(1/t, k) term)
+    # t_low <- 1 / qgamma(1 - w, k - 1)
     iter <- 0
     diff <- 1
     ## Begin Newton-Raphson algorithm

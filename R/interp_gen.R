@@ -20,17 +20,6 @@ interp_gen <- function(t, eta, k) {
     igl_gen(1 / (eta * log(t)), k) / t
 }
 
-#' @rdname interpolator
-#' @export
-interp_kappa <- function(t, eta, k) {
-    igl_kappa(1 / (eta * log(t)), k) / t
-}
-
-#' @rdname interpolator
-#' @export
-interp_kappa_inv <- function(p, eta, k) {
-    stop("This function still needs to be programmed.")
-}
 
 #' @rdname interpolator
 #' @export
@@ -82,5 +71,6 @@ interp_gen_inv <- function(p, eta, k, mxiter = 40, eps = 1.e-12, bd = 5) {
         }
         iter <- iter + 1
     }
+    # print(iter)
     tt
 }
