@@ -4,6 +4,15 @@ interp_kappa <- function(t, eta, k) {
   igl_kappa(1 / (eta * log(t)), k) / t
 }
 
+#' @rdname interpolator
+#' @export
+interp_kappa_D1 <- function(t, eta, k) {
+  logt <- log(t)
+  arg <- 1 / eta / logt
+  coeff <- arg / logt
+  -t ^ (-2) * (igl_kappa(arg, k) + coeff * igl_kappa_D(arg, k))
+}
+
 
 #' @rdname interpolator
 #' @export

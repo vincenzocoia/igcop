@@ -33,6 +33,12 @@ igl_gen <- function(t, k) {
     res
 }
 
+# igl_gen_v2 <- function(t, k) {
+#     t * (gamma(k) - igamma(k, 1 / t)) / gamma(k - 1) +
+#         igamma(k - 1, 1 / t) / gamma(k - 1)
+# }
+# diff <- function(t) igl_gen(t, 1.1) - igl_gen_v2(t, 1.1)
+# curve(diff, 0, 100)
 
 #' @rdname igl_gen
 #' @export
@@ -40,11 +46,24 @@ igl_gen_D <- function(t, k) {
     (k - 1) * stats::pgamma(1 / t, k)
 }
 
+# igl_gen_D_v2 <- function(t, k) {
+#     (gamma(k) - igamma(k, 1 / t)) / gamma(k - 1)
+# }
+# diff <- function(t) igl_gen_D(t, 3) - igl_gen_D_v2(t, 3)
+# curve(diff, 0, 10)
+
+
 #' @rdname igl_gen
 #' @export
 igl_gen_DD <- function(t, k) {
-    stats::dgamma(1 / t, k - 1) / t ^ 2
+    - (k - 1) / t ^ 2 * stats::dgamma(1 / t, k)
 }
+
+# igl_gen_DD_v2 <- function(t, k) {
+#     - t ^ (-k - 1) * exp(-1 / t) / gamma(k - 1)
+# }
+# diff <- function(t) igl_gen_DD(t, 3) - igl_gen_DD_v2(t, 3)
+# curve(diff, 0, 10)
 
 
 #' @rdname igl_gen
