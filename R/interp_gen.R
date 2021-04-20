@@ -7,13 +7,15 @@
 #'
 #' Appending `_inv` to the function name indicates inverse with
 #' respect to the first argument. Appending `_D1` indicates
-#' derivative with respect to the first argument.
+#' derivative with respect to the first argument. Function arguments
+#' and parameters are vectorized, except for the algorithms (marked by
+#' `_algo`).
 #'
 #' @param t Vector of values >=1 to evaluate the interpolating function at.
 #' @param p Vector of values in [0,1] to evaluate the inverse function at.
-#' @param eta Value of second argument of the interpolating function, >0.
-#' This is allowed to be a vector, except in the inverse functions.
-#' @param k Single numeric >1 corresponding to the \eqn{k} parameter
+#' @param eta Vector of values >0 of second argument of the
+#' interpolating function.
+#' @param k Vector of values >1 corresponding to the \eqn{k} parameter
 #' of the IGL generating function.
 #' @rdname interpolator
 #' @export

@@ -6,9 +6,10 @@
 \alias{interp_gen_inv_algo}
 \alias{interp_gen_inv}
 \alias{interp_kappa}
+\alias{interp_kappa_inv_uniroot_algo}
 \alias{interp_kappa_inv_uniroot}
-\alias{interp_kappa_inv}
-\alias{interp_kappa_inv_old}
+\alias{interp_kappa_inv_nr_algo}
+\alias{interp_kappa_inv_nr}
 \title{Interpolating Functions}
 \usage{
 interp_gen(t, eta, k)
@@ -21,19 +22,21 @@ interp_gen_inv(p, eta, k, mxiter = 40, eps = 1e-12, bd = 5)
 
 interp_kappa(t, eta, k)
 
+interp_kappa_inv_uniroot_algo(p, eta, k, mxiter = 80, eps = 1e-12, bd = 5)
+
 interp_kappa_inv_uniroot(p, eta, k, mxiter = 80, eps = 1e-12, bd = 5)
 
-interp_kappa_inv(p, eta, k, mxiter = 80, eps = 1e-12, bd = 5)
+interp_kappa_inv_nr_algo(p, eta, k, mxiter = 80, eps = 1e-12, bd = 5)
 
-interp_kappa_inv_old(p, eta, k, mxiter = 80, eps = 1e-12, bd = 5)
+interp_kappa_inv_nr(p, eta, k, mxiter = 80, eps = 1e-12, bd = 5)
 }
 \arguments{
 \item{t}{Vector of values >=1 to evaluate the interpolating function at.}
 
-\item{eta}{Value of second argument of the interpolating function, >0.
-This is allowed to be a vector, except in the inverse functions.}
+\item{eta}{Vector of values >0 of second argument of the
+interpolating function.}
 
-\item{k}{Single numeric >1 corresponding to the \eqn{k} parameter
+\item{k}{Vector of values >1 corresponding to the \eqn{k} parameter
 of the IGL generating function.}
 
 \item{p}{Vector of values in \link{0,1} to evaluate the inverse function at.}
@@ -47,5 +50,7 @@ depend on a generating function (of a DJ copula).
 \details{
 Appending \verb{_inv} to the function name indicates inverse with
 respect to the first argument. Appending \verb{_D1} indicates
-derivative with respect to the first argument.
+derivative with respect to the first argument. Function arguments
+and parameters are vectorized, except for the algorithms (marked by
+\verb{_algo}).
 }
