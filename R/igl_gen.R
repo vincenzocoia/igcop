@@ -27,8 +27,10 @@
 #' @export
 igl_gen <- function(t, k) {
     tinv <- 1 / t
-    (k - 1) * t * stats::pgamma(tinv, k) +
+    res <- (k - 1) * t * stats::pgamma(tinv, k) +
         stats::pgamma(tinv, k - 1, lower.tail = FALSE)
+    res[t == Inf] <- 1
+    res
 }
 
 

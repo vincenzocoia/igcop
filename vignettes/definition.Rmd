@@ -14,6 +14,11 @@ bibliography: ref.bib
 
 ```{r}
 library(igcop)
+library(tidyverse)
+select_k <- c(1.01, 1.5, 2, 4, 10)
+select_eta <- c(0.1, 2, 20, 200)
+k_title <- fct_reorder(paste("k =", select_k), select_k)
+eta_title <- fct_reorder(paste("eta =", select_eta), select_eta)
 ```
 
 The generic copula class (DJ and interpolated DJ) is characterized by a _generating function_ $\psi:[0, \infty) \rightarrow (0, 1]$, which needs to be a concave distribution function or convex survival function.
@@ -55,6 +60,22 @@ $$ | `igl_gen_D()` |
       {\Gamma(k - 1)}
 $$ | `igl_gen_DD()` |
 
+Examples of such functions are plotted below. Note that $\Psi_k$ always goes to 1 as its argument goes to infinity, albeit very slowly when $k$ is close to 1 (for example, $\Psi_{1.01}(10^{150}) \approx 0.9685$, and R by default refuses to calculate much further along its domain than this).
+
+```{r, echo = FALSE, fig.width = 7, fig.height = 2, fig.align = "center"}
+expand_grid(nesting(k = select_k,
+                    k_title = k_title),
+            x = seq(0, 5, length.out = 1000)) %>% 
+  mutate(psi = map2_dbl(x, k, igl_gen)) %>% 
+  ggplot(aes(x, psi)) +
+  facet_wrap(~ k_title, nrow = 1) +
+  geom_line() +
+  theme_bw() +
+  ylab(expression(Psi[k](x))) +
+  theme(axis.title.y = element_text(angle = 0))
+```
+
+
 The "kappa" version of the generating function is also important. 
 
 General definition.
@@ -77,6 +98,20 @@ $$ | `igl_kappa()` |
 \frac{\text{dgamma}(1 / y, k - 1)}{y ^ 2}
 $$ | NA | 
 
+The following plot demonstrates some examples. As for the case of $\Psi_k$, $\kappa_k$ also goes to 1 as its argument goes to infinity, also very slowly for $k$ near 1. For example, $\kappa_{1.01}(10^{150}) \approx 0.9681$.
+
+```{r, echo = FALSE, fig.width = 7, fig.height = 2, fig.align = "center"}
+expand_grid(nesting(k = select_k,
+                    k_title = k_title),
+            x = seq(0, 5, length.out = 1000)) %>% 
+  mutate(kappa = map2_dbl(x, k, igl_kappa)) %>% 
+  ggplot(aes(x, kappa)) +
+  facet_wrap(~ k_title, nrow = 1) +
+  geom_line() +
+  theme_bw() +
+  ylab(expression(kappa[k](x))) +
+  theme(axis.title.y = element_text(angle = 0))
+```
 
 
 ## Interpolating Function
@@ -130,40 +165,52 @@ $$ | `interp_gen_D1()` |
 \frac{\Gamma(k) - \Gamma^{*}(k,\eta \log t)}{\Gamma(k)}
 $$ | NA |
 
-
-
-
-
-
 For the IG copula, $H_k := H_{\Psi_k}$ (function `interp_gen()` in the igcop package). Note that $H_k(\cdot; \theta)$ is strictly decreasing
 for all $\theta > 0$ and $k > 1$, so $H_k^{-1}(\cdot; \theta)$
 is the unique inverse function of $H_k(\cdot; \theta)$.
 
+Examples of such functions are demonstrated in the plots below, compared with the plot of the reciprocal $1/x$ as the dotted line. Notice that increasing $k$ draws $H_k$ closer to the reciprocal function, whereas increasing $\eta$ pulls $H_k$ further from the reciprocal function.
 
-OLD PLOTS (OF SOMETHING LIKE H_KAPPA)
-
-```{r plots, fig.width=5, fig.height=2, warning=FALSE, echo=FALSE} 
-library(ggplot2)
-phi <- function(theta, k) function(x) pgamma(theta*log(x), k-1, lower.tail=FALSE) / x
-ggplot(data.frame(x=c(1,10)), aes(x)) +
-   stat_function(fun=phi(2,1.3), mapping=aes(colour="theta=2")) +
-   stat_function(fun=phi(5,1.3), mapping=aes(colour="theta=5")) +
-   stat_function(fun=phi(10,1.3), mapping=aes(colour="theta=10")) +
-   labs(title="k=1.3", y=expression(varphi[k])) +
-   theme(axis.title.y=element_text(angle=0))
-ggplot(data.frame(x=c(1,10)), aes(x)) +
-   stat_function(fun=phi(2,3), mapping=aes(colour="theta=2")) +
-   stat_function(fun=phi(5,3), mapping=aes(colour="theta=5")) +
-   stat_function(fun=phi(10,3), mapping=aes(colour="theta=10")) +
-   labs(title="k=3", y=expression(varphi[k])) +
-   theme(axis.title.y=element_text(angle=0))
-ggplot(data.frame(x=c(1,10)), aes(x)) +
-   stat_function(fun=phi(2,10), mapping=aes(colour="theta=2")) +
-   stat_function(fun=phi(5,10), mapping=aes(colour="theta=5")) +
-   stat_function(fun=phi(10,10), mapping=aes(colour="theta=10")) +
-   labs(title="k=10", y=expression(varphi[k])) +
-   theme(axis.title.y=element_text(angle=0))
+```{r, echo = FALSE, fig.width = 7, fig.height = 4, fig.align = "center"}
+expand_grid(nesting(k = select_k,
+                    k_title = k_title),
+            nesting(eta = select_eta,
+                    eta_title = eta_title),
+            x = seq(1, 2.5, length.out = 1000)) %>% 
+  mutate(H = pmap_dbl(list(x, eta, k), interp_gen),
+         inv = 1 / x) %>% 
+  pivot_longer(cols = c("H", "inv"), names_to = "fun", values_to = "eval") %>% 
+  ggplot(aes(x, eval)) +
+  facet_grid(eta_title ~ k_title) +
+  geom_line(aes(group = fun, linetype = fun)) +
+  theme_bw() +
+  ylab(expression(H[k](x))) +
+  guides(linetype = FALSE) +
+  theme(axis.title.y = element_text(angle = 0))
 ```
+
+
+
+The function $H_{\kappa_k}$ is also important for the 2|1 conditional quantile function of the IG copula family. Here is what those functions look like, also compared with the reciprocal function $1/x$:
+
+```{r, echo = FALSE, fig.width = 7, fig.height = 4, fig.align = "center"}
+expand_grid(nesting(k = select_k,
+                    k_title = k_title),
+            nesting(eta = select_eta,
+                    eta_title = eta_title),
+            x = seq(1, 2.5, length.out = 1000)) %>% 
+  mutate(H = pmap_dbl(list(x, eta, k), interp_kappa),
+         inv = 1 / x) %>% 
+  pivot_longer(cols = c("H", "inv"), names_to = "fun", values_to = "eval") %>% 
+  ggplot(aes(x, eval)) +
+  facet_grid(eta_title ~ k_title) +
+  geom_line(aes(group = fun, linetype = fun)) +
+  theme_bw() +
+  ylab(expression(H[kappa[k]](x))) +
+  guides(linetype = FALSE) +
+  theme(axis.title.y = element_text(angle = 0))
+```
+
 
 
 # Copula Formulas
@@ -197,7 +244,7 @@ $$ |
 $$ |
 | $C_{1 | 2}^{-1}(\tau | v; \psi)$ |  |
 
-Note that @coia2017 in E.1.2 writes these distributional quantities as if the family was defined as reflections.
+Note that @coia2017 in E.1.2 writes these distributional quantities as if the family was defined as its reflections.
 
 ## DJ Copula Class with $\Psi_k$: IGL Copula Class
 
@@ -270,8 +317,7 @@ $$ where $t = H_{\psi} ^ {\leftarrow}(1 - v; \theta)$ |
 $$ |
 | $C_{1 | 2}^{-1}(\tau | v; \theta, \psi)$ |  |
 
-Note that @coia2017 in E.2.2 writes these distributional quantities in terms of the reflection copula. 
-
+Note that @coia2017 in E.2.2 writes these distributional quantities as if the family was defined as its reflections.
 
 ## Interpolated DJ Copula Class with $\Psi_k$: IG copula
 
