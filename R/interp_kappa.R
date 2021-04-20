@@ -8,6 +8,11 @@ interp_kappa <- function(t, eta, k) {
 #' @rdname interpolator
 #' @export
 interp_kappa_inv_uniroot_algo <- function(p, eta, k, mxiter = 80, eps = 1.e-12, bd = 5) {
+  if (length(p) != 1L) stop("Algorithm requires a single `p`.")
+  if (length(eta) != 1L) stop("Algorithm requires a single `eta`.")
+  if (length(k) != 1L) stop("Algorithm requires a single `k`.")
+  if (p == 0) return(Inf)
+  if (p == 1) return(1)
   upper <- 1 / p
   lower <- 1
   f <- function(t) interp_kappa(t, eta = eta, k = k) - p
@@ -37,6 +42,11 @@ interp_kappa_inv_uniroot <- function(p, eta, k, mxiter = 80, eps = 1.e-12, bd = 
 #' @rdname interpolator
 #' @export
 interp_kappa_inv_nr_algo <- function(p, eta, k, mxiter = 80, eps = 1.e-12, bd = 5) {
+  if (length(p) != 1L) stop("Algorithm requires a single `p`.")
+  if (length(eta) != 1L) stop("Algorithm requires a single `eta`.")
+  if (length(k) != 1L) stop("Algorithm requires a single `k`.")
+  if (p == 0) return(Inf)
+  if (p == 1) return(1)
   ## Starting value: use H_k^{-1}
   x <- interp_gen_inv(p, eta, k, mxiter = mxiter, eps = eps, bd = bd)
   x <- pmax(x - eps, 1 + (x - 1) / 2) # x-eps might overshoot left of 1.
@@ -81,3 +91,7 @@ interp_kappa_inv_nr <- function(p, eta, k, mxiter = 80, eps = 1.e-12, bd = 5) {
   }
   sol
 }
+
+#' @rdname interpolator
+#' @export
+interp_kappa_inv <- interp_kappa_inv_nr

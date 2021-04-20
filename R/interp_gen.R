@@ -27,18 +27,14 @@ interp_gen <- function(t, eta, k) {
 #' @rdname interpolator
 #' @export
 interp_gen_D1 <- function(t, eta, k) {
-    ## Deal with t=1 separately -- its limit depends on k.
-    # if (k > 2) {
-    #     replf <- -1
-    # } else if (k == 2) {
-    #     replf <- -(1 + eta / 2)
-    # } else {
-    #     replf <- -Inf
-    # }
     logt <- log(t)
     arg <- 1 / eta / logt
     coeff <- 1 / eta / logt ^ 2
-    -t ^ (-2) * (igl_gen(arg, k) + coeff * igl_gen_D(arg, k))
+    res <- -t ^ (-2) * (igl_gen(arg, k) + coeff * igl_gen_D(arg, k))
+    res[t == 1 & k > 2] <- -1
+    res[t == 1 & k == 2] <- -(1 + eta / 2)
+    res[t == 1 & k < 2 & k > 1] <- -Inf
+    res
 }
 
 
@@ -84,8 +80,16 @@ interp_gen_inv_algo <- function(p, eta, k, mxiter = 40, eps = 1.e-12, bd = 5) {
 #' @rdname interpolator
 #' @export
 interp_gen_inv <- function(p, eta, k, mxiter = 40, eps = 1.e-12, bd = 5) {
-    vapply(p, function(.p) {
-        interp_gen_inv_algo(.p, eta = eta, k = k, mxiter = mxiter, eps = eps, bd = bd)
-    },
-    FUN.VALUE = numeric(1L))
+    lengths <- c(p = length(p), eta = length(eta), k = length(k))
+    l <- max(lengths)
+    if (lengths[["p"]] == 1) p <- rep(p, l)
+    if (lengths[["eta"]] == 1) eta <- rep(eta, l)
+    if (lengths[["k"]] == 1) k <- rep(k, l)
+    sol <- numeric()
+    for (i in 1:l) {
+        sol[i] <- interp_gen_inv_algo(
+            p[i], eta = eta[i], k = k[i], mxiter = mxiter, eps = eps, bd = bd
+        )
+    }
+    sol
 }

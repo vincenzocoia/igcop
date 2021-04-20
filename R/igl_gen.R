@@ -4,21 +4,21 @@
 #' its inverse; \code{igl_gen_D} is the
 #' derivative; and \code{igl_gen_DD} is the second derivative.
 #'
-#' @param t Vector of values to evaluate the function at, >=0.
-#' @param w Single value to evaluate the inverse function at, between
+#' Function arguments and parameters are vectorized, except
+#' for the algorithms (marked by `_algo`).
+#'
+#' @param t Vector of values >=0 to evaluate the function at, .
+#' @param w Vector of values to evaluate the inverse function at, between
 #' 0 and 1 (inclusive).
-#' @param k Single numeric >1. Parameter of the function.
+#' @param k Parameter of the function, k > 1. Vectorized.
 #' @examples
 #' ## Some examples of evaluating the functions.
 #' arg <- c(0, 0.5, 3, Inf, NA)
 #' #igl_gen(arg, k = 2)
 #' #igl_gen_D(arg, k = 1.2)
-#' #igl_gen_D(arg, k = 1.2)
 #' #igl_gen_D(arg, k = 2)
 #' #igl_gen_D(arg, k = 3)
-#' #igl_gen_inv(0, k = 1.5)
-#' #igl_gen_inv(0.5, k = 1.5)
-#' #igl_gen_inv(1, k = 1.5)
+#' #igl_gen_inv(c(0, 0.5, 1), k = 1.5)
 #'
 #' ## Visual
 #' #foo <- function(u) igl_gen_inv(u, k = 1.5)
@@ -43,7 +43,6 @@ igl_gen_D <- function(t, k) {
 #' @rdname igl_gen
 #' @export
 igl_gen_DD <- function(t, k) {
-    # -t ^ (-k - 1) * exp(-1 / t) / gamma(k - 1)
     stats::dgamma(1 / t, k - 1) / t ^ 2
 }
 
@@ -90,9 +89,16 @@ igl_gen_inv_algo <- function(w, k, mxiter = 20, eps = 1.e-12, bd = 5){
 #' @rdname igl_gen
 #' @export
 igl_gen_inv <- function(w, k, mxiter = 20, eps = 1.e-12, bd = 5){
-    vapply(w, function(.w) {
-        igl_gen_inv_algo(.w, k = k, mxiter = mxiter, eps = eps, bd = bd)
-    },
-    FUN.VALUE = numeric(1L))
+    lengths <- c(w = length(w), k = length(k))
+    l <- max(lengths)
+    if (lengths[["w"]] == 1) w <- rep(w, l)
+    if (lengths[["k"]] == 1) k <- rep(k, l)
+    sol <- numeric()
+    for (i in 1:l) {
+        sol[i] <- igl_gen_inv_algo(
+            w[i], k = k[i], mxiter = mxiter, eps = eps, bd = bd
+        )
+    }
+    sol
 }
 
