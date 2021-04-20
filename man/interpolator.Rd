@@ -7,10 +7,7 @@
 \alias{interp_gen_inv}
 \alias{interp_kappa}
 \alias{interp_kappa_D1}
-\alias{interp_kappa_inv_uniroot_algo}
-\alias{interp_kappa_inv_uniroot}
-\alias{interp_kappa_inv_nr_algo}
-\alias{interp_kappa_inv_nr}
+\alias{interp_kappa_inv_algo}
 \alias{interp_kappa_inv}
 \title{Interpolating Functions}
 \usage{
@@ -26,13 +23,7 @@ interp_kappa(t, eta, k)
 
 interp_kappa_D1(t, eta, k)
 
-interp_kappa_inv_uniroot_algo(p, eta, k, mxiter = 80, eps = 1e-12, bd = 5)
-
-interp_kappa_inv_uniroot(p, eta, k, mxiter = 80, eps = 1e-12, bd = 5)
-
-interp_kappa_inv_nr_algo(p, eta, k, mxiter = 80, eps = 1e-12, bd = 5)
-
-interp_kappa_inv_nr(p, eta, k, mxiter = 80, eps = 1e-12, bd = 5)
+interp_kappa_inv_algo(p, eta, k, mxiter = 80, eps = 1e-12, bd = 5)
 
 interp_kappa_inv(p, eta, k, mxiter = 80, eps = 1e-12, bd = 5)
 }

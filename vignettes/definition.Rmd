@@ -98,7 +98,7 @@ $$ | `igl_kappa()` |
 \frac{\text{dgamma}(x ^ {-1}, k - 1)}{x ^ 2}
 $$ | `igl_kappa_D()` | 
 
-The following plot demonstrates some examples. As for the case of $\Psi_k$, $\kappa_k$ also goes to 1 as its argument goes to infinity, also very slowly for $k$ near 1. For example, $\kappa_{1.01}(10^{150}) \approx 0.9681$.
+The following plot demonstrates some examples. As for the case of $\Psi_k$, $\kappa_k$ also goes to 1 as its argument goes to infinity, also very slowly for $k$ near 1. For example, $\kappa_{1.01}(10^{150}) \approx 0.9682$.
 
 ```{r, echo = FALSE, fig.width = 7, fig.height = 2, fig.align = "center"}
 expand_grid(nesting(k = select_k,

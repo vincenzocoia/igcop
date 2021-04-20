@@ -16,41 +16,7 @@ interp_kappa_D1 <- function(t, eta, k) {
 
 #' @rdname interpolator
 #' @export
-interp_kappa_inv_uniroot_algo <- function(p, eta, k, mxiter = 80, eps = 1.e-12, bd = 5) {
-  if (length(p) != 1L) stop("Algorithm requires a single `p`.")
-  if (length(eta) != 1L) stop("Algorithm requires a single `eta`.")
-  if (length(k) != 1L) stop("Algorithm requires a single `k`.")
-  if (p == 0) return(Inf)
-  if (p == 1) return(1)
-  upper <- 1 / p
-  lower <- 1
-  f <- function(t) interp_kappa(t, eta = eta, k = k) - p
-  fit <- uniroot(f, c(lower, upper))
-  # cat(fit$code)
-  fit$root
-}
-
-#' @rdname interpolator
-#' @export
-interp_kappa_inv_uniroot <- function(p, eta, k, mxiter = 80, eps = 1.e-12, bd = 5) {
-  lengths <- c(p = length(p), eta = length(eta), k = length(k))
-  l <- max(lengths)
-  if (lengths[["p"]] == 1) p <- rep(p, l)
-  if (lengths[["eta"]] == 1) eta <- rep(eta, l)
-  if (lengths[["k"]] == 1) k <- rep(k, l)
-  sol <- numeric()
-  for (i in 1:l) {
-    sol[i] <- interp_kappa_inv_uniroot_algo(
-      p[i], eta = eta[i], k = k[i], mxiter = mxiter, eps = eps, bd = bd
-    )
-  }
-  sol
-}
-
-
-#' @rdname interpolator
-#' @export
-interp_kappa_inv_nr_algo <- function(p, eta, k, mxiter = 80, eps = 1.e-12, bd = 5) {
+interp_kappa_inv_algo <- function(p, eta, k, mxiter = 80, eps = 1.e-12, bd = 5) {
   if (length(p) != 1L) stop("Algorithm requires a single `p`.")
   if (length(eta) != 1L) stop("Algorithm requires a single `eta`.")
   if (length(k) != 1L) stop("Algorithm requires a single `k`.")
@@ -86,7 +52,7 @@ interp_kappa_inv_nr_algo <- function(p, eta, k, mxiter = 80, eps = 1.e-12, bd = 
 
 #' @rdname interpolator
 #' @export
-interp_kappa_inv_nr <- function(p, eta, k, mxiter = 80, eps = 1.e-12, bd = 5) {
+interp_kappa_inv <- function(p, eta, k, mxiter = 80, eps = 1.e-12, bd = 5) {
   lengths <- c(p = length(p), eta = length(eta), k = length(k))
   l <- max(lengths)
   if (lengths[["p"]] == 1) p <- rep(p, l)
@@ -94,13 +60,9 @@ interp_kappa_inv_nr <- function(p, eta, k, mxiter = 80, eps = 1.e-12, bd = 5) {
   if (lengths[["k"]] == 1) k <- rep(k, l)
   sol <- numeric()
   for (i in 1:l) {
-    sol[i] <- interp_kappa_inv_nr_algo(
+    sol[i] <- interp_kappa_inv_algo(
       p[i], eta = eta[i], k = k[i], mxiter = mxiter, eps = eps, bd = bd
     )
   }
   sol
 }
-
-#' @rdname interpolator
-#' @export
-interp_kappa_inv <- interp_kappa_inv_nr
