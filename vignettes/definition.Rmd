@@ -52,7 +52,7 @@ The IG and IGL copula families result from a parametric generating function $\Ps
 \end{cases}
 $$ | `igl_gen()` |
 | $\Psi_k'(x)$ | $$
-\frac{\Gamma(k) - \Gamma^{*}(k, x) ^ {-1}}
+\frac{\Gamma(k) - \Gamma^{*}(k, x ^ {-1})}
      {\Gamma(k - 1)}
 $$ | `igl_gen_D()` |
 | $\Psi_k''(x)$ | $$
@@ -96,7 +96,7 @@ $$ | `igl_kappa()` |
 | $\kappa_k'(x)$ | $$
 \frac{\exp(-x ^ {-1})}{x ^ k \Gamma(k - 1)} =
 \frac{\text{dgamma}(x ^ {-1}, k - 1)}{x ^ 2}
-$$ | NA | 
+$$ | `igl_kappa_D()` | 
 
 The following plot demonstrates some examples. As for the case of $\Psi_k$, $\kappa_k$ also goes to 1 as its argument goes to infinity, also very slowly for $k$ near 1. For example, $\kappa_{1.01}(10^{150}) \approx 0.9681$.
 
@@ -191,7 +191,7 @@ expand_grid(nesting(k = select_k,
 
 
 
-The function $H_{\kappa_k}$ is also important for the 2|1 conditional quantile function of the IG copula family. Here is what those functions look like, also compared with the reciprocal function $1/x$ as the dotted lines:
+The function $H_{\kappa_k}$ is also important for the 2|1 conditional quantile function of the IG copula family. In the igcop package, it goes by the name `interp_kappa()`, with the corresponding family of functions as `interp_igl()` has. Here is what those functions look like, also compared with the reciprocal function $1/x$ as the dotted lines:
 
 ```{r, echo = FALSE, fig.width = 7, fig.height = 4, fig.align = "center"}
 expand_grid(nesting(k = select_k,
