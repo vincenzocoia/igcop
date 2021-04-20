@@ -3,11 +3,14 @@
 \name{igl_kappa}
 \alias{igl_kappa}
 \alias{igl_kappa_D}
+\alias{igl_kappa_inv}
 \title{Kappa version of generating function}
 \usage{
 igl_kappa(t, k)
 
 igl_kappa_D(t, k)
+
+igl_kappa_inv(p, k)
 }
 \arguments{
 \item{t}{Numeric argument of the kappa function. Vectorized.}

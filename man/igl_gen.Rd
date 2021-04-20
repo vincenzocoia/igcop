@@ -4,6 +4,7 @@
 \alias{igl_gen}
 \alias{igl_gen_D}
 \alias{igl_gen_DD}
+\alias{igl_gen_inv_algo}
 \alias{igl_gen_inv}
 \title{Generating function for the IGL copula family}
 \usage{
@@ -13,6 +14,8 @@ igl_gen_D(t, k)
 
 igl_gen_DD(t, k)
 
+igl_gen_inv_algo(w, k, mxiter = 20, eps = 1e-12, bd = 5)
+
 igl_gen_inv(w, k, mxiter = 20, eps = 1e-12, bd = 5)
 }
 \arguments{
@@ -20,8 +23,8 @@ igl_gen_inv(w, k, mxiter = 20, eps = 1e-12, bd = 5)
 
 \item{k}{Single numeric >1. Parameter of the function.}
 
-\item{w}{Vector of values to evaluate the inverse function at, between
-0 and 1 (inclusive)}
+\item{w}{Single value to evaluate the inverse function at, between
+0 and 1 (inclusive).}
 }
 \description{
 \code{igl_gen} is the function itself, and \code{igl_gen_inv} is
@@ -31,13 +34,16 @@ derivative; and \code{igl_gen_DD} is the second derivative.
 \examples{
 ## Some examples of evaluating the functions.
 arg <- c(0, 0.5, 3, Inf, NA)
-#igl_gen(arg, k=2)
-#igl_gen_D(arg, k=1.2)
-#igl_gen_D(arg, k=2)
-#igl_gen_D(arg, k=3)
-#igl_gen_inv(c(0, 0.5, 1), k=1.5)
+#igl_gen(arg, k = 2)
+#igl_gen_D(arg, k = 1.2)
+#igl_gen_D(arg, k = 1.2)
+#igl_gen_D(arg, k = 2)
+#igl_gen_D(arg, k = 3)
+#igl_gen_inv(0, k = 1.5)
+#igl_gen_inv(0.5, k = 1.5)
+#igl_gen_inv(1, k = 1.5)
 
 ## Visual
-#foo <- function(u) igl_gen_inv(u, k=1.5)
+#foo <- function(u) igl_gen_inv(u, k = 1.5)
 #curve(foo)
 }

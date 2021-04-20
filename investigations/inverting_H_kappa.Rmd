@@ -1,0 +1,91 @@
+---
+title: "Inverting H_kappa"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(igcop)
+cpar <- list(
+    c(2.5, 13.3), # nearly independent
+    c(2.5, 5.3), # weak dependence spear=.040
+    c(2.5, 3.3), # spear=.145
+    #c(2.5, 1.3), # spear=.244
+    #c(2.5, 1.1), # unreliable (for small k)
+    c(5.5,4.1),  # spear=.231
+    c(8.5,4.1),  # spear=.330
+    c(15.5,4.1), # spear=.462
+    c(25.5,4.1), # spear=.553
+    c(45.5,4.1), # spear=.629
+    c(75.5,4.1), # spear=.674
+    c(75.5,8.1), # spear=.661
+    c(155.5,4.1), # spear=.714
+    c(300.5,4.1), # spear=.733
+    c(600.5,4.1), # spear=.743
+    c(600.5,8.1), # spear=.829
+    c(600.5,15.1), # spear=.853
+    c(600.5,35.1), # spear=.811
+    c(1200.5,15.1), # spear=.883
+    c(2400.5,15.1), # spear=.899
+    c(2400.5,35.1), # spear=.918
+    c(2400.5,55.1), # spear=.??? unstable for rhoS
+    c(2400.5,45.1), # spear=.914
+    c(4800.5,35.1), # spear=.937
+    c(9600.5,35.1) # spear=.947  # try inference with this parameter vector
+)
+tau <- c(seq(.1, .9, .1))
+interp_kappa_D <- function(t, eta, k) {
+  logt <- log(t)
+  arg <- 1 / eta / logt
+  - 1 / t ^ 2 * 
+    (igl_kappa(arg, k) + arg / logt *
+       igl_kappa_D(arg, k))
+}
+grid <- expand_grid(cpar = cpar, tau = tau) %>% 
+  unnest_wider(cpar) %>% 
+  rename(theta = ...1,
+         k = ...2)
+```
+
+We are trying to invert $H_{\kappa}(\cdot, \theta, \k)$. Plots of these functions:
+
+```{r, message = FALSE}
+expand_grid(cpar = cpar, x = seq(1, 1.5, length.out = 100)) %>% 
+  unnest_wider(cpar, names_repair = "universal") %>% 
+  rename(theta = ...1,
+         k = ...2) %>% 
+  mutate(H_kappa = pmap_dbl(list(x, theta, k), interp_kappa)) %>% 
+  ggplot(aes(x, H_kappa)) +
+  facet_wrap(theta ~ k) +
+  geom_line()
+```
+
+
+
+Evaluate $H_{\kappa}^{-1}(\tau, \theta, k)$, then reapply $H_{kappa}(\cdot, \theta, k)$ and compare to the original $\tau$. Inversion method: `uniroot()`.
+
+```{r, message = FALSE}
+eval_uniroot <- grid %>% 
+  mutate(H_kappa_inv   = pmap_dbl(list(tau, theta, k), interp_kappa_inv_uniroot),
+         H_kappa_deriv = pmap_dbl(list(H_kappa_inv, theta, k), interp_kappa_D),
+         tau_returned  = pmap_dbl(list(H_kappa_inv, theta, k), interp_kappa),
+         tau_abs_diff  = abs(tau - tau_returned)) %>% 
+  arrange(desc(tau_abs_diff))
+DT::datatable(eval_uniroot)
+```
+
+Inversion method: Newton-Raphson:
+
+```{r, message = FALSE}
+eval_uniroot <- grid %>% 
+  mutate(H_kappa_inv   = pmap_dbl(list(tau, theta, k), interp_kappa_inv_old),
+         H_kappa_deriv = pmap_dbl(list(H_kappa_inv, theta, k), interp_kappa_D),
+         tau_returned  = pmap_dbl(list(H_kappa_inv, theta, k), interp_kappa),
+         tau_abs_diff  = abs(tau - tau_returned)) %>% 
+  arrange(desc(tau_abs_diff))
+DT::datatable(eval_uniroot)
+```
+
+
+
+
