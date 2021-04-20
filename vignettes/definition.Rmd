@@ -12,7 +12,7 @@ bibliography: ref.bib
 ---
 
 
-```{r}
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
 library(igcop)
 library(tidyverse)
 select_k <- c(1.01, 1.5, 2, 4, 10)
@@ -44,19 +44,19 @@ The IG and IGL copula families result from a parametric generating function $\Ps
 
 | Function | Formula | igcop function |
 |:--------:|:-------:|:--------------:|
-| $\Psi_k(y)$ | $$
+| $\Psi_k(x)$ | $$
 \begin{cases}
-  y \frac{\Gamma(k) - \Gamma^{*}(k, y ^ {-1})}{\Gamma(k - 1)} +
-    \frac{\Gamma^{*}(k - 1,y ^ {-1})}{\Gamma(k - 1)}, & y > 0;\\
-  0, & y = 0
+  x \frac{\Gamma(k) - \Gamma^{*}(k, x ^ {-1})}{\Gamma(k - 1)} +
+    \frac{\Gamma^{*}(k - 1, x ^ {-1})}{\Gamma(k - 1)}, & x > 0;\\
+  0, & x = 0
 \end{cases}
 $$ | `igl_gen()` |
-| $\Psi_k'(y)$ | $$
-\frac{\Gamma(k) - \Gamma^{*}(k, 1  / y)}
+| $\Psi_k'(x)$ | $$
+\frac{\Gamma(k) - \Gamma^{*}(k, x) ^ {-1}}
      {\Gamma(k - 1)}
 $$ | `igl_gen_D()` |
-| $\Psi_k''(y)$ | $$
--\frac{y ^ {-k - 1} \exp(-1 / y)}
+| $\Psi_k''(x)$ | $$
+-\frac{x ^ {-k - 1} \exp(-x ^ {-1})}
       {\Gamma(k - 1)}
 $$ | `igl_gen_DD()` |
 
@@ -82,20 +82,20 @@ General definition.
 
 | Function | Formula |
 |:--------:|:-------:|
-| $\kappa_{\psi}(y)$  | $\psi(y) - y \psi'(y)$ |
-| $\kappa_{\psi}'(y)$ | $-y \psi''(y)$ |
+| $\kappa_{\psi}(x)$  | $\psi(x) - x \psi'(x)$ |
+| $\kappa_{\psi}'(x)$ | $-x \psi''(x)$ |
 
 Taking our specific generating function in place of $\psi$:
 
 | Function | Formula | igcop function |
 |:--------:|:-------:|:--------------:|
-| $\kappa_k(y) := \kappa_{\Psi_k}(y)$ | $$
-\frac{\Gamma^{*}(k - 1, 1 / y)}
-     {\Gamma(k - 1)} = 1 - \text{pgamma}(1 / y, k - 1)
+| $\kappa_k(x) := \kappa_{\Psi_k}(x)$ | $$
+\frac{\Gamma^{*}(k - 1, x ^ {-1})}
+     {\Gamma(k - 1)} = 1 - \text{pgamma}(x ^ {-1}, k - 1)
 $$ | `igl_kappa()` |
-| $\kappa_k'(y)$ | $$
-\frac{\exp(-1/y)}{y ^ k \Gamma(k - 1)} =
-\frac{\text{dgamma}(1 / y, k - 1)}{y ^ 2}
+| $\kappa_k'(x)$ | $$
+\frac{\exp(-x ^ {-1})}{x ^ k \Gamma(k - 1)} =
+\frac{\text{dgamma}(x ^ {-1}, k - 1)}{x ^ 2}
 $$ | NA | 
 
 The following plot demonstrates some examples. As for the case of $\Psi_k$, $\kappa_k$ also goes to 1 as its argument goes to infinity, also very slowly for $k$ near 1. For example, $\kappa_{1.01}(10^{150}) \approx 0.9681$.
@@ -124,45 +124,45 @@ Generic definition of the interpolating function:
 
 | Function | Formula |
 |:--------:|:-------:|
-| $H_{\psi}(y; \eta)$ | $$
+| $H_{\psi}(x; \eta)$ | $$
 \begin{cases}
-  \frac{1}{y}\psi\left(\frac{1}{\eta \log y}\right), & y > 1;\\
-  1, & y = 1
+  \frac{1}{x}\psi\left(\frac{1}{\eta \log x}\right), & x > 1;\\
+  1, & x = 1
 \end{cases}
 $$ |
-| $\text{D}_1 H_{\psi}(t; \eta)$ | $$
-  -\frac{1}{t ^ 2}
+| $\text{D}_1 H_{\psi}(x; \eta)$ | $$
+  -\frac{1}{x ^ 2}
   \left[
-    \psi\left(\frac{1}{\eta \log t}\right) + 
-    \frac{1}{\eta (\log t) ^ 2} \psi'\left(\frac{1}{\eta \log t}\right)
+    \psi\left(\frac{1}{\eta \log x}\right) + 
+    \frac{1}{\eta (\log x) ^ 2} \psi'\left(\frac{1}{\eta \log x}\right)
   \right]
 $$ |
-| $\text{D}_2 H_k(t; \eta)$ | $$
--\frac{1}{t \eta ^ 2 \log t}
-\psi'\left(\frac{1}{\eta \log t}\right)
+| $\text{D}_2 H_k(x; \eta)$ | $$
+-\frac{1}{x \eta ^ 2 \log x}
+\psi'\left(\frac{1}{\eta \log x}\right)
 $$ |
 
 Definition of the interpolating function using the IGL generating function $\Psi_k$ (taking $H_k := H_{\Psi_k}$):
 
 | Function | Formula | igcop function |
 |:--------:|:-------:|:--------------:|
-| $H_k(t; \eta)$ | $$
+| $H_k(x; \eta)$ | $$
 \begin{cases}
-  \frac{1}{t}\Psi_k\left(\frac{1}{\eta \log t}\right), & t > 1;\\
-  1, & t = 1
+  \frac{1}{x}\Psi_k\left(\frac{1}{\eta \log x}\right), & x > 1;\\
+  1, & x = 1
 \end{cases}
 $$ | `interp_gen()` |
-| $\text{D}_1 H_k(t; \eta)$ | $$
+| $\text{D}_1 H_k(x; \eta)$ | $$
 -\frac{
-  (\log t + 1) (\Gamma(k) - \Gamma^{*}(k, \eta \log t)) +
-  \eta (\log t) ^ 2 \Gamma^{*}(k - 1, \eta \log t)
+  (\log x + 1) (\Gamma(k) - \Gamma^{*}(k, \eta \log x)) +
+  \eta (\log x) ^ 2 \Gamma^{*}(k - 1, \eta \log x)
 }{
-  \eta (t \log t) ^ 2 \Gamma(k - 1)
+  \eta (x \log x) ^ 2 \Gamma(k - 1)
 }
 $$ | `interp_gen_D1()` |
-| $\text{D}_2 H_k(t; \eta)$ | $$
--\frac{1}{t \eta ^ 2 \log t}
-\frac{\Gamma(k) - \Gamma^{*}(k,\eta \log t)}{\Gamma(k)}
+| $\text{D}_2 H_k(x; \eta)$ | $$
+-\frac{1}{x \eta ^ 2 \log x}
+\frac{\Gamma(k) - \Gamma^{*}(k,\eta \log x)}{\Gamma(k)}
 $$ | NA |
 
 For the IG copula, $H_k := H_{\Psi_k}$ (function `interp_gen()` in the igcop package). Note that $H_k(\cdot; \theta)$ is strictly decreasing
@@ -184,14 +184,14 @@ expand_grid(nesting(k = select_k,
   facet_grid(eta_title ~ k_title) +
   geom_line(aes(group = fun, linetype = fun)) +
   theme_bw() +
-  ylab(expression(H[k](x))) +
+  ylab(expression(H[k](x*";"~eta))) +
   guides(linetype = FALSE) +
   theme(axis.title.y = element_text(angle = 0))
 ```
 
 
 
-The function $H_{\kappa_k}$ is also important for the 2|1 conditional quantile function of the IG copula family. Here is what those functions look like, also compared with the reciprocal function $1/x$:
+The function $H_{\kappa_k}$ is also important for the 2|1 conditional quantile function of the IG copula family. Here is what those functions look like, also compared with the reciprocal function $1/x$ as the dotted lines:
 
 ```{r, echo = FALSE, fig.width = 7, fig.height = 4, fig.align = "center"}
 expand_grid(nesting(k = select_k,
@@ -206,7 +206,7 @@ expand_grid(nesting(k = select_k,
   facet_grid(eta_title ~ k_title) +
   geom_line(aes(group = fun, linetype = fun)) +
   theme_bw() +
-  ylab(expression(H[kappa[k]](x))) +
+  ylab(expression(H[kappa[k]](x*";"~eta))) +
   guides(linetype = FALSE) +
   theme(axis.title.y = element_text(angle = 0))
 ```
@@ -244,7 +244,7 @@ $$ |
 $$ |
 | $C_{1 | 2}^{-1}(\tau | v; \psi)$ |  |
 
-Note that @coia2017 in E.1.2 writes these distributional quantities as if the family was defined as its reflections.
+Note that @coia2017 in E.1.2 mistakenly writes these distributional quantities as if the family was defined as its reflections.
 
 ## DJ Copula Class with $\Psi_k$: IGL Copula Class
 
@@ -317,7 +317,7 @@ $$ where $t = H_{\psi} ^ {\leftarrow}(1 - v; \theta)$ |
 $$ |
 | $C_{1 | 2}^{-1}(\tau | v; \theta, \psi)$ |  |
 
-Note that @coia2017 in E.2.2 writes these distributional quantities as if the family was defined as its reflections.
+Note that @coia2017 in E.2.2 mistakenly writes these distributional quantities as if the family was defined as its reflections.
 
 ## Interpolated DJ Copula Class with $\Psi_k$: IG copula
 
@@ -376,14 +376,14 @@ for all $k$. Further, taking $\theta = 0$ results in the independence copula, so
 Noting that $\Gamma(k - 1) = \Gamma(k) / (k - 1)$,
 
 $$
-\Psi_k(t) = 
-y (k - 1) \left(1 - 
-    \frac{\Gamma^{*}(k, y ^ {-1})}{\Gamma(k)}
+\Psi_k(x) = 
+x (k - 1) \left(1 - 
+    \frac{\Gamma^{*}(k, x ^ {-1})}{\Gamma(k)}
     \right) +
-    \left(\frac{\Gamma^{*}(k - 1,y ^ {-1})}{\Gamma(k - 1)}\right)
+    \left(\frac{\Gamma^{*}(k - 1, x ^ {-1})}{\Gamma(k - 1)}\right)
 $$
 
-The two major parentheses can be calculated from the Gamma cdf: the first set being `pgamma(1 / y, shape = k)`, and the second set being `pgamma(1 / y, shape = k - 1, lower.tail = FALSE)`. Here is the definition of `igl_gen`:
+The two major parentheses can be calculated from the Gamma cdf: the first set being `pgamma(1 / x, shape = k)`, and the second set being `pgamma(1 / x, shape = k - 1, lower.tail = FALSE)`. Here is the definition of `igl_gen`:
 
 ```{r}
 igl_gen
@@ -392,59 +392,57 @@ igl_gen
 The derivative is proportional to the Gamma density. Using the same Gamma function identity:
 
 $$
-\Psi_k'(y) = 
-(k - 1) \left(1 - \frac{\Gamma^{*}(k, y ^ {-1})}{\Gamma(k)}\right)
+\Psi_k'(x) = 
+(k - 1) \left(1 - \frac{\Gamma^{*}(k, x ^ {-1})}{\Gamma(k)}\right)
 $$
 
 
 
-# Computing inverses
+<!-- # Computing inverses -->
+
+<!-- To compute by solving $\varphi_k(x; \eta) = p$ -->
+<!-- for $x$, the Newton-Raphson algorithm is used to solve $g(x) = 0$ -->
+<!-- for $x$, where -->
+<!-- \[ -->
+<!-- g\left(x\right)=xp-\bar{F}_{k-1}\left(\eta\log x\right), -->
+<!-- \] -->
+<!-- with derivative -->
+<!-- \[ -->
+<!-- g'\left(x\right)=p+\frac{\eta}{x}f_{k-1}\left(\eta\log x\right). -->
+<!-- \] -->
+<!-- A starting value is used by noting that $\varphi_k$ is the product -->
+<!-- of two invertible survival functions, and is therefore smaller than -->
+<!-- those two survival functions. The smaller of the two *roots* -->
+<!-- of these survival functions is therefore an upper bound for the root -->
+<!-- of $\varphi_k$. The starting point is taken to be immediately to -->
+<!-- the left of this upper bound. -->
+
+<!-- ### Computing `interp_gen_inv` -->
+
+<!-- To compute $H_k^{\leftarrow}\left(p,\theta\right)$ for $p\in\left(0,1\right)$ -->
+<!-- and some $\theta>0$, Newton-Raphson can be used to solve $h\left(x\right)=0$ -->
+<!-- for $x$, where -->
+<!-- \[ -->
+<!-- h\left(x\right)=xp-\Psi_k\left(\frac{1}{\theta\log x}\right). -->
+<!-- \] -->
+<!-- This function has derivative -->
+<!-- \[ -->
+<!-- h'\left(x\right)=p+\frac{1}{\theta x\left(\log x\right)^2}\Psi_k'\left(\frac{1}{\theta\log x}\right). -->
+<!-- \] -->
 
 
-
-To compute by solving $\varphi_k(x; \eta) = p$
-for $x$, the Newton-Raphson algorithm is used to solve $g(x) = 0$
-for $x$, where
-\[
-g\left(x\right)=xp-\bar{F}_{k-1}\left(\eta\log x\right),
-\]
-with derivative
-\[
-g'\left(x\right)=p+\frac{\eta}{x}f_{k-1}\left(\eta\log x\right).
-\]
-A starting value is used by noting that $\varphi_k$ is the product
-of two invertible survival functions, and is therefore smaller than
-those two survival functions. The smaller of the two *roots*
-of these survival functions is therefore an upper bound for the root
-of $\varphi_k$. The starting point is taken to be immediately to
-the left of this upper bound.
-
-### Computing `interp_gen_inv`
-
-To compute $H_k^{\leftarrow}\left(p,\theta\right)$ for $p\in\left(0,1\right)$
-and some $\theta>0$, Newton-Raphson can be used to solve $h\left(x\right)=0$
-for $x$, where
-\[
-h\left(x\right)=xp-\Psi_k\left(\frac{1}{\theta\log x}\right).
-\]
-This function has derivative
-\[
-h'\left(x\right)=p+\frac{1}{\theta x\left(\log x\right)^2}\Psi_k'\left(\frac{1}{\theta\log x}\right).
-\]
- 
-
-To get a good starting value for the algorithm, note that the function
-$H_k$ is a product of two survival functions, just like $\varphi_k$
-is. And like inverting
-$\varphi_k$, the inverse $H_k^{\leftarrow}\left(p;\theta\right)$
-for some $\theta>0$ has an upper bound that's the minimum of the
-roots of the individual survival functions:
-\[
-\min\left\{ \frac{1}{p},\exp\left(\frac{1}{\theta\Psi_k^{\leftarrow}\left(p\right)}\right)\right\} ,
-\]
-where $\Psi_k$ is defined in Equation~(\@ref(eq:cnstr-Psi)). Computing
-the inverse $\Psi_k^{\leftarrow}$ should not be problematic in
-terms of accuracy of the final result, since this computation is only
-used to determine a starting value.
+<!-- To get a good starting value for the algorithm, note that the function -->
+<!-- $H_k$ is a product of two survival functions, just like $\varphi_k$ -->
+<!-- is. And like inverting -->
+<!-- $\varphi_k$, the inverse $H_k^{\leftarrow}\left(p;\theta\right)$ -->
+<!-- for some $\theta>0$ has an upper bound that's the minimum of the -->
+<!-- roots of the individual survival functions: -->
+<!-- \[ -->
+<!-- \min\left\{ \frac{1}{p},\exp\left(\frac{1}{\theta\Psi_k^{\leftarrow}\left(p\right)}\right)\right\} , -->
+<!-- \] -->
+<!-- where $\Psi_k$ is defined in Equation~(\@ref(eq:cnstr-Psi)). Computing -->
+<!-- the inverse $\Psi_k^{\leftarrow}$ should not be problematic in -->
+<!-- terms of accuracy of the final result, since this computation is only -->
+<!-- used to determine a starting value. -->
 
 # References
