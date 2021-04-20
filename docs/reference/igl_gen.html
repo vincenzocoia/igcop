@@ -139,6 +139,8 @@ derivative; and <code>igl_gen_DD</code> is the second derivative.</p>
 
 <span class='fu'>igl_gen_DD</span><span class='op'>(</span><span class='va'>t</span>, <span class='va'>k</span><span class='op'>)</span>
 
+<span class='fu'>igl_gen_inv_algo</span><span class='op'>(</span><span class='va'>w</span>, <span class='va'>k</span>, mxiter <span class='op'>=</span> <span class='fl'>20</span>, eps <span class='op'>=</span> <span class='fl'>1e-12</span>, bd <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+
 <span class='fu'>igl_gen_inv</span><span class='op'>(</span><span class='va'>w</span>, <span class='va'>k</span>, mxiter <span class='op'>=</span> <span class='fl'>20</span>, eps <span class='op'>=</span> <span class='fl'>1e-12</span>, bd <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -146,31 +148,35 @@ derivative; and <code>igl_gen_DD</code> is the second derivative.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>t</th>
-      <td><p>Vector of values to evaluate the function at, &gt;=0.</p></td>
+      <td><p>Vector of values &gt;=0 to evaluate the function at, .</p></td>
     </tr>
     <tr>
       <th>k</th>
-      <td><p>Single numeric &gt;1. Parameter of the function.</p></td>
+      <td><p>Parameter of the function, k &gt; 1. Vectorized.</p></td>
     </tr>
     <tr>
       <th>w</th>
       <td><p>Vector of values to evaluate the inverse function at, between
-0 and 1 (inclusive)</p></td>
+0 and 1 (inclusive).</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Function arguments and parameters are vectorized, except
+for the algorithms (marked by <code>_algo</code>).</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Some examples of evaluating the functions.</span>
 <span class='va'>arg</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0.5</span>, <span class='fl'>3</span>, <span class='cn'>Inf</span>, <span class='cn'>NA</span><span class='op'>)</span>
-<span class='co'>#igl_gen(arg, k=2)</span>
-<span class='co'>#igl_gen_D(arg, k=1.2)</span>
-<span class='co'>#igl_gen_D(arg, k=2)</span>
-<span class='co'>#igl_gen_D(arg, k=3)</span>
-<span class='co'>#igl_gen_inv(c(0, 0.5, 1), k=1.5)</span>
+<span class='co'>#igl_gen(arg, k = 2)</span>
+<span class='co'>#igl_gen_D(arg, k = 1.2)</span>
+<span class='co'>#igl_gen_D(arg, k = 2)</span>
+<span class='co'>#igl_gen_D(arg, k = 3)</span>
+<span class='co'>#igl_gen_inv(c(0, 0.5, 1), k = 1.5)</span>
 
 <span class='co'>## Visual</span>
-<span class='co'>#foo &lt;- function(u) igl_gen_inv(u, k=1.5)</span>
+<span class='co'>#foo &lt;- function(u) igl_gen_inv(u, k = 1.5)</span>
 <span class='co'>#curve(foo)</span>
 </div></pre>
   </div>

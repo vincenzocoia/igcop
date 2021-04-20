@@ -137,13 +137,19 @@ depend on a generating function (of a DJ copula).
 
     <pre class="usage"><span class='fu'>interp_gen</span><span class='op'>(</span><span class='va'>t</span>, <span class='va'>eta</span>, <span class='va'>k</span><span class='op'>)</span>
 
-<span class='fu'>interp_kappa</span><span class='op'>(</span><span class='va'>t</span>, <span class='va'>eta</span>, <span class='va'>k</span><span class='op'>)</span>
-
-<span class='fu'>interp_kappa_inv</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>eta</span>, <span class='va'>k</span><span class='op'>)</span>
-
 <span class='fu'>interp_gen_D1</span><span class='op'>(</span><span class='va'>t</span>, <span class='va'>eta</span>, <span class='va'>k</span><span class='op'>)</span>
 
-<span class='fu'>interp_gen_inv</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>eta</span>, <span class='va'>k</span>, mxiter <span class='op'>=</span> <span class='fl'>40</span>, eps <span class='op'>=</span> <span class='fl'>1e-12</span>, bd <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span></pre>
+<span class='fu'>interp_gen_inv_algo</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>eta</span>, <span class='va'>k</span>, mxiter <span class='op'>=</span> <span class='fl'>40</span>, eps <span class='op'>=</span> <span class='fl'>1e-12</span>, bd <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+
+<span class='fu'>interp_gen_inv</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>eta</span>, <span class='va'>k</span>, mxiter <span class='op'>=</span> <span class='fl'>40</span>, eps <span class='op'>=</span> <span class='fl'>1e-12</span>, bd <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+
+<span class='fu'>interp_kappa</span><span class='op'>(</span><span class='va'>t</span>, <span class='va'>eta</span>, <span class='va'>k</span><span class='op'>)</span>
+
+<span class='fu'>interp_kappa_D1</span><span class='op'>(</span><span class='va'>t</span>, <span class='va'>eta</span>, <span class='va'>k</span><span class='op'>)</span>
+
+<span class='fu'>interp_kappa_inv_algo</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>eta</span>, <span class='va'>k</span>, mxiter <span class='op'>=</span> <span class='fl'>80</span>, eps <span class='op'>=</span> <span class='fl'>1e-12</span>, bd <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+
+<span class='fu'>interp_kappa_inv</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>eta</span>, <span class='va'>k</span>, mxiter <span class='op'>=</span> <span class='fl'>80</span>, eps <span class='op'>=</span> <span class='fl'>1e-12</span>, bd <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -154,12 +160,12 @@ depend on a generating function (of a DJ copula).
     </tr>
     <tr>
       <th>eta</th>
-      <td><p>Value of second argument of the interpolating function, &gt;0.
-This is allowed to be a vector, except in the inverse functions.</p></td>
+      <td><p>Vector of values &gt;0 of second argument of the
+interpolating function.</p></td>
     </tr>
     <tr>
       <th>k</th>
-      <td><p>Single numeric &gt;1 corresponding to the \(k\) parameter
+      <td><p>Vector of values &gt;1 corresponding to the \(k\) parameter
 of the IGL generating function.</p></td>
     </tr>
     <tr>
@@ -172,7 +178,9 @@ of the IGL generating function.</p></td>
 
     <p>Appending <code>_inv</code> to the function name indicates inverse with
 respect to the first argument. Appending <code>_D1</code> indicates
-derivative with respect to the first argument.</p>
+derivative with respect to the first argument. Function arguments
+and parameters are vectorized, except for the algorithms (marked by
+<code>_algo</code>).</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
