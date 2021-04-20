@@ -26,8 +26,8 @@ interp_kappa_inv_uniroot_algo <- function(p, eta, k, mxiter = 80, eps = 1.e-12, 
   lower <- 1
   f <- function(t) interp_kappa(t, eta = eta, k = k) - p
   fit <- uniroot(f, c(lower, upper))
-  cat(fit$code)
-  fit$estimate
+  # cat(fit$code)
+  fit$root
 }
 
 #' @rdname interpolator

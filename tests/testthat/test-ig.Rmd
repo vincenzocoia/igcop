@@ -85,77 +85,11 @@ test_that("IG generator inverse works", {
 
 ### `interp_kappa` and `interp_kappa_inv`
 
-```{r}
-problem_cpar <- c(155.5, 4.1)
-problem_u <- 0.9
-f <- function(x) ((interp_kappa(exp(x) + 1, eta = problem_cpar[1], k = problem_cpar[2])) - 
-                      (problem_u)) ^ 2
-exp(nlm(f, -5)$estimate) + 1
-interp_kappa(exp(nlm(f, -5)$estimate) + 1, problem_cpar[1], problem_cpar[2])
-curve(f,-20, -4)
-
-interp_kappa_inv_uniroot(u[[1]], eta = cpar[[2]][1], k = cpar[[2]][2])
-f <- function(x) interp_kappa(x, eta = cpar[[2]][1], k = cpar[[2]][2])
-dat <- tribble(
-    ~iter, ~t,
-1 , 5.862021 ,
-2 , 3.761629 ,
-3 , 8.35831 ,
-4 , 5.293298 ,
-5 , 4.423088 ,
-6 , 6.035722 ,
-7 , 3.596123 ,
-8 , 6.423524 ,
-9 , 3.272261 ,
-10 , 7.478118, 
-11 , 2.615953, 
-12 , 5.251203, 
-13 , 4.481135, 
-14 , 5.892416, 
-15 , 3.731629, 
-16 , 8.507112, 
-17 , 5.339869, 
-18 , 4.360563, 
-19 , 6.198148, 
-20 , 3.453425, 
-21 , 6.820629, 
-22 , 2.992877, 
-23 , 6.004631, 
-24 , 3.624719, 
-25 , 6.354041, 
-26 , 3.326181, 
-27 , 7.261004, 
-28 , 2.730472, 
-29 , 7.120195, 
-30 , 2.809684, 
-31 , 6.70585 ,
-32 , 3.068973, 
-33 , 5.791484, 
-34 , 3.833063, 
-35 , 8.024155, 
-36 , 5.193466, 
-37 , 4.563229, 
-38 , 5.701046, 
-39 , 3.928548, 
-40 , 7.617261 
-) %>% 
-    mutate(f = f(t))
-
-ggplot(tibble(x = c(1, 10)), aes(x)) +
-    stat_function(fun = f) +
-    geom_hline(yintercept = u[1]) +
-    geom_point(data = dat, mapping = aes(t, f, colour = iter)) +
-    gganimate::transition_states(iter,
-                    transition_length = 2,
-                    state_length = 1)
-
-```
-
 
 
 ```{r}
 u2 <- purrr::map(cpar, ~ {
-    interp_kappa(interp_kappa_inv_uniroot(u, eta = .x[1], k = .x[2]), eta = .x[1], k = .x[2])
+    interp_kappa(interp_kappa_inv_nr(u, eta = .x[1], k = .x[2]), eta = .x[1], k = .x[2])
 })
 tibble(cpar = cpar,
        u_original = uu,
