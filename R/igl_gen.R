@@ -7,8 +7,8 @@
 #' Function arguments and parameters are vectorized, except
 #' for the algorithms (marked by `_algo`).
 #'
-#' @param t Vector of values >=0 to evaluate the function at, .
-#' @param w Vector of values to evaluate the inverse function at, between
+#' @param x Vector of values >=0 to evaluate the function at, .
+#' @param p Vector of values to evaluate the inverse function at, between
 #' 0 and 1 (inclusive).
 #' @param k Parameter of the function, k > 1. Vectorized.
 #' @examples
@@ -25,97 +25,97 @@
 #' #curve(foo)
 #' @rdname igl_gen
 #' @export
-igl_gen <- function(t, k) {
-    tinv <- 1 / t
-    res <- (k - 1) * t * stats::pgamma(tinv, k) +
+igl_gen <- function(x, k) {
+    tinv <- 1 / x
+    res <- (k - 1) * x * stats::pgamma(tinv, k) +
         stats::pgamma(tinv, k - 1, lower.tail = FALSE)
-    res[t == Inf] <- 1
+    res[x == Inf] <- 1
     res
 }
 
-# igl_gen_v2 <- function(t, k) {
-#     t * (gamma(k) - igamma(k, 1 / t)) / gamma(k - 1) +
-#         igamma(k - 1, 1 / t) / gamma(k - 1)
+# igl_gen_v2 <- function(x, k) {
+#     x * (gamma(k) - igamma(k, 1 / x)) / gamma(k - 1) +
+#         igamma(k - 1, 1 / x) / gamma(k - 1)
 # }
-# diff <- function(t) igl_gen(t, 1.1) - igl_gen_v2(t, 1.1)
+# diff <- function(x) igl_gen(x, 1.1) - igl_gen_v2(x, 1.1)
 # curve(diff, 0, 100)
 
 #' @rdname igl_gen
 #' @export
-igl_gen_D <- function(t, k) {
-    (k - 1) * stats::pgamma(1 / t, k)
+igl_gen_D <- function(x, k) {
+    (k - 1) * stats::pgamma(1 / x, k)
 }
 
-# igl_gen_D_v2 <- function(t, k) {
-#     (gamma(k) - igamma(k, 1 / t)) / gamma(k - 1)
+# igl_gen_D_v2 <- function(x, k) {
+#     (gamma(k) - igamma(k, 1 / x)) / gamma(k - 1)
 # }
-# diff <- function(t) igl_gen_D(t, 3) - igl_gen_D_v2(t, 3)
+# diff <- function(x) igl_gen_D(x, 3) - igl_gen_D_v2(x, 3)
 # curve(diff, 0, 10)
 
 
 #' @rdname igl_gen
 #' @export
-igl_gen_DD <- function(t, k) {
-    - (k - 1) / t ^ 2 * stats::dgamma(1 / t, k)
+igl_gen_DD <- function(x, k) {
+    - (k - 1) / x ^ 2 * stats::dgamma(1 / x, k)
 }
 
-# igl_gen_DD_v2 <- function(t, k) {
-#     - t ^ (-k - 1) * exp(-1 / t) / gamma(k - 1)
+# igl_gen_DD_v2 <- function(x, k) {
+#     - x ^ (-k - 1) * exp(-1 / x) / gamma(k - 1)
 # }
-# diff <- function(t) igl_gen_DD(t, 3) - igl_gen_DD_v2(t, 3)
+# diff <- function(x) igl_gen_DD(x, 3) - igl_gen_DD_v2(x, 3)
 # curve(diff, 0, 10)
 
 
 #' @rdname igl_gen
 #' @export
-igl_gen_inv_algo <- function(w, k, mxiter = 20, eps = 1.e-12, bd = 5){
-    if (length(w) != 1L) stop("Algorithm requires a single `w`.")
+igl_gen_inv_algo <- function(p, k, mxiter = 20, eps = 1.e-12, bd = 5){
+    if (length(p) != 1L) stop("Algorithm requires a single `p`.")
     if (length(k) != 1L) stop("Algorithm requires a single `k`.")
-    if (w == 0) return(0)
-    if (w == 1) return(Inf)
+    if (p == 0) return(0)
+    if (p == 1) return(Inf)
     ## Compute gamma(k-1) and gamma(k)
     gkm1 <- gamma(k - 1)
     gk <- (k - 1) * gkm1
     ## Algorithm:
-    ## Empirically, it looks like this t is a good start:
-    t <- (1 - w) ^ (-1 / (k - 1)) - 1
-    ## Lower bound (invert igl_gen after removing (k - 1) * t * pgamma(1/t, k) term)
-    # t_low <- 1 / qgamma(1 - w, k - 1)
+    ## Empirically, it looks like this x is a good start:
+    x <- (1 - p) ^ (-1 / (k - 1)) - 1
+    ## Lower bound (invert igl_gen after removing (k - 1) * x * pgamma(1/x, k) term)
+    # t_low <- 1 / qgamma(1 - p, k - 1)
     iter <- 0
     diff <- 1
     ## Begin Newton-Raphson algorithm
     while (iter < mxiter & abs(diff) > eps) {
         ## Helpful quantities
-        igam1 <- gkm1 * stats::pgamma(1 / t, k - 1, lower.tail = FALSE)
-        igam0 <- gk * stats::pgamma(1 / t, k)
+        igam1 <- gkm1 * stats::pgamma(1 / x, k - 1, lower.tail = FALSE)
+        igam0 <- gk * stats::pgamma(1 / x, k)
         ## Evaluate functions
-        g <- t * igam0 + igam1 - w * gkm1
+        g <- x * igam0 + igam1 - p * gkm1
         gp <- igam0
         diff <- g / gp
-        if (diff > t) diff <- t / 2
-        t <- t - diff
-        while (abs(diff) > bd | t <= 0) {
+        if (diff > x) diff <- x / 2
+        x <- x - diff
+        while (abs(diff) > bd | x <= 0) {
             diff <- diff / 2
-            t <- t + diff
+            x <- x + diff
         }
         iter <- iter + 1
-        #cat(iter,diff,t,"\n")
+        #cat(iter,diff,x,"\n")
     }
-    t
+    x
 }
 
 
 #' @rdname igl_gen
 #' @export
-igl_gen_inv <- function(w, k, mxiter = 20, eps = 1.e-12, bd = 5){
-    lengths <- c(w = length(w), k = length(k))
+igl_gen_inv <- function(p, k, mxiter = 20, eps = 1.e-12, bd = 5){
+    lengths <- c(p = length(p), k = length(k))
     l <- max(lengths)
-    if (lengths[["w"]] == 1) w <- rep(w, l)
+    if (lengths[["p"]] == 1) p <- rep(p, l)
     if (lengths[["k"]] == 1) k <- rep(k, l)
     sol <- numeric()
     for (i in 1:l) {
         sol[i] <- igl_gen_inv_algo(
-            w[i], k = k[i], mxiter = mxiter, eps = eps, bd = bd
+            p[i], k = k[i], mxiter = mxiter, eps = eps, bd = bd
         )
     }
     sol

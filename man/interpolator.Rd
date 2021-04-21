@@ -11,24 +11,24 @@
 \alias{interp_kappa_inv}
 \title{Interpolating Functions}
 \usage{
-interp_gen(t, eta, k)
+interp_gen(x, eta, k)
 
-interp_gen_D1(t, eta, k)
+interp_gen_D1(x, eta, k)
 
 interp_gen_inv_algo(p, eta, k, mxiter = 40, eps = 1e-12, bd = 5)
 
 interp_gen_inv(p, eta, k, mxiter = 40, eps = 1e-12, bd = 5)
 
-interp_kappa(t, eta, k)
+interp_kappa(x, eta, k)
 
-interp_kappa_D1(t, eta, k)
+interp_kappa_D1(x, eta, k)
 
 interp_kappa_inv_algo(p, eta, k, mxiter = 80, eps = 1e-12, bd = 5)
 
 interp_kappa_inv(p, eta, k, mxiter = 80, eps = 1e-12, bd = 5)
 }
 \arguments{
-\item{t}{Vector of values >=1 to evaluate the interpolating function at.}
+\item{x}{Vector of values >=1 to evaluate the interpolating function at.}
 
 \item{eta}{Vector of values >0 of second argument of the
 interpolating function.}

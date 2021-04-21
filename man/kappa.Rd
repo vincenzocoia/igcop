@@ -6,14 +6,14 @@
 \alias{igl_kappa_inv}
 \title{Kappa version of generating function}
 \usage{
-igl_kappa(t, k)
+igl_kappa(x, k)
 
-igl_kappa_D(t, k)
+igl_kappa_D(x, k)
 
 igl_kappa_inv(p, k)
 }
 \arguments{
-\item{t}{Numeric argument of the kappa function. Vectorized.}
+\item{x}{Numeric argument of the kappa function. Vectorized.}
 
 \item{k}{Parameter of the IGL generating function, \code{igl_gen()}. Vectorized.}
 }
@@ -23,7 +23,7 @@ This function is a nearly direct application of the
 }
 \description{
 The kappa version of a generating function \eqn{\psi} is
-defined as \eqn{\kappa(t) = \psi(t) - t \psi'(t)}.
+defined as \eqn{\kappa(x) = \psi(x) - x \psi'(x)}.
 \code{igl_kappa} takes \eqn{\psi} to be the IGL generating
 function, \code{igl_gen()}.
 }

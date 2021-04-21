@@ -9,6 +9,7 @@ output:
 ```{r, message = FALSE, warning = FALSE}
 library(testthat)
 library(tidyverse)
+library(igcop)
 cpar <- list(
     c(2.5, 13.3), # nearly independent
     c(2.5, 5.3), # weak dependence spear=.040
@@ -89,7 +90,7 @@ test_that("IG generator inverse works", {
 
 ```{r}
 u2 <- purrr::map(cpar, ~ {
-    interp_kappa(interp_kappa_inv_nr(u, eta = .x[1], k = .x[2]), eta = .x[1], k = .x[2])
+    interp_kappa(interp_kappa_inv(u, eta = .x[1], k = .x[2]), eta = .x[1], k = .x[2])
 })
 tibble(cpar = cpar,
        u_original = uu,
@@ -231,7 +232,7 @@ test_that("Vectorization works for digcop", {
 
 ```{r}
 #' Calculate numerical derivitive
-digcop_numerical <- function(u, v, cpar, eps = 1.e-6) {
+digcop_numerical <- function(u, v, cpar, eps = 1.e-8) {
     cdf11 <- pigcop(u, v, cpar)
     cdf22 <- pigcop(u + eps, v + eps, cpar)
     cdf21 <- pigcop(u + eps, v, cpar)
@@ -247,7 +248,7 @@ tibble(pdf_numeric = pdf1,
     unnest_wider(cpar, names_sep = "_") %>%
     DT::datatable()
 test_that("Density is the same as numerical derivitive of cdf", {
-    expect_equal(pdf1, pdf2, tolerance = 0.009)
+    expect_equal(pdf1, pdf2)#, tolerance = 0.009)
 })
 ```
 
@@ -270,7 +271,7 @@ tibble(pcond_numeric = pcond1,
     unnest_wider(cpar, names_sep = "_") %>%
     DT::datatable()
 test_that("2|1 is the same as numerical derivitive of cdf", {
-    expect_equal(pcond1, pcond2, tolerance = 1e-7)
+    expect_equal(pcond1, pcond2)#, tolerance = 1e-7)
 })
 ```
 

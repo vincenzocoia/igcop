@@ -11,7 +11,7 @@
 #' and parameters are vectorized, except for the algorithms (marked by
 #' `_algo`).
 #'
-#' @param t Vector of values >=1 to evaluate the interpolating function at.
+#' @param x Vector of values >=1 to evaluate the interpolating function at.
 #' @param p Vector of values in [0,1] to evaluate the inverse function at.
 #' @param eta Vector of values >0 of second argument of the
 #' interpolating function.
@@ -19,21 +19,21 @@
 #' of the IGL generating function.
 #' @rdname interpolator
 #' @export
-interp_gen <- function(t, eta, k) {
-    igl_gen(1 / (eta * log(t)), k) / t
+interp_gen <- function(x, eta, k) {
+    igl_gen(1 / (eta * log(x)), k) / x
 }
 
 
 #' @rdname interpolator
 #' @export
-interp_gen_D1 <- function(t, eta, k) {
-    logt <- log(t)
+interp_gen_D1 <- function(x, eta, k) {
+    logt <- log(x)
     arg <- 1 / eta / logt
     coeff <- 1 / eta / logt ^ 2
-    res <- -t ^ (-2) * (igl_gen(arg, k) + coeff * igl_gen_D(arg, k))
-    res[t == 1 & k > 2] <- -1
-    res[t == 1 & k == 2] <- -(1 + eta / 2)
-    res[t == 1 & k < 2 & k > 1] <- -Inf
+    res <- -x ^ (-2) * (igl_gen(arg, k) + coeff * igl_gen_D(arg, k))
+    res[x == 1 & k > 2] <- -1
+    res[x == 1 & k == 2] <- -(1 + eta / 2)
+    res[x == 1 & k < 2 & k > 1] <- -Inf
     res
 }
 
@@ -48,33 +48,33 @@ interp_gen_inv_algo <- function(p, eta, k, mxiter = 40, eps = 1.e-12, bd = 5) {
     if (p == 1) return(1)
     ## Algorithm:
     ## Get starting values
-    xp1 <- 1 / p
-    xp2 <- exp(1 / eta / igl_gen_inv(p, k))
-    xpm <- pmin(xp1, xp2)
-    t <- pmax(xpm - eps, 1 + (xpm - 1) / 2) # xpm-eps might overshoot left of 1.
-    t <- pmax(1 + eps, t)  # t might be 1.
+    init1 <- 1 / p
+    init2 <- exp(1 / eta / igl_gen_inv(p, k))
+    x <- pmin(init1, init2)
+    x <- pmax(x - eps, 1 + (x - 1) / 2) # x-eps might overshoot left of 1.
+    x <- pmax(1 + eps, x)  # x might be 1.
     iter <- 0
     diff <- 1
     ## Begin Newton-Raphson algorithm
     while(iter < mxiter & max(abs(diff)) > eps) {
         ## Helpful quantities
-        logt <- log(t)
+        logt <- log(x)
         etalog <- eta * logt
         etaloginv <- 1 / etalog
         ## Evaluate functions
-        g <- t * p - igl_gen(etaloginv, k)
-        gp <- p + etaloginv / t / logt * igl_gen_D(etaloginv, k)
+        g <- x * p - igl_gen(etaloginv, k)
+        gp <- p + etaloginv / x / logt * igl_gen_D(etaloginv, k)
         diff <- g / gp
-        if (diff > t - 1) diff <- (t - 1) / 2
-        t <- t - diff
-        while (abs(diff) > bd | t <= 1) {
+        if (diff > x - 1) diff <- (x - 1) / 2
+        x <- x - diff
+        while (abs(diff) > bd | x <= 1) {
             diff <- diff / 2
-            t <- t + diff
+            x <- x + diff
         }
         iter <- iter + 1
     }
     # print(iter)
-    t
+    x
 }
 
 #' @rdname interpolator
@@ -85,11 +85,11 @@ interp_gen_inv <- function(p, eta, k, mxiter = 40, eps = 1.e-12, bd = 5) {
     if (lengths[["p"]] == 1) p <- rep(p, l)
     if (lengths[["eta"]] == 1) eta <- rep(eta, l)
     if (lengths[["k"]] == 1) k <- rep(k, l)
-    sol <- numeric()
+    x <- numeric()
     for (i in 1:l) {
-        sol[i] <- interp_gen_inv_algo(
+        x[i] <- interp_gen_inv_algo(
             p[i], eta = eta[i], k = k[i], mxiter = mxiter, eps = eps, bd = bd
         )
     }
-    sol
+    x
 }

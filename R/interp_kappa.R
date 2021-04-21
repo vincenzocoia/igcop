@@ -1,16 +1,16 @@
 #' @rdname interpolator
 #' @export
-interp_kappa <- function(t, eta, k) {
-  igl_kappa(1 / (eta * log(t)), k) / t
+interp_kappa <- function(x, eta, k) {
+  igl_kappa(1 / (eta * log(x)), k) / x
 }
 
 #' @rdname interpolator
 #' @export
-interp_kappa_D1 <- function(t, eta, k) {
-  logt <- log(t)
+interp_kappa_D1 <- function(x, eta, k) {
+  logt <- log(x)
   arg <- 1 / eta / logt
   coeff <- arg / logt
-  -t ^ (-2) * (igl_kappa(arg, k) + coeff * igl_kappa_D(arg, k))
+  -x ^ (-2) * (igl_kappa(arg, k) + coeff * igl_kappa_D(arg, k))
 }
 
 
@@ -58,11 +58,11 @@ interp_kappa_inv <- function(p, eta, k, mxiter = 80, eps = 1.e-12, bd = 5) {
   if (lengths[["p"]] == 1) p <- rep(p, l)
   if (lengths[["eta"]] == 1) eta <- rep(eta, l)
   if (lengths[["k"]] == 1) k <- rep(k, l)
-  sol <- numeric()
+  x <- numeric()
   for (i in 1:l) {
-    sol[i] <- interp_kappa_inv_algo(
+    x[i] <- interp_kappa_inv_algo(
       p[i], eta = eta[i], k = k[i], mxiter = mxiter, eps = eps, bd = bd
     )
   }
-  sol
+  x
 }

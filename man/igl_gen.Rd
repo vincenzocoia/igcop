@@ -8,22 +8,22 @@
 \alias{igl_gen_inv}
 \title{Generating function for the IGL copula family}
 \usage{
-igl_gen(t, k)
+igl_gen(x, k)
 
-igl_gen_D(t, k)
+igl_gen_D(x, k)
 
-igl_gen_DD(t, k)
+igl_gen_DD(x, k)
 
-igl_gen_inv_algo(w, k, mxiter = 20, eps = 1e-12, bd = 5)
+igl_gen_inv_algo(p, k, mxiter = 20, eps = 1e-12, bd = 5)
 
-igl_gen_inv(w, k, mxiter = 20, eps = 1e-12, bd = 5)
+igl_gen_inv(p, k, mxiter = 20, eps = 1e-12, bd = 5)
 }
 \arguments{
-\item{t}{Vector of values >=0 to evaluate the function at, .}
+\item{x}{Vector of values >=0 to evaluate the function at, .}
 
 \item{k}{Parameter of the function, k > 1. Vectorized.}
 
-\item{w}{Vector of values to evaluate the inverse function at, between
+\item{p}{Vector of values to evaluate the inverse function at, between
 0 and 1 (inclusive).}
 }
 \description{
