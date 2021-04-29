@@ -22,8 +22,16 @@ interp_kappa_inv_algo <- function(p, eta, k, mxiter = 80, eps = 1.e-12, bd = 5) 
   if (length(k) != 1L) stop("Algorithm requires a single `k`.")
   if (p == 0) return(Inf)
   if (p == 1) return(1)
-  ## Starting value: use H_k^{-1}
-  x <- interp_gen_inv(p, eta, k, mxiter = mxiter, eps = eps, bd = bd)
+  ## Starting value:
+  x1 <- exp(1 / igl_kappa_inv(p, k) / eta)
+  x2 <- 1 / p
+  p1 <- interp_kappa(x1, eta, k)
+  p2 <- interp_kappa(x2, eta, k)
+  if (abs(p1 - p) < abs(p2 - p)) {
+    x <- x1
+  } else {
+    x <- x2
+  }
   x <- pmax(x - eps, 1 + (x - 1) / 2) # x-eps might overshoot left of 1.
   x <- pmax(1 + eps, x)  # x might *be* 1.
   ## Begin Newton-Raphson algorithm
@@ -48,6 +56,16 @@ interp_kappa_inv_algo <- function(p, eta, k, mxiter = 80, eps = 1.e-12, bd = 5) 
   }
   x
 }
+
+# tibble(x = seq(1, 2, length.out = 1000)) %>%
+#   mutate(f_interp_kappa = interp_kappa(x, 420.35, 35.1),
+#          f_kappa = igl_kappa(1/(420.35 * log(x)), 35.1),
+#          f_interp_gen = interp_gen(x, 420.35, 35.1),
+#          f_inv = 1/x) %>%
+#   pivot_longer(cols = starts_with("f_"), names_to = "fun") %>%
+#   ggplot(aes(x, value)) +
+#   geom_line(aes(group = fun, colour = fun)) +
+#   geom_hline(yintercept = 0.7, linetype = "dotted")
 
 
 #' @rdname interpolator

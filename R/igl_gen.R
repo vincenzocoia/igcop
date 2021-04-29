@@ -112,12 +112,12 @@ igl_gen_inv <- function(p, k, mxiter = 20, eps = 1.e-12, bd = 5){
     l <- max(lengths)
     if (lengths[["p"]] == 1) p <- rep(p, l)
     if (lengths[["k"]] == 1) k <- rep(k, l)
-    sol <- numeric()
+    x <- numeric()
     for (i in 1:l) {
-        sol[i] <- igl_gen_inv_algo(
+        x[i] <- igl_gen_inv_algo(
             p[i], k = k[i], mxiter = mxiter, eps = eps, bd = bd
         )
     }
-    sol
+    x
 }
 

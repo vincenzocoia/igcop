@@ -140,15 +140,16 @@ Is it the inverse of the conditional cdf?
 
 
 ```{r}
-v2 <- map(cpar, ~ qcondigcop(pcondigcop(v, u, cpar = .x), u, cpar = .x))
+tau2 <- map(cpar, ~ pcondigcop(qcondigcop(tau, u, cpar = .x), u, cpar = .x))
 tibble(cpar = cpar,
-       v_original = vv,
-       v_through_the_inverse = v2) %>%
+       tau_original = tautau,
+       tau_through_the_inverse = tau2) %>%
     unnest_wider(cpar, names_sep = "_") %>%
-    unnest(starts_with("v_")) %>%
+    unnest(starts_with("tau_")) %>%
+    mutate(diff = abs(tau_through_the_inverse - tau_original)) %>%
     DT::datatable()
 test_that("Quantile function is inverse of pcond", {
-    expect_equal(v2, vv)
+    expect_equal(tau2, tautau)
 })
 ```
 
@@ -231,8 +232,8 @@ test_that("Vectorization works for digcop", {
 ### density from cdf
 
 ```{r}
-#' Calculate numerical derivitive
-digcop_numerical <- function(u, v, cpar, eps = 1.e-8) {
+#' Calculate numerical derivative
+digcop_numerical <- function(u, v, cpar, eps = 1.e-5) {
     cdf11 <- pigcop(u, v, cpar)
     cdf22 <- pigcop(u + eps, v + eps, cpar)
     cdf21 <- pigcop(u + eps, v, cpar)
@@ -248,7 +249,7 @@ tibble(pdf_numeric = pdf1,
     unnest_wider(cpar, names_sep = "_") %>%
     DT::datatable()
 test_that("Density is the same as numerical derivitive of cdf", {
-    expect_equal(pdf1, pdf2)#, tolerance = 0.009)
+    expect_equal(pdf1, pdf2, tolerance = 1e-4)
 })
 ```
 
@@ -271,7 +272,7 @@ tibble(pcond_numeric = pcond1,
     unnest_wider(cpar, names_sep = "_") %>%
     DT::datatable()
 test_that("2|1 is the same as numerical derivitive of cdf", {
-    expect_equal(pcond1, pcond2)#, tolerance = 1e-7)
+    expect_equal(pcond1, pcond2, tolerance = 1e-7)
 })
 ```
 
@@ -329,7 +330,7 @@ se <- function(cdf, n) {
     sqrt(cdf * (1 - cdf) / n)
 }
 eval <- expand_grid(nesting(cpar = cpar, dat = dats),
-                    u = 1:4 / 5, v = 1:4 / 5) %>%
+                    u = 1:9 / 10, v = 1:9 / 10) %>%
     transmute(cdf_simu = pmap_dbl(list(dat, u, v), dat_to_cdf),
               count_simu = pmap_dbl(list(dat, u, v), dat_to_count),
               cdf_true = pmap_dbl(list(u, v, cpar), pigcop),
@@ -351,7 +352,7 @@ ggplot(eval, aes(rank(u_score) / length(u_score), u_score)) +
          y = "calculated",
          title = "PP plot of estimates using binomial distribution")
 ggplot(eval, aes(norm_score)) +
-    geom_histogram(aes(y = ..density..)) +
+    geom_histogram(aes(y = ..density..), bins = 20) +
     stat_function(fun = dnorm, colour = "blue") +
     ggtitle("Histogram of normalized estimates.\nShould be N(0, 1).")
 

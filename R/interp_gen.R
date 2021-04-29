@@ -56,7 +56,7 @@ interp_gen_inv_algo <- function(p, eta, k, mxiter = 40, eps = 1.e-12, bd = 5) {
     iter <- 0
     diff <- 1
     ## Begin Newton-Raphson algorithm
-    while(iter < mxiter & max(abs(diff)) > eps) {
+    while(iter < mxiter & abs(diff) > eps) {
         ## Helpful quantities
         logt <- log(x)
         etalog <- eta * logt
