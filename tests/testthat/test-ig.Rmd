@@ -14,8 +14,8 @@ cpar <- list(
     c(2.5, 13.3), # nearly independent
     c(2.5, 5.3), # weak dependence spear=.040
     c(2.5, 3.3), # spear=.145
-    #c(2.5, 1.3), # spear=.244
-    #c(2.5, 1.1), # unreliable (for small k)
+    c(2.5, 1.3), # spear=.244##
+    c(2.5, 1.1), # unreliable (for small k)###
     c(5.5,4.1),  # spear=.231
     c(8.5,4.1),  # spear=.330
     c(15.5,4.1), # spear=.462
