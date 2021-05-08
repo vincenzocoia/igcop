@@ -1,54 +1,43 @@
 #' @rdname interpolator
 #' @export
-interp_kappa <- function(x, eta, k) {
-  igl_kappa(1 / (eta * log(x)), k) / x
+interp_kappa <- function(x, eta, alpha) {
+  exp(-x) * igl_kappa(eta * x, alpha)
 }
 
 #' @rdname interpolator
 #' @export
-interp_kappa_D1 <- function(x, eta, k) {
-  logt <- log(x)
-  arg <- 1 / eta / logt
-  coeff <- arg / logt
-  -x ^ (-2) * (igl_kappa(arg, k) + coeff * igl_kappa_D(arg, k))
+interp_kappa_D1 <- function(x, eta, alpha) {
+  -exp(-x) * (igl_kappa(eta * x, alpha) - eta * igl_kappa_D(eta * x, alpha))
 }
 
 
 #' @rdname interpolator
 #' @export
-interp_kappa_inv_algo <- function(p, eta, k, mxiter = 80, eps = 1.e-12, bd = 5) {
+interp_kappa_inv_algo <- function(p, eta, alpha, mxiter = 80, eps = 1.e-12, bd = 5) {
   if (length(p) != 1L) stop("Algorithm requires a single `p`.")
   if (length(eta) != 1L) stop("Algorithm requires a single `eta`.")
-  if (length(k) != 1L) stop("Algorithm requires a single `k`.")
+  if (length(alpha) != 1L) stop("Algorithm requires a single `alpha`.")
   if (p == 0) return(Inf)
-  if (p == 1) return(1)
-  ## Starting value:
-  x1 <- exp(1 / igl_kappa_inv(p, k) / eta)
-  x2 <- 1 / p
-  p1 <- interp_kappa(x1, eta, k)
-  p2 <- interp_kappa(x2, eta, k)
+  if (p == 1) return(0)
+  x1 <- -log(p)
+  x2 <- igl_kappa_inv_algo(p, eta = eta, alpha = alpha) / eta
+  p1 <- interp_kappa(x1, eta = eta, alpha = alpha)
+  p2 <- interp_kappa(x2, eta = eta, alpha = alpha)
   if (abs(p1 - p) < abs(p2 - p)) {
     x <- x1
   } else {
     x <- x2
   }
-  x <- pmax(x - eps, 1 + (x - 1) / 2) # x-eps might overshoot left of 1.
-  x <- pmax(1 + eps, x)  # x might *be* 1.
-  ## Begin Newton-Raphson algorithm
   iter <- 0
   diff <- 1
   while(iter < mxiter & abs(diff) > eps) {
-    eta_recip <- 1 / eta
-    logx_recip <- 1 / log(x)
-    eta_logx_recip <- eta_recip * logx_recip
-    kappa <- igl_kappa(eta_logx_recip, k = k)
-    kappap <- igl_kappa_D(eta_logx_recip, k = k)
-    g <- kappa - x * p
-    gp <- - eta_recip / x * logx_recip ^ 2 * kappap - p
+    pex <- p * exp(x)
+    g <- igl_kappa(eta * x, alpha) - pex
+    gp <- eta * igl_kappa_D(eta * x, alpha) - pex
     diff <- g / gp
-    if (diff > x - 1) diff <- (x - 1) / 2
+    if (x - diff < 0) diff <- x / 2
     x <- x - diff
-    while(abs(diff) > bd || x < 1) {
+    while(abs(diff) > bd) {
       diff <- diff / 2
       x <- x + diff
     }
@@ -70,16 +59,16 @@ interp_kappa_inv_algo <- function(p, eta, k, mxiter = 80, eps = 1.e-12, bd = 5) 
 
 #' @rdname interpolator
 #' @export
-interp_kappa_inv <- function(p, eta, k, mxiter = 80, eps = 1.e-12, bd = 5) {
-  lengths <- c(p = length(p), eta = length(eta), k = length(k))
+interp_kappa_inv <- function(p, eta, alpha, mxiter = 80, eps = 1.e-12, bd = 5) {
+  lengths <- c(p = length(p), eta = length(eta), alpha = length(alpha))
   l <- max(lengths)
   if (lengths[["p"]] == 1) p <- rep(p, l)
   if (lengths[["eta"]] == 1) eta <- rep(eta, l)
-  if (lengths[["k"]] == 1) k <- rep(k, l)
+  if (lengths[["alpha"]] == 1) alpha <- rep(alpha, l)
   x <- numeric()
   for (i in 1:l) {
     x[i] <- interp_kappa_inv_algo(
-      p[i], eta = eta[i], k = k[i], mxiter = mxiter, eps = eps, bd = bd
+      p[i], eta = eta[i], alpha = alpha[i], mxiter = mxiter, eps = eps, bd = bd
     )
   }
   x

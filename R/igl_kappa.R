@@ -1,32 +1,30 @@
 #' Kappa version of generating function
 #'
 #' The kappa version of a generating function \eqn{\psi} is
-#' defined as \eqn{\kappa(x) = \psi(x) - x \psi'(x)}.
+#' defined as \eqn{\kappa(x) = \psi(x) + x \psi'(x)}.
 #' `igl_kappa` takes \eqn{\psi} to be the IGL generating
 #' function, `igl_gen()`.
 #'
 #' `igl_kappa_D()` is the derivative.
 #'
 #' @param x Numeric argument of the kappa function. Vectorized.
-#' @param k Parameter of the IGL generating function, `igl_gen()`. Vectorized.
-#' @return This function is a nearly direct application of the
-#' `stats::pgamma()` function.
+#' @param alpha Parameter of the IGL generating function, `igl_gen()`, >0. Vectorized.
 #' @rdname kappa
 #' @export
-igl_kappa <- function(x, k) {
-  stats::pgamma(1 / x, shape = k - 1, lower.tail = FALSE)
+igl_kappa <- function(x, alpha) {
+  stats::pgamma(x, shape = alpha, lower.tail = FALSE)
 }
 
 #' @rdname kappa
 #' @export
-igl_kappa_D <- function(x, k) {
-  -x * igl_gen_DD(x, k)
+igl_kappa_D <- function(x, alpha) {
+  - stats::dgamma(x, shape = alpha)
 }
 
 #' @rdname kappa
 #' @export
-igl_kappa_inv <- function(p, k) {
-  1 / stats::qgamma(1 - p, shape = k - 1)
+igl_kappa_inv <- function(p, alpha) {
+  stats::qgamma(1 - p, shape = alpha)
 }
 
 

@@ -6,24 +6,28 @@
 #' and second copula variables.
 #' @param tau Vector of quantile levels in [0,1] to evaluate a quantile function
 #' at.
-#' @param cpar Single numeric >1; corresponds to parameter \code{k} in the
+#' @param cpar Single numeric >0; corresponds to parameter \code{alpha} in the
 #' IGL copula family.
 #' @note Inputting two vectors greater than length 1 is allowed, if they're
 #' the same length.
 #' Also, \code{qcondiglcop21} and \code{pcondiglcop21} are the same as
-#' \code{qcondiglcop} and \code{pcondiglcop} -- their the distributions of
+#' \code{qcondiglcop} and \code{pcondiglcop} -- they're the distributions of
 #' variable 2 given 1.
 #' @return Numeric vector of length equal to the length of the input vector(s).
 #' @rdname iglcop
 #' @export
 qcondiglcop <- function(tau, u, cpar) {
-    1 - igl_gen((1 - u) / qgamma(tau, cpar - 1), cpar)
+    alpha <- cpar
+    inner <- igl_kappa_inv(1 - tau, alpha = alpha) / (1 - u)
+    1 - igl_gen(inner, alpha = alpha)
 }
 
 #' @rdname iglcop
 #' @export
 pcondiglcop <- function(v, u, cpar) {
-    pgamma((1 - u) / igl_gen_inv(1 - v, cpar), cpar - 1)
+    alpha <- cpar
+    y <- igl_gen_inv(1 - v, alpha = alpha)
+    1 - igl_kappa((1 - u) * y, alpha = alpha)
 }
 
 #' @rdname iglcop
@@ -37,31 +41,38 @@ pcondiglcop21 <- pcondiglcop
 #' @rdname iglcop
 #' @export
 pcondiglcop12 <- function(u, v, cpar) {
-    pkinv <- igl_gen_inv(1 - v, cpar)
-    1 - pgamma((1 - u) / pkinv, cpar) / pgamma(1 / pkinv, cpar)
+    alpha <- cpar
+    y <- igl_gen_inv(1 - v, alpha)
+    1 - (1 - u) ^ 2 *
+        igl_gen_D((1 - u) * y, alpha = alpha) /
+        igl_gen_D(y, alpha = alpha)
 }
 
 #' @rdname iglcop
 #' @export
 qcondiglcop12 <- function(tau, v, cpar) {
-    pkinv <- igl_gen_inv(1 - v, cpar)
-    1 - pkinv * qgamma((1 - tau) * pgamma(1 / pkinv, cpar), cpar)
+    alpha <- cpar
+    y <- igl_gen_inv(1 - v, alpha = alpha)
+    inner <- (1 - tau) * stats::pgamma(y, shape = alpha + 1)
+    1 - stats::qgamma(inner, shape = alpha + 1) / y
 }
 
 #' @rdname iglcop
 #' @export
 diglcop <- function(u, v, cpar) {
-    pkinv <- igl_gen_inv(1 - v, cpar)
-    e <- exp(-(1 - u) / pkinv)
-    gamma_part <- gamma(cpar) - igamma(cpar, 1 / pkinv)
-    (1 - u) ^ (cpar - 1) * e / pkinv ^ cpar / gamma_part
+    alpha <- cpar
+    y <- igl_gen_inv(1 - v, alpha = alpha)
+    (1 - u) *
+        igl_kappa_D((1 - u) * y, alpha = alpha) /
+        igl_gen_D(y, alpha = alpha)
 }
 
 #' @rdname iglcop
 #' @export
 piglcop <- function(u, v, cpar) {
-    pkinv <- igl_gen_inv(1 - v, cpar)
-    u + v - 1 + (1 - u) * igl_gen(pkinv / (1 - u), cpar)
+    alpha <- cpar
+    y <- igl_gen_inv(1 - v, alpha = alpha)
+    u + v - 1 + (1 - u) * igl_gen((1 - u) * y, alpha = alpha)
 }
 
 #' @rdname igcop
@@ -69,7 +80,7 @@ piglcop <- function(u, v, cpar) {
 riglcop <- function(n, cpar) {
     u <- runif(n)
     tau <- runif(n)
-    v <- qcondiglcop(tau, u, cpar)
+    v <- qcondiglcop(tau, u, cpar = cpar)
     res <- matrix(c(u, v), ncol = 2)
     colnames(res) <- c("u", "v")
     if (requireNamespace("tibble", quietly = TRUE)) {
