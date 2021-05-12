@@ -52,14 +52,19 @@ interp_gen_inv_algo <- function(p, eta, alpha, mxiter = 40, eps = 1.e-12, bd = 5
     } else {
         x <- x2
     }
+    x <- log(x)
     iter <- 0
     diff <- 1
     while(iter < mxiter & abs(diff) > eps) {
-        pex <- p * exp(x)
-        g <- igl_gen(x * eta, alpha) - pex
-        gp <- eta * igl_gen_D(x * eta, alpha) - pex
+        ex <- exp(x)
+        g <- interp_gen(ex, eta = eta, alpha = alpha) - p
+        gp <- interp_gen_D1(ex, eta = eta, alpha = alpha) * ex
+
+        # pex <- p * exp(x)
+        # g <- igl_gen(x * eta, alpha) - pex
+        # gp <- eta * igl_gen_D(x * eta, alpha) - pex
         diff <- g / gp
-        if (x - diff < 0) diff <- x / 2
+        # if (x - diff < 0) diff <- x / 2
         x <- x - diff
         while (abs(diff) > bd) {
             diff <- diff / 2
@@ -67,7 +72,7 @@ interp_gen_inv_algo <- function(p, eta, alpha, mxiter = 40, eps = 1.e-12, bd = 5
         }
         iter <- iter + 1
     }
-    x
+    exp(x)
 }
 
 #' @rdname interpolator

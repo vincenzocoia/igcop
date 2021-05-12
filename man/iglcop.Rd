@@ -34,7 +34,7 @@ at.}
 \item{u, v}{Vectors of values in \link{0,1} representing values of the first
 and second copula variables.}
 
-\item{cpar}{Single numeric >1; corresponds to parameter \code{k} in the
+\item{cpar}{Single numeric >0; corresponds to parameter \code{alpha} in the
 IGL copula family.}
 }
 \value{
@@ -47,6 +47,6 @@ Functions related to the IGL copula family, denoted  by \code{'iglcop'}.
 Inputting two vectors greater than length 1 is allowed, if they're
 the same length.
 Also, \code{qcondiglcop21} and \code{pcondiglcop21} are the same as
-\code{qcondiglcop} and \code{pcondiglcop} -- their the distributions of
+\code{qcondiglcop} and \code{pcondiglcop} -- they're the distributions of
 variable 2 given 1.
 }

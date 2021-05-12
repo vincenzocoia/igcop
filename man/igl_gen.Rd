@@ -8,20 +8,20 @@
 \alias{igl_gen_inv}
 \title{Generating function for the IGL copula family}
 \usage{
-igl_gen(x, k)
+igl_gen(x, alpha)
 
-igl_gen_D(x, k)
+igl_gen_D(x, alpha)
 
-igl_gen_DD(x, k)
+igl_gen_DD(x, alpha)
 
-igl_gen_inv_algo(p, k, mxiter = 20, eps = 1e-12, bd = 5)
+igl_gen_inv_algo(p, alpha, mxiter = 20, eps = 1e-12, bd = 5)
 
-igl_gen_inv(p, k, mxiter = 20, eps = 1e-12, bd = 5)
+igl_gen_inv(p, alpha, mxiter = 20, eps = 1e-12, bd = 5)
 }
 \arguments{
 \item{x}{Vector of values >=0 to evaluate the function at, .}
 
-\item{k}{Parameter of the function, k > 1. Vectorized.}
+\item{alpha}{Parameter of the function, alpha > 0. Vectorized.}
 
 \item{p}{Vector of values to evaluate the inverse function at, between
 0 and 1 (inclusive).}
@@ -38,13 +38,13 @@ for the algorithms (marked by \verb{_algo}).
 \examples{
 ## Some examples of evaluating the functions.
 arg <- c(0, 0.5, 3, Inf, NA)
-#igl_gen(arg, k = 2)
-#igl_gen_D(arg, k = 1.2)
-#igl_gen_D(arg, k = 2)
-#igl_gen_D(arg, k = 3)
-#igl_gen_inv(c(0, 0.5, 1), k = 1.5)
+#igl_gen(arg, alpha = 1)
+#igl_gen_D(arg, alpha = 0.2)
+#igl_gen_D(arg, alpha = 1)
+#igl_gen_D(arg, alpha = 2)
+#igl_gen_inv(c(0, 0.5, 1), alpha = 0.5)
 
 ## Visual
-#foo <- function(u) igl_gen_inv(u, k = 1.5)
+#foo <- function(u) igl_gen_inv(u, alpha = 0.5)
 #curve(foo)
 }

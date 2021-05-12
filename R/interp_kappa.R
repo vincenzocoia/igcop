@@ -20,7 +20,7 @@ interp_kappa_inv_algo <- function(p, eta, alpha, mxiter = 80, eps = 1.e-12, bd =
   if (p == 0) return(Inf)
   if (p == 1) return(0)
   x1 <- -log(p)
-  x2 <- igl_kappa_inv_algo(p, eta = eta, alpha = alpha) / eta
+  x2 <- igl_kappa_inv(p, alpha = alpha) / eta
   p1 <- interp_kappa(x1, eta = eta, alpha = alpha)
   p2 <- interp_kappa(x2, eta = eta, alpha = alpha)
   if (abs(p1 - p) < abs(p2 - p)) {

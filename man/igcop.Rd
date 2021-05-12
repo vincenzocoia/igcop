@@ -38,7 +38,7 @@ riglcop(n, cpar)
 and second copula variables.}
 
 \item{cpar}{Vector of length 2 corresponding to the copula
-parameters \code{theta>0} and \code{k>1}, respectively.}
+parameters \code{theta>0} and \code{alpha>0}, respectively.}
 
 \item{tau}{Vector of quantile levels in \link{0,1} to evaluate a quantile function
 at.}
@@ -53,6 +53,6 @@ Functions related to the IG copula family, denoted  by \code{'igcop'}.
 Inputting two vectors greater than length 1 is allowed, if they're
 the same length.
 Also, \code{qcondigcop21} and \code{pcondigcop21} are the same as
-\code{qcondigcop} and \code{pcondigcop} -- their the distributions of
+\code{qcondigcop} and \code{pcondigcop} -- they're the distributions of
 variable 2 given 1.
 }
