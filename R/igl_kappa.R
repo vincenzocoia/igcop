@@ -8,6 +8,7 @@
 #' `igl_kappa_D()` is the derivative.
 #'
 #' @param x Numeric argument of the kappa function. Vectorized.
+#' @param p Numeric argument of the inverse function. Vectorized. Between 0 and 1.
 #' @param alpha Parameter of the IGL generating function, `igl_gen()`, >0. Vectorized.
 #' @rdname kappa
 #' @export

@@ -36,7 +36,16 @@ interpolating function.}
 \item{alpha}{Vector of values >0 corresponding to the \eqn{alpha} parameter
 of the IGL generating function.}
 
-\item{p}{Vector of values in \link{0,1} to evaluate the inverse function at.}
+\item{p}{Vector of values between 0 and 1 to evaluate the inverse function at.}
+
+\item{mxiter}{Maximum number of iterations to run the Newton-Raphson
+algorithm when computing inverse. Positive integer, default 20.}
+
+\item{eps}{The Newton-Raphson algorithm for computing an inverse will
+stop if the step size is less than this small number.}
+
+\item{bd}{The largest acceptable step size in the Newton-Raphson
+algorithm. Step size is reduced if it reaches this large.}
 }
 \description{
 These interpolating functions, denoted \eqn{H} in the vignette,

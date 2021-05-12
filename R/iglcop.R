@@ -2,12 +2,13 @@
 #'
 #' Functions related to the IGL copula family, denoted  by \code{'iglcop'}.
 #'
-#' @param u,v Vectors of values in [0,1] representing values of the first
+#' @param u,v Vectors of values between 0 and 1 representing values of the first
 #' and second copula variables.
-#' @param tau Vector of quantile levels in [0,1] to evaluate a quantile function
-#' at.
+#' @param tau Vector of quantile levels between 0 and 1 to
+#' evaluate a quantile function at.
 #' @param cpar Single numeric >0; corresponds to parameter \code{alpha} in the
 #' IGL copula family.
+#' @param n Positive integer. Number of observations to randomly draw.
 #' @note Inputting two vectors greater than length 1 is allowed, if they're
 #' the same length.
 #' Also, \code{qcondiglcop21} and \code{pcondiglcop21} are the same as
@@ -75,11 +76,11 @@ piglcop <- function(u, v, cpar) {
     u + v - 1 + (1 - u) * igl_gen((1 - u) * y, alpha = alpha)
 }
 
-#' @rdname igcop
+#' @rdname iglcop
 #' @export
 riglcop <- function(n, cpar) {
-    u <- runif(n)
-    tau <- runif(n)
+    u <- stats::runif(n)
+    tau <- stats::runif(n)
     v <- qcondiglcop(tau, u, cpar = cpar)
     res <- matrix(c(u, v), ncol = 2)
     colnames(res) <- c("u", "v")
@@ -87,4 +88,14 @@ riglcop <- function(n, cpar) {
         res <- tibble::as_tibble(res)
     }
     res
+}
+
+#' @rdname iglcop
+#' @export
+logdiglcop <- function(u, v, cpar) {
+    alpha <- cpar
+    y <- igl_gen_inv(1 - v, alpha = alpha)
+    log(1 - u) +
+        log(igl_kappa_D((1 - u) * y, alpha = alpha)) -
+        log(igl_gen_D(y, alpha = alpha))
 }

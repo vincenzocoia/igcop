@@ -25,6 +25,15 @@ igl_gen_inv(p, alpha, mxiter = 20, eps = 1e-12, bd = 5)
 
 \item{p}{Vector of values to evaluate the inverse function at, between
 0 and 1 (inclusive).}
+
+\item{mxiter}{Maximum number of iterations to run the Newton-Raphson
+algorithm when computing inverse. Positive integer, default 20.}
+
+\item{eps}{The Newton-Raphson algorithm for computing an inverse will
+stop if the step size is less than this small number.}
+
+\item{bd}{The largest acceptable step size in the Newton-Raphson
+algorithm. Step size is reduced if it reaches this large.}
 }
 \description{
 \code{igl_gen} is the function itself, and \code{igl_gen_inv} is

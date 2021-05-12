@@ -2,10 +2,13 @@
 #'
 #' Functions related to the IG copula family, denoted  by \code{'igcop'}.
 #'
-#' @param u,v Vectors of values in [0,1] representing values of the first
+#' @param u,v Vectors of values between 0 and 1 representing values of the first
 #' and second copula variables.
+#' @param tau Vector of quantile levels between 0 and 1
+#'  to evaluate a quantile function at.
 #' @param cpar Vector of length 2 corresponding to the copula
 #' parameters \code{theta>0} and \code{alpha>0}, respectively.
+#' @param n Positive integer. Number of observations to randomly draw.
 #' @note Inputting two vectors greater than length 1 is allowed, if they're
 #' the same length.
 #' Also, \code{qcondigcop21} and \code{pcondigcop21} are the same as
@@ -22,8 +25,8 @@ pcondigcop <- function(v, u, cpar) {
     1 - interp_kappa(y, eta = theta * (1 - u), alpha = alpha)
 }
 
-#' @param tau Vector of quantile levels in [0,1] to evaluate a quantile function
-#' at.
+#' @param tau Vector of quantile levels between 0 and 1
+#' to evaluate a quantile function at.
 #' @rdname igcop
 #' @export
 qcondigcop <- function(tau, u, cpar) {

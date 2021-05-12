@@ -16,6 +16,8 @@ igl_kappa_inv(p, alpha)
 \item{x}{Numeric argument of the kappa function. Vectorized.}
 
 \item{alpha}{Parameter of the IGL generating function, \code{igl_gen()}, >0. Vectorized.}
+
+\item{p}{Numeric argument of the inverse function. Vectorized. Between 0 and 1.}
 }
 \description{
 The kappa version of a generating function \eqn{\psi} is

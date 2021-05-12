@@ -21,5 +21,5 @@
 #' gamma(1:5)
 #' @export
 igamma <- function(alpha, x) {
-  gamma(alpha) * pgamma(x, shape = alpha, lower.tail = FALSE)
+  gamma(alpha) * stats::pgamma(x, shape = alpha, lower.tail = FALSE)
 }

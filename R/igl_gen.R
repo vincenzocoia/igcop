@@ -60,6 +60,12 @@ igl_gen_DD <- function(x, alpha) {
 }
 
 
+#' @param mxiter Maximum number of iterations to run the Newton-Raphson
+#' algorithm when computing inverse. Positive integer, default 20.
+#' @param eps The Newton-Raphson algorithm for computing an inverse will
+#' stop if the step size is less than this small number.
+#' @param bd The largest acceptable step size in the Newton-Raphson
+#' algorithm. Step size is reduced if it reaches this large.
 #' @rdname igl_gen
 #' @export
 igl_gen_inv_algo <- function(p, alpha, mxiter = 20, eps = 1.e-12, bd = 5){

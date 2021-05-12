@@ -9,6 +9,8 @@
 \alias{qcondiglcop12}
 \alias{diglcop}
 \alias{piglcop}
+\alias{riglcop}
+\alias{logdiglcop}
 \title{IGL Copula Family Functions}
 \usage{
 qcondiglcop(tau, u, cpar)
@@ -26,16 +28,22 @@ qcondiglcop12(tau, v, cpar)
 diglcop(u, v, cpar)
 
 piglcop(u, v, cpar)
+
+riglcop(n, cpar)
+
+logdiglcop(u, v, cpar)
 }
 \arguments{
-\item{tau}{Vector of quantile levels in \link{0,1} to evaluate a quantile function
-at.}
+\item{tau}{Vector of quantile levels between 0 and 1 to
+evaluate a quantile function at.}
 
-\item{u, v}{Vectors of values in \link{0,1} representing values of the first
+\item{u, v}{Vectors of values between 0 and 1 representing values of the first
 and second copula variables.}
 
 \item{cpar}{Single numeric >0; corresponds to parameter \code{alpha} in the
 IGL copula family.}
+
+\item{n}{Positive integer. Number of observations to randomly draw.}
 }
 \value{
 Numeric vector of length equal to the length of the input vector(s).
