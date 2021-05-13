@@ -24,7 +24,6 @@
 #' #foo <- function(u) igl_gen_inv(u, alpha = 0.5)
 #' #curve(foo)
 #' @rdname igl_gen
-#' @export
 igl_gen <- function(x, alpha) {
     res <- stats::pgamma(x, shape = alpha, lower.tail = FALSE) +
         alpha * (stats::pgamma(x, shape = alpha + 1) / x)
@@ -40,7 +39,6 @@ igl_gen <- function(x, alpha) {
 # curve(diff, 0, 100)
 
 #' @rdname igl_gen
-#' @export
 igl_gen_D <- function(x, alpha) {
     - alpha / x ^ 2 * stats::pgamma(x, alpha + 1)
 }
@@ -53,7 +51,6 @@ igl_gen_D <- function(x, alpha) {
 
 
 #' @rdname igl_gen
-#' @export
 igl_gen_DD <- function(x, alpha) {
     2 * alpha / x ^ 3 * stats::pgamma(x, shape = alpha + 1) -
         stats::dgamma(x, alpha + 1) / x ^ 2
@@ -67,7 +64,6 @@ igl_gen_DD <- function(x, alpha) {
 #' @param bd The largest acceptable step size in the Newton-Raphson
 #' algorithm. Step size is reduced if it reaches this large.
 #' @rdname igl_gen
-#' @export
 igl_gen_inv_algo <- function(p, alpha, mxiter = 20, eps = 1.e-12, bd = 5){
     if (length(p) != 1L) stop("Algorithm requires a single `p`.")
     if (length(alpha) != 1L) stop("Algorithm requires a single `alpha`.")
@@ -104,7 +100,6 @@ igl_gen_inv_algo <- function(p, alpha, mxiter = 20, eps = 1.e-12, bd = 5){
 
 
 #' @rdname igl_gen
-#' @export
 igl_gen_inv <- function(p, alpha, mxiter = 20, eps = 1.e-12, bd = 5){
     lengths <- c(p = length(p), alpha = length(alpha))
     l <- max(lengths)

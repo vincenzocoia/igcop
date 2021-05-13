@@ -18,14 +18,12 @@
 #' @param alpha Vector of values >0 corresponding to the \eqn{alpha} parameter
 #' of the IGL generating function.
 #' @rdname interpolator
-#' @export
 interp_gen <- function(x, eta, alpha) {
     exp(-x) * igl_gen(eta * x, alpha)
 }
 
 
 #' @rdname interpolator
-#' @export
 interp_gen_D1 <- function(x, eta, alpha) {
     - exp(-x) * (igl_gen(eta * x, alpha) - eta * igl_gen_D(eta * x, alpha))
     # res[x == 1 & k > 2] <- -1
@@ -41,7 +39,6 @@ interp_gen_D1 <- function(x, eta, alpha) {
 #' @param bd The largest acceptable step size in the Newton-Raphson
 #' algorithm. Step size is reduced if it reaches this large.
 #' @rdname interpolator
-#' @export
 interp_gen_inv_algo <- function(p, eta, alpha, mxiter = 40, eps = 1.e-12, bd = 5) {
     if (length(p) != 1L) stop("Algorithm requires a single `p`.")
     if (length(eta) != 1L) stop("Algorithm requires a single `eta`.")
@@ -81,7 +78,6 @@ interp_gen_inv_algo <- function(p, eta, alpha, mxiter = 40, eps = 1.e-12, bd = 5
 }
 
 #' @rdname interpolator
-#' @export
 interp_gen_inv <- function(p, eta, alpha, mxiter = 40, eps = 1.e-12, bd = 5) {
     lengths <- c(p = length(p), eta = length(eta), alpha = length(alpha))
     l <- max(lengths)

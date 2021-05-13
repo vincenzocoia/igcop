@@ -1,18 +1,15 @@
 #' @rdname interpolator
-#' @export
 interp_kappa <- function(x, eta, alpha) {
   exp(-x) * igl_kappa(eta * x, alpha)
 }
 
 #' @rdname interpolator
-#' @export
 interp_kappa_D1 <- function(x, eta, alpha) {
   -exp(-x) * (igl_kappa(eta * x, alpha) - eta * igl_kappa_D(eta * x, alpha))
 }
 
 
 #' @rdname interpolator
-#' @export
 interp_kappa_inv_algo <- function(p, eta, alpha, mxiter = 80, eps = 1.e-12, bd = 5) {
   if (length(p) != 1L) stop("Algorithm requires a single `p`.")
   if (length(eta) != 1L) stop("Algorithm requires a single `eta`.")
@@ -58,7 +55,6 @@ interp_kappa_inv_algo <- function(p, eta, alpha, mxiter = 80, eps = 1.e-12, bd =
 
 
 #' @rdname interpolator
-#' @export
 interp_kappa_inv <- function(p, eta, alpha, mxiter = 80, eps = 1.e-12, bd = 5) {
   lengths <- c(p = length(p), eta = length(eta), alpha = length(alpha))
   l <- max(lengths)

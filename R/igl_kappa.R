@@ -11,19 +11,16 @@
 #' @param p Numeric argument of the inverse function. Vectorized. Between 0 and 1.
 #' @param alpha Parameter of the IGL generating function, `igl_gen()`, >0. Vectorized.
 #' @rdname kappa
-#' @export
 igl_kappa <- function(x, alpha) {
   stats::pgamma(x, shape = alpha, lower.tail = FALSE)
 }
 
 #' @rdname kappa
-#' @export
 igl_kappa_D <- function(x, alpha) {
   - stats::dgamma(x, shape = alpha)
 }
 
 #' @rdname kappa
-#' @export
 igl_kappa_inv <- function(p, alpha) {
   stats::qgamma(1 - p, shape = alpha)
 }
