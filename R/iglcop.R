@@ -95,7 +95,7 @@ riglcop <- function(n, cpar) {
 logdiglcop <- function(u, v, cpar) {
     alpha <- cpar
     y <- igl_gen_inv(1 - v, alpha = alpha)
-    log(1 - u) +
-        log(igl_kappa_D((1 - u) * y, alpha = alpha)) -
-        log(igl_gen_D(y, alpha = alpha))
+    log(1 - u) + 2 * log(y) - log(alpha) +
+        stats::dgamma((1 - u) * y, shape = alpha, log = TRUE) -
+        stats::pgamma(y, shape = alpha + 1, log.p = TRUE)
 }

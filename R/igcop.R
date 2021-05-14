@@ -75,8 +75,9 @@ logdigcop <- function(u, v, cpar) {
     alpha <- cpar[2]
     if (theta == Inf) return(logdiglcop(u, v, cpar = alpha))
     y <- interp_gen_inv(1 - v, eta = theta, alpha = alpha)
-    log(interp_kappa_D1(y, eta = (1 - u) * theta, alpha = alpha)) -
-        log(interp_gen_D1(y, eta = theta, alpha = alpha))
+    eta2 <- (1 - u) * theta
+    log(igl_kappa(eta2 * y, alpha) - eta2 * igl_kappa_D(eta2 * y, alpha)) -
+        log(igl_gen(theta * y, alpha) - theta * igl_gen_D(theta * y, alpha))
 }
 
 #' @rdname igcop

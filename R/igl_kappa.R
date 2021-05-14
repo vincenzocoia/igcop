@@ -17,7 +17,7 @@ igl_kappa <- function(x, alpha) {
 
 #' @rdname kappa
 igl_kappa_D <- function(x, alpha) {
-  - stats::dgamma(x, shape = alpha)
+  -stats::dgamma(x, shape = alpha)
 }
 
 #' @rdname kappa
