@@ -17,7 +17,7 @@
 #' @return Numeric vector of length equal to the length of the input vector(s).
 #' @rdname igcop
 #' @export
-pcondigcop <- function(v, u, cpar) {
+pcondigcop21 <- function(v, u, cpar) {
     theta <- cpar[1]
     alpha <- cpar[2]
     if (theta == Inf) return(pcondiglcop(v, u, cpar = alpha))
