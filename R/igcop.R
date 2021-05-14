@@ -29,21 +29,60 @@ pcondigcop <- function(v, u, cpar) {
 #' to evaluate a quantile function at.
 #' @rdname igcop
 #' @export
-qcondigcop <- function(tau, u, cpar) {
+qcondigcop21 <- function(tau, u, cpar) {
     theta <- cpar[1]
     alpha <- cpar[2]
-    if (theta == Inf) return(qcondiglcop(tau, u, cpar = alpha))
+    if (theta == Inf) return(qcondiglcop21(tau, u, cpar = alpha))
     inner <- interp_kappa_inv(1 - tau, eta = theta * (1 - u), alpha = alpha)
     1 - interp_gen(inner, eta = theta, alpha = alpha)
 }
 
 #' @rdname igcop
 #' @export
-qcondigcop21 <- qcondigcop
+qcondigcop <- qcondigcop21
 
 #' @rdname igcop
 #' @export
-pcondigcop21 <- pcondigcop
+pcondigcop <- pcondigcop21
+
+
+qcondigcop12_algo <- function(tau, v, cpar, mxiter = 80, eps = 1.e-12) {
+    if (length(tau) != 1L) stop("Algorithm requires a single `tau`.")
+    if (length(v) != 1L) stop("Algorithm requires a single `v`.")
+    if (tau == 0) return(0)
+    if (tau == 1) return(1)
+    x <- tau
+    iter <- 0
+    diff <- 1
+    while (iter < mxiter & abs(diff) > eps) {
+        g <- pcondigcop12(x, v, cpar = cpar) - tau
+        gp <- digcop(x, v, cpar = cpar)
+        diff <- g / gp
+        if (x - diff < 0) diff <- x / 2
+        if (x - diff > 1) diff <- (1 + x) / 2
+        x <- x - diff
+        iter <- iter + 1
+    }
+    x
+}
+
+#' @rdname igcop
+#' @export
+qcondigcop12 <- function(tau, v, cpar, mxiter = 80, eps = 1.e-12) {
+    lengths <- c(tau = length(tau), v = length(v))
+    l <- max(lengths)
+    if (lengths[["tau"]] == 1) tau <- rep(tau, l)
+    if (lengths[["v"]] == 1) v <- rep(v, l)
+    x <- numeric()
+    for (i in 1:l) {
+        x[i] <- qcondigcop12_algo(
+            tau[i], v[i], cpar = cpar, mxiter = mxiter, eps = eps
+        )
+    }
+    x
+}
+
+
 
 #' @rdname igcop
 #' @export
