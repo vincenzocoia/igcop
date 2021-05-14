@@ -43,17 +43,6 @@ interp_kappa_inv_algo <- function(p, eta, alpha, mxiter = 80, eps = 1.e-12, bd =
   x
 }
 
-# tibble(x = seq(1, 2, length.out = 1000)) %>%
-#   mutate(f_interp_kappa = interp_kappa(x, 420.35, 35.1),
-#          f_kappa = igl_kappa(1/(420.35 * log(x)), 35.1),
-#          f_interp_gen = interp_gen(x, 420.35, 35.1),
-#          f_inv = 1/x) %>%
-#   pivot_longer(cols = starts_with("f_"), names_to = "fun") %>%
-#   ggplot(aes(x, value)) +
-#   geom_line(aes(group = fun, colour = fun)) +
-#   geom_hline(yintercept = 0.7, linetype = "dotted")
-
-
 #' @rdname interpolator
 interp_kappa_inv <- function(p, eta, alpha, mxiter = 80, eps = 1.e-12, bd = 5) {
   lengths <- c(p = length(p), eta = length(eta), alpha = length(alpha))
