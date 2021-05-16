@@ -76,7 +76,6 @@
 <!-- badges: start -->
 
 <p>The goal of igcop is to provide tools for computing on the Integrated Gamma (IG) and Integrated Gamma Limit (IGL) copula families.</p>
-<p><strong>Currently under active development, and still developing a working version</strong></p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -87,9 +86,8 @@
 <div id="definition" class="section level2">
 <h2 class="hasAnchor">
 <a href="#definition" class="anchor"></a>Definition</h2>
-<p>The IG copula family is defined by parameters <em>θ</em> &gt; 0 and <em>k</em> &gt; 1, although computations are problematic for <em>k</em> &lt; 2, although mostly just for <em>k</em> close to 1.</p>
-<p>…</p>
-<p>What makes the IG copula interesting is in regression analysis, where the response is the second variable. If the response is heavy-tailed, and is linked to a predictor via an IG copula, then its conditional distributions have lighter tails with a non-constant extreme value index across the predictor space. The IGL copula is interesting in a similar light, except its conditional distributions are all light-tailed (!) – meaning that the predictor is solely responsible for the heavy tail of the response variable.</p>
+<p>The IG copula family is defined by parameters <em>θ</em> &gt; 0 and <em>a<strong>l</strong>p<strong>h</strong>a</em> &gt; 0, with the IGL copula family obtained with <em>θ</em> → ∞ (so, only has one parameter <em>a<strong>l</strong>p<strong>h</strong>a</em> &gt; 0).</p>
+<p>The IG and IGL copula families are unique in that they are not permutation symmetric. Also, the family of conditional distributions given the first variable has a non-constant extreme value index (EVI) across the first variable for the IG family, and is 0 for the IGL family. This means that, when used in a regression context, the conditional distribution of the response has an EVI that changes with the predictor for an IG copula, or reduces a heavy-tailed response to a light-tailed conditional distribution.</p>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
@@ -123,23 +121,47 @@
 </ul>
 </li>
 </ul>
-<p>All of these functions have a <code>cpar</code> argument expecting the value of the copula parameters. For an IG copula, this is <code><a href="https://rdrr.io/r/base/c.html">c(theta, k)</a></code>, and just <code>k</code> for an IGL copula.</p>
+<p>All of these functions have a <code>cpar</code> argument expecting the value of the copula parameters. For an IG copula, this is <code><a href="https://rdrr.io/r/base/c.html">c(theta, alpha)</a></code>, and just <code>alpha</code> for an IGL copula.</p>
 <p>Here are some examples, starting with evaluating the density of an IG copula at (0.3, 0.6):</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">igcop</span><span class="op">)</span>
-<span class="co"># dig(0.3, 0.6, cpar = c(3, 2))</span></pre></div>
+<span class="fu"><a href="reference/pcondig21.html">dig</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">0.6</span>, cpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] 1.096211</span></pre></div>
 <p>Computations are vectorized over both <code>u</code> and <code>v</code> (first and second variables). Here’s the cdf and density of an IGL copula at different values:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="co"># u &lt;- seq(0.1, 0.9, length.out = 9)</span>
-<span class="co"># v &lt;- seq(0.9, 0.5, length.out = 9)</span>
-<span class="co"># pigl(u, v, cpar = 4)</span>
-<span class="co"># digl(0.2, v, cpar = 4)</span></pre></div>
-<p>It doesn’t make sense to talk about quantiles for a multivariate distribution, so this is only defined for conditional distributions. Note that the “2 given 1” distributions swap the <code>u</code> and <code>v</code> arguments to better align with the conditioning.</p>
+<span class="va">u</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.9</span>, length.out <span class="op">=</span> <span class="fl">9</span><span class="op">)</span>
+<span class="va">v</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">0.5</span>, length.out <span class="op">=</span> <span class="fl">9</span><span class="op">)</span>
+<span class="fu"><a href="reference/qcondigl.html">pigl</a></span><span class="op">(</span><span class="va">u</span>, <span class="va">v</span>, cpar <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.1000000 0.2000000 0.2999711 0.3988536 0.4888134 0.5508382 0.5683229</span>
+<span class="co">#&gt; [8] 0.5447653 0.4998090</span>
+<span class="fu"><a href="reference/qcondigl.html">digl</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="va">v</span>, cpar <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
+<span class="co">#&gt; [1] 2.213223e-08 1.250384e-04 6.146088e-03 4.943650e-02 1.683705e-01</span>
+<span class="co">#&gt; [6] 3.617879e-01 5.964016e-01 8.377819e-01 1.064300e+00</span></pre></div>
+<p>It doesn’t make sense to talk about quantiles for a multivariate distribution, so this is only defined for conditional distributions.</p>
+<p>Here is an example of a distribution given the first variable (“2 given 1”). Note that the “2 given 1” distributions swap the <code>u</code> and <code>v</code> arguments to better align with the conditioning, and you can either explicitly include the <code>21</code> suffix or not.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="co"># qcondig(v, u, cpar = c(5, 3))</span></pre></div>
-<p>Generating 5 values from an IG copula:</p>
+<span class="fu"><a href="reference/pcondig21.html">qcondig</a></span><span class="op">(</span><span class="va">v</span>, <span class="va">u</span>, cpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.7435415 0.7228302 0.7121613 0.7073784 0.7056649 0.7039164 0.6972994</span>
+<span class="co">#&gt; [8] 0.6777041 0.6356285</span>
+<span class="fu"><a href="reference/pcondig21.html">qcondig21</a></span><span class="op">(</span><span class="va">v</span>, <span class="va">u</span>, cpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.7435415 0.7228302 0.7121613 0.7073784 0.7056649 0.7039164 0.6972994</span>
+<span class="co">#&gt; [8] 0.6777041 0.6356285</span></pre></div>
+<p>Here is the corresponding “1 given 2” distribution. Since this is less common in regression scenarios, you have to explicitly add the <code>12</code> prefix for “1 given 2”.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="co"># rig(5, cpar = c(5, 4))</span></pre></div>
+<span class="fu"><a href="reference/pcondig21.html">qcondig12</a></span><span class="op">(</span><span class="va">v</span>, <span class="va">u</span>, cpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.8896885 0.8114873 0.7297887 0.6598357 0.6097781 0.5811235 0.5749922</span>
+<span class="co">#&gt; [8] 0.5976573 0.6689895</span></pre></div>
+<p>Generating 5 values from an IG copula:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="fu"><a href="reference/pcondig21.html">rig</a></span><span class="op">(</span><span class="fl">5</span>, cpar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 5 x 2</span>
+<span class="co">#&gt;       u     v</span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 0.682 0.414</span>
+<span class="co">#&gt; 2 0.183 0.351</span>
+<span class="co">#&gt; 3 0.754 0.138</span>
+<span class="co">#&gt; 4 0.216 0.146</span>
+<span class="co">#&gt; 5 0.136 0.626</span></pre></div>
 </div>
 </div>
   </div>

@@ -190,6 +190,38 @@ Also, <code>qcondig21</code> and <code>pcondig21</code> are the same as
 <code>qcondig</code> and <code>pcondig</code> -- they're the distributions of
 variable 2 given 1.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>u</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span>
+<span class='va'>v</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span>
+<span class='fu'>pig</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, cpar <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] 0.07998850 0.09248525 0.46307012 0.36915934 0.18767583 0.47424038
+#&gt;  [7] 0.69702131 0.66064796 0.29172181 0.05846469</div><div class='input'><span class='fu'>dig</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, cpar <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] 1.0949890 1.0328600 1.0258831 0.8253385 0.9488539 0.8400993 0.9415070
+#&gt;  [8] 1.2682942 0.9214325 0.8553771</div><div class='input'><span class='fu'>logdig</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, cpar <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1]  0.09074430  0.03233167  0.02555377 -0.19196166 -0.05250043 -0.17423516
+#&gt;  [7] -0.06027354  0.23767289 -0.08182576 -0.15621280</div><div class='input'><span class='fu'>pcondig21</span><span class='op'>(</span><span class='va'>v</span>, <span class='va'>u</span>, cpar <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>6</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] 0.2059765 0.1765546 0.6794343 0.3837089 0.7863289 0.4960070 0.7068927
+#&gt;  [8] 0.9873761 0.3796761 0.8153175</div><div class='input'><span class='fu'>qcondig21</span><span class='op'>(</span><span class='va'>v</span>, <span class='va'>u</span>, cpar <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>6</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] 0.2059726 0.1765589 0.6949935 0.3845008 0.7546750 0.4994238 0.7291069
+#&gt;  [8] 0.9947989 0.3803962 0.7442596</div><div class='input'><span class='fu'>pcondig12</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, cpar <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>6</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] 0.26568654 0.37220495 0.59720796 0.90874810 0.22671056 0.90028096
+#&gt;  [7] 0.94829038 0.44152809 0.63118042 0.07042358</div><div class='input'><span class='fu'>qcondig12</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, cpar <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>6</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] 0.26533079 0.37204284 0.54733005 0.90766428 0.17877750 0.89646254
+#&gt;  [7] 0.94080742 0.79626601 0.62703647 0.05417459</div><div class='input'><span class='fu'>rig</span><span class='op'>(</span><span class='fl'>10</span>, cpar <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 10 x 2</span><span>
+#&gt;         u     v
+#&gt;     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'> 1</span><span> 0.935  0.537
+#&gt; </span><span style='color: #555555;'> 2</span><span> 0.212  0.547
+#&gt; </span><span style='color: #555555;'> 3</span><span> 0.652  0.531
+#&gt; </span><span style='color: #555555;'> 4</span><span> 0.126  0.179
+#&gt; </span><span style='color: #555555;'> 5</span><span> 0.267  0.768
+#&gt; </span><span style='color: #555555;'> 6</span><span> 0.386  0.652
+#&gt; </span><span style='color: #555555;'> 7</span><span> 0.013</span><span style='text-decoration: underline;'>4</span><span> 0.669
+#&gt; </span><span style='color: #555555;'> 8</span><span> 0.382  0.108
+#&gt; </span><span style='color: #555555;'> 9</span><span> 0.870  0.809
+#&gt; </span><span style='color: #555555;'>10</span><span> 0.340  0.402</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

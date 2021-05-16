@@ -58,3 +58,16 @@ Also, \code{qcondigl21} and \code{pcondigl21} are the same as
 \code{qcondigl} and \code{pcondigl} -- they're the distributions of
 variable 2 given 1.
 }
+\examples{
+set.seed(1)
+u <- runif(10)
+v <- runif(10)
+pigl(u, v, cpar = 1)
+digl(u, v, cpar = 2)
+logdigl(u, v, cpar = 0.4)
+pcondigl21(v, u, cpar = 6)
+qcondigl21(v, u, cpar = 6)
+pcondigl12(u, v, cpar = 6)
+qcondigl12(u, v, cpar = 6)
+rigl(10, cpar = 3)
+}

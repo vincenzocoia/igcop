@@ -67,3 +67,16 @@ Also, \code{qcondig21} and \code{pcondig21} are the same as
 \code{qcondig} and \code{pcondig} -- they're the distributions of
 variable 2 given 1.
 }
+\examples{
+set.seed(1)
+u <- runif(10)
+v <- runif(10)
+pig(u, v, cpar = c(5, 1))
+dig(u, v, cpar = c(2, 2))
+logdig(u, v, cpar = c(2, 2))
+pcondig21(v, u, cpar = c(3, 6))
+qcondig21(v, u, cpar = c(3, 6))
+pcondig12(u, v, cpar = c(3, 6))
+qcondig12(u, v, cpar = c(3, 6))
+rig(10, cpar = c(3, 3))
+}
