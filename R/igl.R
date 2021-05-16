@@ -1,6 +1,6 @@
 #' IGL Copula Family Functions
 #'
-#' Functions related to the IGL copula family, denoted  by \code{'iglcop'}.
+#' Functions related to the IGL copula family, denoted  by \code{'igl'}.
 #'
 #' @param u,v Vectors of values between 0 and 1 representing values of the first
 #' and second copula variables.
@@ -11,37 +11,37 @@
 #' @param n Positive integer. Number of observations to randomly draw.
 #' @note Inputting two vectors greater than length 1 is allowed, if they're
 #' the same length.
-#' Also, \code{qcondiglcop21} and \code{pcondiglcop21} are the same as
-#' \code{qcondiglcop} and \code{pcondiglcop} -- they're the distributions of
+#' Also, \code{qcondigl21} and \code{pcondigl21} are the same as
+#' \code{qcondigl} and \code{pcondigl} -- they're the distributions of
 #' variable 2 given 1.
 #' @return Numeric vector of length equal to the length of the input vector(s).
-#' @rdname iglcop
+#' @rdname igl
 #' @export
-qcondiglcop <- function(tau, u, cpar) {
+qcondigl <- function(tau, u, cpar) {
     alpha <- cpar
     inner <- igl_kappa_inv(1 - tau, alpha = alpha) / (1 - u)
     1 - igl_gen(inner, alpha = alpha)
 }
 
-#' @rdname iglcop
+#' @rdname igl
 #' @export
-pcondiglcop <- function(v, u, cpar) {
+pcondigl <- function(v, u, cpar) {
     alpha <- cpar
     y <- igl_gen_inv(1 - v, alpha = alpha)
     1 - igl_kappa((1 - u) * y, alpha = alpha)
 }
 
-#' @rdname iglcop
+#' @rdname igl
 #' @export
-qcondiglcop21 <- qcondiglcop
+qcondigl21 <- qcondigl
 
-#' @rdname iglcop
+#' @rdname igl
 #' @export
-pcondiglcop21 <- pcondiglcop
+pcondigl21 <- pcondigl
 
-#' @rdname iglcop
+#' @rdname igl
 #' @export
-pcondiglcop12 <- function(u, v, cpar) {
+pcondigl12 <- function(u, v, cpar) {
     alpha <- cpar
     y <- igl_gen_inv(1 - v, alpha)
     1 - (1 - u) ^ 2 *
@@ -49,18 +49,18 @@ pcondiglcop12 <- function(u, v, cpar) {
         igl_gen_D(y, alpha = alpha)
 }
 
-#' @rdname iglcop
+#' @rdname igl
 #' @export
-qcondiglcop12 <- function(tau, v, cpar) {
+qcondigl12 <- function(tau, v, cpar) {
     alpha <- cpar
     y <- igl_gen_inv(1 - v, alpha = alpha)
     inner <- (1 - tau) * stats::pgamma(y, shape = alpha + 1)
     1 - stats::qgamma(inner, shape = alpha + 1) / y
 }
 
-#' @rdname iglcop
+#' @rdname igl
 #' @export
-diglcop <- function(u, v, cpar) {
+digl <- function(u, v, cpar) {
     alpha <- cpar
     y <- igl_gen_inv(1 - v, alpha = alpha)
     (1 - u) *
@@ -68,20 +68,20 @@ diglcop <- function(u, v, cpar) {
         igl_gen_D(y, alpha = alpha)
 }
 
-#' @rdname iglcop
+#' @rdname igl
 #' @export
-piglcop <- function(u, v, cpar) {
+pigl <- function(u, v, cpar) {
     alpha <- cpar
     y <- igl_gen_inv(1 - v, alpha = alpha)
     u + v - 1 + (1 - u) * igl_gen((1 - u) * y, alpha = alpha)
 }
 
-#' @rdname iglcop
+#' @rdname igl
 #' @export
-riglcop <- function(n, cpar) {
+rigl <- function(n, cpar) {
     u <- stats::runif(n)
     tau <- stats::runif(n)
-    v <- qcondiglcop(tau, u, cpar = cpar)
+    v <- qcondigl(tau, u, cpar = cpar)
     res <- matrix(c(u, v), ncol = 2)
     colnames(res) <- c("u", "v")
     if (requireNamespace("tibble", quietly = TRUE)) {
@@ -90,9 +90,9 @@ riglcop <- function(n, cpar) {
     res
 }
 
-#' @rdname iglcop
+#' @rdname igl
 #' @export
-logdiglcop <- function(u, v, cpar) {
+logdigl <- function(u, v, cpar) {
     alpha <- cpar
     y <- igl_gen_inv(1 - v, alpha = alpha)
     log(1 - u) + 2 * log(y) - log(alpha) +

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">igcop</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
       </span>
     </div>
 
@@ -39,30 +39,21 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/definition.html">Integrated Gamma Copula Definition</a>
-    </li>
-  </ul>
+  <a href="news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/vincenzocoia/igcop">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
@@ -96,7 +87,7 @@
 <div id="definition" class="section level2">
 <h2 class="hasAnchor">
 <a href="#definition" class="anchor"></a>Definition</h2>
-<p>The IG copula family is defined by parameters <span class="math inline"><em>θ</em> &gt; 0</span> and <span class="math inline"><em>k</em> &gt; 1</span>, although computations are problematic for <span class="math inline"><em>k</em> &lt; 2</span>, although mostly just for <span class="math inline"><em>k</em></span> close to 1.</p>
+<p>The IG copula family is defined by parameters <em>θ</em> &gt; 0 and <em>k</em> &gt; 1, although computations are problematic for <em>k</em> &lt; 2, although mostly just for <em>k</em> close to 1.</p>
 <p>…</p>
 <p>What makes the IG copula interesting is in regression analysis, where the response is the second variable. If the response is heavy-tailed, and is linked to a predictor via an IG copula, then its conditional distributions have lighter tails with a non-constant extreme value index across the predictor space. The IGL copula is interesting in a similar light, except its conditional distributions are all light-tailed (!) – meaning that the predictor is solely responsible for the heavy tail of the response variable.</p>
 </div>
@@ -104,7 +95,7 @@
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
 <p>This package piggybacks on the base R syntax for distributions, whose functions adopt the convention:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="op">&lt;</span>prefix<span class="op">&gt;</span><span class="er">&lt;</span>name<span class="op">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&lt;</span>prefix<span class="sc">&gt;</span><span class="er">&lt;</span>name<span class="sc">&gt;</span></span></code></pre></div>
 <p>For IG and IGL copulas:</p>
 <ul>
 <li>
@@ -124,11 +115,11 @@
 <code>&lt;name&gt;</code> corresponds to the possible names:
 <ul>
 <li>
-<code>igcop</code> and <code>iglcop</code> correspond to an IG copula and IGL copula, respectively.</li>
+<code>ig</code> and <code>igl</code> correspond to an IG copula and IGL copula, respectively.</li>
 <li>
-<code>condigcop12</code> and <code>condiglcop12</code> correspond to a conditional distribution of the first variable given the second, of an IG copula and IGL copula respectively.</li>
+<code>condig12</code> and <code>condigl12</code> correspond to a conditional distribution of the first variable given the second, of an IG copula and IGL copula respectively.</li>
 <li>
-<code>condigcop21</code> and <code>condiglcop21</code> correspond to a conditional distribution of the second variable given the first, of an IG copula and IGL copula respectively (also available as <code>condigcop</code> and <code>condiglcop</code> to match the syntax of the <a href="https://github.com/vincenzocoia/CopulaModel">CopulaModel</a> package).</li>
+<code>condig21</code> and <code>condigl21</code> correspond to a conditional distribution of the second variable given the first, of an IG copula and IGL copula respectively (also available as <code>condig</code> and <code>condigl</code> to match the syntax of the <a href="https://github.com/vincenzocoia/CopulaModel">CopulaModel</a> package).</li>
 </ul>
 </li>
 </ul>
@@ -136,19 +127,19 @@
 <p>Here are some examples, starting with evaluating the density of an IG copula at (0.3, 0.6):</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">igcop</span><span class="op">)</span>
-<span class="co"># digcop(0.3, 0.6, cpar = c(3, 2))</span></pre></div>
+<span class="co"># dig(0.3, 0.6, cpar = c(3, 2))</span></pre></div>
 <p>Computations are vectorized over both <code>u</code> and <code>v</code> (first and second variables). Here’s the cdf and density of an IGL copula at different values:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
 <span class="co"># u &lt;- seq(0.1, 0.9, length.out = 9)</span>
 <span class="co"># v &lt;- seq(0.9, 0.5, length.out = 9)</span>
-<span class="co"># piglcop(u, v, cpar = 4)</span>
-<span class="co"># diglcop(0.2, v, cpar = 4)</span></pre></div>
+<span class="co"># pigl(u, v, cpar = 4)</span>
+<span class="co"># digl(0.2, v, cpar = 4)</span></pre></div>
 <p>It doesn’t make sense to talk about quantiles for a multivariate distribution, so this is only defined for conditional distributions. Note that the “2 given 1” distributions swap the <code>u</code> and <code>v</code> arguments to better align with the conditioning.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="co"># qcondigcop(v, u, cpar = c(5, 3))</span></pre></div>
+<span class="co"># qcondig(v, u, cpar = c(5, 3))</span></pre></div>
 <p>Generating 5 values from an IG copula:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="co"># rigcop(5, cpar = c(5, 4))</span></pre></div>
+<span class="co"># rig(5, cpar = c(5, 4))</span></pre></div>
 </div>
 </div>
   </div>

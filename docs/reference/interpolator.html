@@ -75,7 +75,7 @@ interp_kappa() uses the &quot;kappa version&quot; of that same function." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">igcop</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
       </span>
     </div>
 
@@ -83,30 +83,21 @@ interp_kappa() uses the &quot;kappa version&quot; of that same function." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/definition.html">Integrated Gamma Copula Definition</a>
-    </li>
-  </ul>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/vincenzocoia/igcop">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
@@ -135,27 +126,27 @@ depend on a generating function (of a DJ copula).
 <code>interp_kappa()</code> uses the "kappa version" of that same function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>interp_gen</span><span class='op'>(</span><span class='va'>t</span>, <span class='va'>eta</span>, <span class='va'>k</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>interp_gen</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>eta</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
-<span class='fu'>interp_gen_D1</span><span class='op'>(</span><span class='va'>t</span>, <span class='va'>eta</span>, <span class='va'>k</span><span class='op'>)</span>
+<span class='fu'>interp_gen_D1</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>eta</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
-<span class='fu'>interp_gen_inv_algo</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>eta</span>, <span class='va'>k</span>, mxiter <span class='op'>=</span> <span class='fl'>40</span>, eps <span class='op'>=</span> <span class='fl'>1e-12</span>, bd <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+<span class='fu'>interp_gen_inv_algo</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>eta</span>, <span class='va'>alpha</span>, mxiter <span class='op'>=</span> <span class='fl'>40</span>, eps <span class='op'>=</span> <span class='fl'>1e-12</span>, bd <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
 
-<span class='fu'>interp_gen_inv</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>eta</span>, <span class='va'>k</span>, mxiter <span class='op'>=</span> <span class='fl'>40</span>, eps <span class='op'>=</span> <span class='fl'>1e-12</span>, bd <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+<span class='fu'>interp_gen_inv</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>eta</span>, <span class='va'>alpha</span>, mxiter <span class='op'>=</span> <span class='fl'>40</span>, eps <span class='op'>=</span> <span class='fl'>1e-12</span>, bd <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
 
-<span class='fu'>interp_kappa</span><span class='op'>(</span><span class='va'>t</span>, <span class='va'>eta</span>, <span class='va'>k</span><span class='op'>)</span>
+<span class='fu'>interp_kappa</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>eta</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
-<span class='fu'>interp_kappa_D1</span><span class='op'>(</span><span class='va'>t</span>, <span class='va'>eta</span>, <span class='va'>k</span><span class='op'>)</span>
+<span class='fu'>interp_kappa_D1</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>eta</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
-<span class='fu'>interp_kappa_inv_algo</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>eta</span>, <span class='va'>k</span>, mxiter <span class='op'>=</span> <span class='fl'>80</span>, eps <span class='op'>=</span> <span class='fl'>1e-12</span>, bd <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+<span class='fu'>interp_kappa_inv_algo</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>eta</span>, <span class='va'>alpha</span>, mxiter <span class='op'>=</span> <span class='fl'>80</span>, eps <span class='op'>=</span> <span class='fl'>1e-12</span>, bd <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
 
-<span class='fu'>interp_kappa_inv</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>eta</span>, <span class='va'>k</span>, mxiter <span class='op'>=</span> <span class='fl'>80</span>, eps <span class='op'>=</span> <span class='fl'>1e-12</span>, bd <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span></pre>
+<span class='fu'>interp_kappa_inv</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>eta</span>, <span class='va'>alpha</span>, mxiter <span class='op'>=</span> <span class='fl'>80</span>, eps <span class='op'>=</span> <span class='fl'>1e-12</span>, bd <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>t</th>
+      <th>x</th>
       <td><p>Vector of values &gt;=1 to evaluate the interpolating function at.</p></td>
     </tr>
     <tr>
@@ -164,13 +155,28 @@ depend on a generating function (of a DJ copula).
 interpolating function.</p></td>
     </tr>
     <tr>
-      <th>k</th>
-      <td><p>Vector of values &gt;1 corresponding to the \(k\) parameter
+      <th>alpha</th>
+      <td><p>Vector of values &gt;0 corresponding to the \(alpha\) parameter
 of the IGL generating function.</p></td>
     </tr>
     <tr>
       <th>p</th>
-      <td><p>Vector of values in 0,1 to evaluate the inverse function at.</p></td>
+      <td><p>Vector of values between 0 and 1 to evaluate the inverse function at.</p></td>
+    </tr>
+    <tr>
+      <th>mxiter</th>
+      <td><p>Maximum number of iterations to run the Newton-Raphson
+algorithm when computing inverse. Positive integer, default 20.</p></td>
+    </tr>
+    <tr>
+      <th>eps</th>
+      <td><p>The Newton-Raphson algorithm for computing an inverse will
+stop if the step size is less than this small number.</p></td>
+    </tr>
+    <tr>
+      <th>bd</th>
+      <td><p>The largest acceptable step size in the Newton-Raphson
+algorithm. Step size is reduced if it reaches this large.</p></td>
     </tr>
     </table>
 

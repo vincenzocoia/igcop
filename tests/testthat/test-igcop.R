@@ -30,10 +30,10 @@
 #     print(dfrow)
 #     theta_ <- dfrow$theta
 #     k_ <- dfrow$k
-#     cdf1 <- pigcop(u, tau, c(theta_, k_))
-#     if (any(cdf1>1) | any(cdf1<0)) stop("pigcop not in [0,1].")
-#     if (any(cdfmax - cdf1 < 0)) stop("pigcop exceeds comonotonicity.")
-#     if (any(cdfmin - cdf1 > 0)) stop("pigcop doesn't always exceed countermonotonicity.")
+#     cdf1 <- pig(u, tau, c(theta_, k_))
+#     if (any(cdf1>1) | any(cdf1<0)) stop("pig not in [0,1].")
+#     if (any(cdfmax - cdf1 < 0)) stop("pig exceeds comonotonicity.")
+#     if (any(cdfmin - cdf1 > 0)) stop("pig doesn't always exceed countermonotonicity.")
 # })
 #
 #
@@ -41,8 +41,8 @@
 #     print(dfrow)
 #     theta_ <- dfrow$theta
 #     k_ <- dfrow$k
-#     v <- qcondigcop(tau, u, c(theta_, k_))
-#     tau2 <- pcondigcop(v, u, c(theta_, k_))
+#     v <- qcondig(tau, u, c(theta_, k_))
+#     tau2 <- pcondig(v, u, c(theta_, k_))
 #     # expect_that(tau, equals(tau2))
 #     print(plot(tau, tau2, main=paste(theta_, k_)))
 # })

@@ -1,6 +1,6 @@
 #' IG Copula Family Functions
 #'
-#' Functions related to the IG copula family, denoted  by \code{'igcop'}.
+#' Functions related to the IG copula family, denoted  by \code{'ig'}.
 #'
 #' @param u,v Vectors of values between 0 and 1 representing values of the first
 #' and second copula variables.
@@ -17,42 +17,42 @@
 #' algorithm. Step size is reduced if it reaches this large.
 #' @note Inputting two vectors greater than length 1 is allowed, if they're
 #' the same length.
-#' Also, \code{qcondigcop21} and \code{pcondigcop21} are the same as
-#' \code{qcondigcop} and \code{pcondigcop} -- they're the distributions of
+#' Also, \code{qcondig21} and \code{pcondig21} are the same as
+#' \code{qcondig} and \code{pcondig} -- they're the distributions of
 #' variable 2 given 1.
 #' @return Numeric vector of length equal to the length of the input vector(s).
-#' @rdname igcop
+#' @rdname ig
 #' @export
-pcondigcop21 <- function(v, u, cpar) {
+pcondig21 <- function(v, u, cpar) {
     theta <- cpar[1]
     alpha <- cpar[2]
-    if (theta == Inf) return(pcondiglcop(v, u, cpar = alpha))
+    if (theta == Inf) return(pcondigl(v, u, cpar = alpha))
     y <- interp_gen_inv(1 - v, eta = theta, alpha = alpha)
     1 - interp_kappa(y, eta = theta * (1 - u), alpha = alpha)
 }
 
 #' @param tau Vector of quantile levels between 0 and 1
 #' to evaluate a quantile function at.
-#' @rdname igcop
+#' @rdname ig
 #' @export
-qcondigcop21 <- function(tau, u, cpar) {
+qcondig21 <- function(tau, u, cpar) {
     theta <- cpar[1]
     alpha <- cpar[2]
-    if (theta == Inf) return(qcondiglcop21(tau, u, cpar = alpha))
+    if (theta == Inf) return(qcondigl21(tau, u, cpar = alpha))
     inner <- interp_kappa_inv(1 - tau, eta = theta * (1 - u), alpha = alpha)
     1 - interp_gen(inner, eta = theta, alpha = alpha)
 }
 
-#' @rdname igcop
+#' @rdname ig
 #' @export
-qcondigcop <- qcondigcop21
+qcondig <- qcondig21
 
-#' @rdname igcop
+#' @rdname ig
 #' @export
-pcondigcop <- pcondigcop21
+pcondig <- pcondig21
 
 
-qcondigcop12_algo <- function(tau, v, cpar, mxiter = 80, eps = 1.e-12, bd = 5) {
+qcondig12_algo <- function(tau, v, cpar, mxiter = 80, eps = 1.e-12, bd = 5) {
     if (length(tau) != 1L) stop("Algorithm requires a single `tau`.")
     if (length(v) != 1L) stop("Algorithm requires a single `v`.")
     if (tau == 0) return(0)
@@ -63,7 +63,7 @@ qcondigcop12_algo <- function(tau, v, cpar, mxiter = 80, eps = 1.e-12, bd = 5) {
     denom <- igl_gen(theta * y, alpha = alpha) -
         theta * igl_gen_D(theta * y, alpha = alpha)
     x0 <- c(tau, 1:99/100)
-    tau0 <- pcondigcop12(x0, v, cpar = cpar)
+    tau0 <- pcondig12(x0, v, cpar = cpar)
     diff0 <- abs(tau - tau0)
     i0 <- which(diff0 == min(diff0))[1]
     x <- x0[i0]
@@ -72,8 +72,8 @@ qcondigcop12_algo <- function(tau, v, cpar, mxiter = 80, eps = 1.e-12, bd = 5) {
     diff <- 1
     while (iter < mxiter & abs(diff) > eps) {
         ex <- exp(-x)
-        g <- pcondigcop12(ex, v, cpar = cpar) - tau
-        gp <- - digcop(ex, v, cpar = cpar) * ex
+        g <- pcondig12(ex, v, cpar = cpar) - tau
+        gp <- - dig(ex, v, cpar = cpar) * ex
         diff <- g / gp
         if (x - diff < 0) diff <- x / 2
         # if (x - diff > 1) diff <- (1 + x) / 2
@@ -87,16 +87,16 @@ qcondigcop12_algo <- function(tau, v, cpar, mxiter = 80, eps = 1.e-12, bd = 5) {
     exp(-x)
 }
 
-#' @rdname igcop
+#' @rdname ig
 #' @export
-qcondigcop12 <- function(tau, v, cpar, mxiter = 80, eps = 1.e-12, bd = 5) {
+qcondig12 <- function(tau, v, cpar, mxiter = 80, eps = 1.e-12, bd = 5) {
     lengths <- c(tau = length(tau), v = length(v))
     l <- max(lengths)
     if (lengths[["tau"]] == 1) tau <- rep(tau, l)
     if (lengths[["v"]] == 1) v <- rep(v, l)
     x <- numeric()
     for (i in 1:l) {
-        x[i] <- qcondigcop12_algo(
+        x[i] <- qcondig12_algo(
             tau[i], v[i], cpar = cpar, mxiter = mxiter, eps = eps, bd = bd
         )
     }
@@ -105,57 +105,57 @@ qcondigcop12 <- function(tau, v, cpar, mxiter = 80, eps = 1.e-12, bd = 5) {
 
 
 
-#' @rdname igcop
+#' @rdname ig
 #' @export
-pcondigcop12 <- function(u, v, cpar) {
+pcondig12 <- function(u, v, cpar) {
     theta <- cpar[1]
     alpha <- cpar[2]
-    if (theta == Inf) return(pcondiglcop12(u, v, cpar = alpha))
+    if (theta == Inf) return(pcondigl12(u, v, cpar = alpha))
     y <- interp_gen_inv(1 - v, eta = theta, alpha = alpha)
     1 - (1 - u) *
         interp_gen_D1(y, eta = theta * (1 - u), alpha = alpha) /
         interp_gen_D1(y, eta = theta, alpha = alpha)
 }
 
-#' @rdname igcop
+#' @rdname ig
 #' @export
-digcop <- function(u, v, cpar) {
+dig <- function(u, v, cpar) {
     theta <- cpar[1]
     alpha <- cpar[2]
-    if (theta == Inf) return(diglcop(u, v, cpar = alpha))
+    if (theta == Inf) return(digl(u, v, cpar = alpha))
     y <- interp_gen_inv(1 - v, eta = theta, alpha = alpha)
     interp_kappa_D1(y, eta = (1 - u) * theta, alpha = alpha) /
         interp_gen_D1(y, eta = theta, alpha = alpha)
 }
 
-#' @rdname igcop
+#' @rdname ig
 #' @export
-logdigcop <- function(u, v, cpar) {
+logdig <- function(u, v, cpar) {
     theta <- cpar[1]
     alpha <- cpar[2]
-    if (theta == Inf) return(logdiglcop(u, v, cpar = alpha))
+    if (theta == Inf) return(logdigl(u, v, cpar = alpha))
     y <- interp_gen_inv(1 - v, eta = theta, alpha = alpha)
     eta2 <- (1 - u) * theta
     log(igl_kappa(eta2 * y, alpha) - eta2 * igl_kappa_D(eta2 * y, alpha)) -
         log(igl_gen(theta * y, alpha) - theta * igl_gen_D(theta * y, alpha))
 }
 
-#' @rdname igcop
+#' @rdname ig
 #' @export
-pigcop <- function(u, v, cpar) {
+pig <- function(u, v, cpar) {
     theta <- cpar[1]
     alpha <- cpar[2]
-    if (theta == Inf) return(piglcop(u, v, cpar = alpha))
+    if (theta == Inf) return(pigl(u, v, cpar = alpha))
     y <- interp_gen_inv(1 - v, eta = theta, alpha = alpha)
     u + v - 1 + (1 - u) * interp_gen(y, eta = theta * (1 - u), alpha = alpha)
 }
 
-#' @rdname igcop
+#' @rdname ig
 #' @export
-rigcop <- function(n, cpar) {
+rig <- function(n, cpar) {
     u <- stats::runif(n)
     tau <- stats::runif(n)
-    v <- qcondigcop(tau, u, cpar = cpar)
+    v <- qcondig(tau, u, cpar = cpar)
     res <- matrix(c(u, v), ncol = 2)
     colnames(res) <- c("u", "v")
     if (requireNamespace("tibble", quietly = TRUE)) {

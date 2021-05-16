@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Kappa version of generating function — igl_kappa • igcop</title>
+<title>IG Copula Family Functions — pcondig21 • igcop</title>
 
 
 <!-- jquery -->
@@ -39,11 +39,8 @@
 
 
 
-<meta property="og:title" content="Kappa version of generating function — igl_kappa" />
-<meta property="og:description" content="The kappa version of a generating function \(\psi\) is
-defined as \(\kappa(x) = \psi(x) + x \psi'(x)\).
-igl_kappa takes \(\psi\) to be the IGL generating
-function, igl_gen()." />
+<meta property="og:title" content="IG Copula Family Functions — pcondig21" />
+<meta property="og:description" content="Functions related to the IG copula family, denoted  by 'ig'." />
 
 
 
@@ -114,44 +111,84 @@ function, igl_gen()." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Kappa version of generating function</h1>
+    <h1>IG Copula Family Functions</h1>
     
-    <div class="hidden name"><code>kappa.Rd</code></div>
+    <div class="hidden name"><code>ig.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The kappa version of a generating function \(\psi\) is
-defined as \(\kappa(x) = \psi(x) + x \psi'(x)\).
-<code>igl_kappa</code> takes \(\psi\) to be the IGL generating
-function, <code><a href='igl_gen.html'>igl_gen()</a></code>.</p>
+    <p>Functions related to the IG copula family, denoted  by <code>'ig'</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>igl_kappa</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>alpha</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>pcondig21</span><span class='op'>(</span><span class='va'>v</span>, <span class='va'>u</span>, <span class='va'>cpar</span><span class='op'>)</span>
 
-<span class='fu'>igl_kappa_D</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>alpha</span><span class='op'>)</span>
+<span class='fu'>qcondig21</span><span class='op'>(</span><span class='va'>tau</span>, <span class='va'>u</span>, <span class='va'>cpar</span><span class='op'>)</span>
 
-<span class='fu'>igl_kappa_inv</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>alpha</span><span class='op'>)</span></pre>
+<span class='fu'>qcondig</span><span class='op'>(</span><span class='va'>tau</span>, <span class='va'>u</span>, <span class='va'>cpar</span><span class='op'>)</span>
+
+<span class='fu'>pcondig</span><span class='op'>(</span><span class='va'>v</span>, <span class='va'>u</span>, <span class='va'>cpar</span><span class='op'>)</span>
+
+<span class='fu'>qcondig12</span><span class='op'>(</span><span class='va'>tau</span>, <span class='va'>v</span>, <span class='va'>cpar</span>, mxiter <span class='op'>=</span> <span class='fl'>80</span>, eps <span class='op'>=</span> <span class='fl'>1e-12</span>, bd <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+
+<span class='fu'>pcondig12</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, <span class='va'>cpar</span><span class='op'>)</span>
+
+<span class='fu'>dig</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, <span class='va'>cpar</span><span class='op'>)</span>
+
+<span class='fu'>logdig</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, <span class='va'>cpar</span><span class='op'>)</span>
+
+<span class='fu'>pig</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, <span class='va'>cpar</span><span class='op'>)</span>
+
+<span class='fu'>rig</span><span class='op'>(</span><span class='va'>n</span>, <span class='va'>cpar</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>Numeric argument of the kappa function. Vectorized.</p></td>
+      <th>u, v</th>
+      <td><p>Vectors of values between 0 and 1 representing values of the first
+and second copula variables.</p></td>
     </tr>
     <tr>
-      <th>alpha</th>
-      <td><p>Parameter of the IGL generating function, <code><a href='igl_gen.html'>igl_gen()</a></code>, &gt;0. Vectorized.</p></td>
+      <th>cpar</th>
+      <td><p>Vector of length 2 corresponding to the copula
+parameters <code>theta&gt;0</code> and <code>alpha&gt;0</code>, respectively.</p></td>
     </tr>
     <tr>
-      <th>p</th>
-      <td><p>Numeric argument of the inverse function. Vectorized. Between 0 and 1.</p></td>
+      <th>tau</th>
+      <td><p>Vector of quantile levels between 0 and 1
+to evaluate a quantile function at.</p></td>
+    </tr>
+    <tr>
+      <th>mxiter</th>
+      <td><p>Maximum number of iterations to run the Newton-Raphson
+algorithm when computing inverse. Positive integer, default 20.</p></td>
+    </tr>
+    <tr>
+      <th>eps</th>
+      <td><p>The Newton-Raphson algorithm for computing an inverse will
+stop if the step size is less than this small number.</p></td>
+    </tr>
+    <tr>
+      <th>bd</th>
+      <td><p>The largest acceptable step size in the Newton-Raphson
+algorithm. Step size is reduced if it reaches this large.</p></td>
+    </tr>
+    <tr>
+      <th>n</th>
+      <td><p>Positive integer. Number of observations to randomly draw.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>igl_kappa_D()</code> is the derivative.</p>
+    <p>Numeric vector of length equal to the length of the input vector(s).</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>Inputting two vectors greater than length 1 is allowed, if they're
+the same length.
+Also, <code>qcondig21</code> and <code>pcondig21</code> are the same as
+<code>qcondig</code> and <code>pcondig</code> -- they're the distributions of
+variable 2 given 1.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

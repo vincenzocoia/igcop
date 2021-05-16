@@ -58,9 +58,9 @@ For IG and IGL copulas:
     - `d` for density, and 
     - `q` for quantile (for conditional distributions only).
 - `<name>` corresponds to the possible names:
-    - `igcop` and `iglcop` correspond to an IG copula and IGL copula, respectively.
-    - `condigcop12` and `condiglcop12` correspond to a conditional distribution of the first variable given the second, of an IG copula and IGL copula respectively. 
-    - `condigcop21` and `condiglcop21` correspond to a conditional distribution of the second variable given the first, of an IG copula and IGL copula respectively (also available as `condigcop` and `condiglcop` to match the syntax of the [CopulaModel](https://github.com/vincenzocoia/CopulaModel) package).
+    - `ig` and `igl` correspond to an IG copula and IGL copula, respectively.
+    - `condig12` and `condigl12` correspond to a conditional distribution of the first variable given the second, of an IG copula and IGL copula respectively. 
+    - `condig21` and `condigl21` correspond to a conditional distribution of the second variable given the first, of an IG copula and IGL copula respectively (also available as `condig` and `condigl` to match the syntax of the [CopulaModel](https://github.com/vincenzocoia/CopulaModel) package).
 
 All of these functions have a `cpar` argument expecting the value of the copula parameters. For an IG copula, this is `c(theta, k)`, and just `k` for an IGL copula.
 
@@ -68,7 +68,7 @@ Here are some examples, starting with evaluating the density of an IG copula at 
 
 ```{r example}
 library(igcop)
-# digcop(0.3, 0.6, cpar = c(3, 2))
+# dig(0.3, 0.6, cpar = c(3, 2))
 ```
 
 Computations are vectorized over both `u` and `v` (first and second variables). Here's the cdf and density of an IGL copula at different values:
@@ -76,19 +76,19 @@ Computations are vectorized over both `u` and `v` (first and second variables). 
 ```{r}
 # u <- seq(0.1, 0.9, length.out = 9)
 # v <- seq(0.9, 0.5, length.out = 9)
-# piglcop(u, v, cpar = 4)
-# diglcop(0.2, v, cpar = 4)
+# pigl(u, v, cpar = 4)
+# digl(0.2, v, cpar = 4)
 ```
 
 It doesn't make sense to talk about quantiles for a multivariate distribution, so this is only defined for conditional distributions. Note that the "2 given 1" distributions swap the `u` and `v` arguments to better align with the conditioning.
 
 ```{r}
-# qcondigcop(v, u, cpar = c(5, 3))
+# qcondig(v, u, cpar = c(5, 3))
 ```
 
 Generating 5 values from an IG copula:
 
 ```{r}
-# rigcop(5, cpar = c(5, 4))
+# rig(5, cpar = c(5, 4))
 ```
 

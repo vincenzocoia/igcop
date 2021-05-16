@@ -34,9 +34,9 @@ devtools::install_github("vincenzocoia/igcop")
 
 ## Definition
 
-The IG copula family is defined by parameters \(\theta > 0\) and
-\(k > 1\), although computations are problematic for \(k < 2\), although
-mostly just for \(k\) close to 1.
+The IG copula family is defined by parameters *θ* &gt; 0 and *k* &gt; 1,
+although computations are problematic for *k* &lt; 2, although mostly
+just for *k* close to 1.
 
 …
 
@@ -45,7 +45,7 @@ the response is the second variable. If the response is heavy-tailed,
 and is linked to a predictor via an IG copula, then its conditional
 distributions have lighter tails with a non-constant extreme value index
 across the predictor space. The IGL copula is interesting in a similar
-light, except its conditional distributions are all light-tailed (\!) –
+light, except its conditional distributions are all light-tailed (!) –
 meaning that the predictor is solely responsible for the heavy tail of
 the response variable.
 
@@ -58,22 +58,22 @@ functions adopt the convention:
 
 For IG and IGL copulas:
 
-  - `<prefix>` corresponds to one of:
-      - `r` for random number generation (currently not supported for
+-   `<prefix>` corresponds to one of:
+    -   `r` for random number generation (currently not supported for
         conditional distributions),
-      - `p` for cdf,
-      - `d` for density, and
-      - `q` for quantile (for conditional distributions only).
-  - `<name>` corresponds to the possible names:
-      - `igcop` and `iglcop` correspond to an IG copula and IGL copula,
+    -   `p` for cdf,
+    -   `d` for density, and
+    -   `q` for quantile (for conditional distributions only).
+-   `<name>` corresponds to the possible names:
+    -   `ig` and `igl` correspond to an IG copula and IGL copula,
         respectively.
-      - `condigcop12` and `condiglcop12` correspond to a conditional
+    -   `condig12` and `condigl12` correspond to a conditional
         distribution of the first variable given the second, of an IG
         copula and IGL copula respectively.
-      - `condigcop21` and `condiglcop21` correspond to a conditional
+    -   `condig21` and `condigl21` correspond to a conditional
         distribution of the second variable given the first, of an IG
-        copula and IGL copula respectively (also available as
-        `condigcop` and `condiglcop` to match the syntax of the
+        copula and IGL copula respectively (also available as `condig`
+        and `condigl` to match the syntax of the
         [CopulaModel](https://github.com/vincenzocoia/CopulaModel)
         package).
 
@@ -86,7 +86,7 @@ copula at (0.3, 0.6):
 
 ``` r
 library(igcop)
-# digcop(0.3, 0.6, cpar = c(3, 2))
+# dig(0.3, 0.6, cpar = c(3, 2))
 ```
 
 Computations are vectorized over both `u` and `v` (first and second
@@ -96,8 +96,8 @@ values:
 ``` r
 # u <- seq(0.1, 0.9, length.out = 9)
 # v <- seq(0.9, 0.5, length.out = 9)
-# piglcop(u, v, cpar = 4)
-# diglcop(0.2, v, cpar = 4)
+# pigl(u, v, cpar = 4)
+# digl(0.2, v, cpar = 4)
 ```
 
 It doesn’t make sense to talk about quantiles for a multivariate
@@ -106,11 +106,11 @@ Note that the “2 given 1” distributions swap the `u` and `v` arguments
 to better align with the conditioning.
 
 ``` r
-# qcondigcop(v, u, cpar = c(5, 3))
+# qcondig(v, u, cpar = c(5, 3))
 ```
 
 Generating 5 values from an IG copula:
 
 ``` r
-# rigcop(5, cpar = c(5, 4))
+# rig(5, cpar = c(5, 4))
 ```
