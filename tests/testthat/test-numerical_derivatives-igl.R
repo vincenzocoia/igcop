@@ -1,6 +1,6 @@
 # Density of IGL copula with N(0,1) margins
 diglcop_gaussian <- function(u, v, cpar) {
-  diglcop(u, v, cpar) * dnorm(qnorm(u)) * dnorm(qnorm(v))
+  diglcop(u, v, cpar = cpar) * dnorm(qnorm(u)) * dnorm(qnorm(v))
 }
 
 test_that("density matches the numerical density obtained from the cdf", {
@@ -8,15 +8,15 @@ test_that("density matches the numerical density obtained from the cdf", {
   diglcop_gaussian_numerical <- function(u, v, cpar, eps = 1.e-5) {
     x <- qnorm(u)
     y <- qnorm(v)
-    cdf11 <- piglcop(u, v, cpar)
-    cdf22 <- piglcop(pnorm(x + eps), pnorm(y + eps), cpar)
-    cdf21 <- piglcop(pnorm(x + eps), v, cpar)
-    cdf12 <- piglcop(u, pnorm(y + eps), cpar)
+    cdf11 <- piglcop(u, v, cpar = cpar)
+    cdf22 <- piglcop(pnorm(x + eps), pnorm(y + eps), cpar = cpar)
+    cdf21 <- piglcop(pnorm(x + eps), v, cpar = cpar)
+    cdf12 <- piglcop(u, pnorm(y + eps), cpar = cpar)
     (cdf22 + cdf11 - cdf12 - cdf21) / eps ^ 2
   }
-  for (cpar_ in .cpar) {
-    pdf1 <- diglcop_gaussian_numerical(.u, .v, cpar_)
-    pdf2 <- diglcop_gaussian(.u, .v, cpar_)
+  for (alpha_ in .alpha) {
+    pdf1 <- diglcop_gaussian_numerical(.u, .v, cpar = alpha_)
+    pdf2 <- diglcop_gaussian(.u, .v, cpar = alpha_)
     expect_equal(pdf1, pdf2, tolerance = 1e-4)
   }
 })
@@ -24,44 +24,45 @@ test_that("density matches the numerical density obtained from the cdf", {
 test_that("the 2|1 cdf matches the numerically obtained cdf", {
   #' Calculate numerical derivative
   pcondiglcop21_numerical <- function(v, u, cpar, eps = 1.e-8) {
-    cdf11 <- piglcop(u, v, cpar)
-    cdf21 <- piglcop(u + eps, v, cpar)
+    cdf11 <- piglcop(u, v, cpar = cpar)
+    cdf21 <- piglcop(u + eps, v, cpar = cpar)
     (cdf21 - cdf11) / eps
   }
-  for (cpar_ in .cpar) {
-    pcond1 <- pcondiglcop21_numerical(.v, .u, cpar_)
-    pcond2 <- pcondiglcop21(.v, .u, cpar_)
-    expect_equal(pcond1, pcond2, tolerance = 1e-6)
+  for (alpha_ in .alpha) {
+    pcond1 <- pcondiglcop21_numerical(.v, .u, alpha_)
+    pcond2 <- pcondiglcop21(.v, .u, alpha_)
+    expect_equal(pcond1, pcond2, tolerance = 1e-5)
   }
 })
 
 test_that("the 1|2 cdf matches the numerically obtained cdf", {
   #' Calculate numerical derivative
-  pcondiglcop12_numerical <- function(u, v, cpar, eps = 1.e-8) {
-    cdf11 <- piglcop(u, v, cpar)
-    cdf12 <- piglcop(u, v + eps, cpar)
+  pcondiglcop12_log_numerical <- function(u, v, cpar, eps = 1.e-9) {
+    x <- -log(u)
+    y <- -log(v)
+    cdf11 <- piglcop(u, v, cpar = cpar)
+    cdf12 <- piglcop(u, exp(-y - eps), cpar = cpar)
     (cdf12 - cdf11) / eps
   }
-  for (cpar_ in .cpar) {
-    pcond1 <- pcondiglcop12_numerical(.u, .v, cpar_)
-    pcond2 <- pcondiglcop12(.u, .v, cpar_)
-    expect_equal(pcond1, pcond2, tolerance = 1e-6)
+  for (alpha_ in .alpha) {
+    pcond1 <- pcondiglcop12_log_numerical(.u, .v, cpar = alpha_)
+    pcond2 <- pcondiglcop12(.u, .v, cpar = alpha_) * (-.v)
+    expect_equal(pcond1, pcond2, tolerance = 1e-5)
   }
 })
 
+
 test_that("density matches the numerical density obtained from the 2|1 conditional distribution", {
   #' Calculate numerical derivative
-  diglcop_gaussian_numerical_from_2g1 <- function(u, v, cpar, eps = 1.e-8) {
-    x <- qnorm(u)
-    y <- qnorm(v)
-    conda <- pcondiglcop21(v, u, cpar)
-    condb <- pcondiglcop21(pnorm(y + eps), u, cpar)
-    (condb - conda) / eps * dnorm(x)
+  diglcop_numerical_from_2g1 <- function(u, v, cpar, eps = 1.e-10) {
+    conda <- pcondiglcop21(v, u, cpar = cpar)
+    condb <- pcondiglcop21(v + eps, u, cpar = cpar)
+    (condb - conda) / eps
   }
-  for (cpar_ in .cpar) {
-    pdf1 <- diglcop_gaussian_numerical_from_2g1(.u, .v, cpar_)
-    pdf2 <- diglcop_gaussian(.u, .v, cpar_)
-    expect_equal(pdf1, pdf2, tolerance = 1e-7)
+  for (alpha_ in .alpha) {
+    pdf1 <- diglcop_numerical_from_2g1(.u, .v, cpar = alpha_)
+    pdf2 <- diglcop(.u, .v, cpar = alpha_)
+    expect_equal(pdf1, pdf2, tolerance = 1e-5)
   }
 })
 

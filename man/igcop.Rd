@@ -21,7 +21,7 @@ qcondigcop(tau, u, cpar)
 
 pcondigcop(v, u, cpar)
 
-qcondigcop12(tau, v, cpar, mxiter = 80, eps = 1e-12)
+qcondigcop12(tau, v, cpar, mxiter = 80, eps = 1e-12, bd = 5)
 
 pcondigcop12(u, v, cpar)
 
@@ -42,6 +42,15 @@ parameters \code{theta>0} and \code{alpha>0}, respectively.}
 
 \item{tau}{Vector of quantile levels between 0 and 1
 to evaluate a quantile function at.}
+
+\item{mxiter}{Maximum number of iterations to run the Newton-Raphson
+algorithm when computing inverse. Positive integer, default 20.}
+
+\item{eps}{The Newton-Raphson algorithm for computing an inverse will
+stop if the step size is less than this small number.}
+
+\item{bd}{The largest acceptable step size in the Newton-Raphson
+algorithm. Step size is reduced if it reaches this large.}
 
 \item{n}{Positive integer. Number of observations to randomly draw.}
 }

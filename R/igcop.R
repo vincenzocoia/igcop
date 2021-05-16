@@ -9,6 +9,12 @@
 #' @param cpar Vector of length 2 corresponding to the copula
 #' parameters \code{theta>0} and \code{alpha>0}, respectively.
 #' @param n Positive integer. Number of observations to randomly draw.
+#' @param mxiter Maximum number of iterations to run the Newton-Raphson
+#' algorithm when computing inverse. Positive integer, default 20.
+#' @param eps The Newton-Raphson algorithm for computing an inverse will
+#' stop if the step size is less than this small number.
+#' @param bd The largest acceptable step size in the Newton-Raphson
+#' algorithm. Step size is reduced if it reaches this large.
 #' @note Inputting two vectors greater than length 1 is allowed, if they're
 #' the same length.
 #' Also, \code{qcondigcop21} and \code{pcondigcop21} are the same as
@@ -46,29 +52,44 @@ qcondigcop <- qcondigcop21
 pcondigcop <- pcondigcop21
 
 
-qcondigcop12_algo <- function(tau, v, cpar, mxiter = 80, eps = 1.e-12) {
+qcondigcop12_algo <- function(tau, v, cpar, mxiter = 80, eps = 1.e-12, bd = 5) {
     if (length(tau) != 1L) stop("Algorithm requires a single `tau`.")
     if (length(v) != 1L) stop("Algorithm requires a single `v`.")
     if (tau == 0) return(0)
     if (tau == 1) return(1)
-    x <- tau
+    theta <- cpar[1]
+    alpha <- cpar[2]
+    y <- interp_gen_inv(1 - v, eta = theta, alpha = alpha)
+    denom <- igl_gen(theta * y, alpha = alpha) -
+        theta * igl_gen_D(theta * y, alpha = alpha)
+    x0 <- c(tau, 1:99/100)
+    tau0 <- pcondigcop12(x0, v, cpar = cpar)
+    diff0 <- abs(tau - tau0)
+    i0 <- which(diff0 == min(diff0))[1]
+    x <- x0[i0]
+    x <- -log(x)
     iter <- 0
     diff <- 1
     while (iter < mxiter & abs(diff) > eps) {
-        g <- pcondigcop12(x, v, cpar = cpar) - tau
-        gp <- digcop(x, v, cpar = cpar)
+        ex <- exp(-x)
+        g <- pcondigcop12(ex, v, cpar = cpar) - tau
+        gp <- - digcop(ex, v, cpar = cpar) * ex
         diff <- g / gp
         if (x - diff < 0) diff <- x / 2
-        if (x - diff > 1) diff <- (1 + x) / 2
+        # if (x - diff > 1) diff <- (1 + x) / 2
         x <- x - diff
+        while(abs(diff) > bd) {
+            diff <- diff / 2
+            x <- x + diff
+        }
         iter <- iter + 1
     }
-    x
+    exp(-x)
 }
 
 #' @rdname igcop
 #' @export
-qcondigcop12 <- function(tau, v, cpar, mxiter = 80, eps = 1.e-12) {
+qcondigcop12 <- function(tau, v, cpar, mxiter = 80, eps = 1.e-12, bd = 5) {
     lengths <- c(tau = length(tau), v = length(v))
     l <- max(lengths)
     if (lengths[["tau"]] == 1) tau <- rep(tau, l)
@@ -76,7 +97,7 @@ qcondigcop12 <- function(tau, v, cpar, mxiter = 80, eps = 1.e-12) {
     x <- numeric()
     for (i in 1:l) {
         x[i] <- qcondigcop12_algo(
-            tau[i], v[i], cpar = cpar, mxiter = mxiter, eps = eps
+            tau[i], v[i], cpar = cpar, mxiter = mxiter, eps = eps, bd = bd
         )
     }
     x

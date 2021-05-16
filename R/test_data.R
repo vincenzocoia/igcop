@@ -27,6 +27,6 @@
   c(4800.5,34.1), # spear=.937
   c(9600.5,34.1) # spear=.947  # try inference with this parameter vector
 )
-.alpha <- unique(purrr::map_dbl(.cpar, 2))
-.theta <- unique(purrr::map_dbl(.cpar, 1))
+.alpha <- unique(vapply(.cpar, `[`, i = 2L, FUN.VALUE = numeric(1L)))
+.theta <- unique(vapply(.cpar, `[`, i = 1L, FUN.VALUE = numeric(1L)))
 .tau <- .u
