@@ -30,6 +30,7 @@
 #' rigl(10, cpar = 3)
 #' @export
 qcondigl <- function(tau, u, cpar) {
+    check_igl_cpar(cpar)
     alpha <- cpar
     inner <- igl_kappa_inv(1 - tau, alpha = alpha) / (1 - u)
     1 - igl_gen(inner, alpha = alpha)
@@ -38,6 +39,7 @@ qcondigl <- function(tau, u, cpar) {
 #' @rdname igl
 #' @export
 pcondigl <- function(v, u, cpar) {
+    check_igl_cpar(cpar)
     alpha <- cpar
     y <- igl_gen_inv(1 - v, alpha = alpha)
     1 - igl_kappa((1 - u) * y, alpha = alpha)
@@ -54,6 +56,7 @@ pcondigl21 <- pcondigl
 #' @rdname igl
 #' @export
 pcondigl12 <- function(u, v, cpar) {
+    check_igl_cpar(cpar)
     alpha <- cpar
     y <- igl_gen_inv(1 - v, alpha)
     1 - (1 - u) ^ 2 *
@@ -64,6 +67,7 @@ pcondigl12 <- function(u, v, cpar) {
 #' @rdname igl
 #' @export
 qcondigl12 <- function(tau, v, cpar) {
+    check_igl_cpar(cpar)
     alpha <- cpar
     y <- igl_gen_inv(1 - v, alpha = alpha)
     inner <- (1 - tau) * stats::pgamma(y, shape = alpha + 1)
@@ -73,6 +77,7 @@ qcondigl12 <- function(tau, v, cpar) {
 #' @rdname igl
 #' @export
 digl <- function(u, v, cpar) {
+    check_igl_cpar(cpar)
     alpha <- cpar
     y <- igl_gen_inv(1 - v, alpha = alpha)
     (1 - u) *
@@ -83,6 +88,7 @@ digl <- function(u, v, cpar) {
 #' @rdname igl
 #' @export
 pigl <- function(u, v, cpar) {
+    check_igl_cpar(cpar)
     alpha <- cpar
     y <- igl_gen_inv(1 - v, alpha = alpha)
     u + v - 1 + (1 - u) * igl_gen((1 - u) * y, alpha = alpha)
@@ -91,6 +97,7 @@ pigl <- function(u, v, cpar) {
 #' @rdname igl
 #' @export
 rigl <- function(n, cpar) {
+    check_igl_cpar(cpar)
     u <- stats::runif(n)
     tau <- stats::runif(n)
     v <- qcondigl(tau, u, cpar = cpar)
@@ -105,9 +112,20 @@ rigl <- function(n, cpar) {
 #' @rdname igl
 #' @export
 logdigl <- function(u, v, cpar) {
+    check_igl_cpar(cpar)
     alpha <- cpar
     y <- igl_gen_inv(1 - v, alpha = alpha)
     log(1 - u) + 2 * log(y) - log(alpha) +
         stats::dgamma((1 - u) * y, shape = alpha, log = TRUE) -
         stats::pgamma(y, shape = alpha + 1, log.p = TRUE)
+}
+
+check_igl_cpar <- function(cpar) {
+    l <- length(cpar)
+    if (l != 1L) {
+        stop("`cpar` for IGL copula must be length one. Provided length ", l, ".")
+    }
+    if (cpar <= 0) {
+        stop("`cpar` for IGL copula must be positive. Provided ", cpar, ".")
+    }
 }

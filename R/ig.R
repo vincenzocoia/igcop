@@ -102,6 +102,7 @@ qcondig12_algo <- function(tau, v, cpar, mxiter = 80, eps = 1.e-12, bd = 5) {
 #' @rdname ig
 #' @export
 qcondig12 <- function(tau, v, cpar, mxiter = 80, eps = 1.e-12, bd = 5) {
+    if (cpar[1] == Inf) return(qcondigl12(tau, v, cpar = cpar[2]))
     lengths <- c(tau = length(tau), v = length(v))
     l <- max(lengths)
     if (lengths[["tau"]] == 1) tau <- rep(tau, l)
@@ -165,6 +166,7 @@ pig <- function(u, v, cpar) {
 #' @rdname ig
 #' @export
 rig <- function(n, cpar) {
+    if (cpar[1] == Inf) return(rigl(n, cpar = cpar[2]))
     u <- stats::runif(n)
     tau <- stats::runif(n)
     v <- qcondig(tau, u, cpar = cpar)
