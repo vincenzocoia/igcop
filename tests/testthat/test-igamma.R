@@ -1,49 +1,51 @@
-test_that("integrated gamma vectorization works", {
+context("Test the incomplete gamma function")
+
+test_that("incomplete gamma vectorization works", {
   set.seed(1)
-  alpha <- rexp(10)
+  s <- rexp(10)
   x <- rexp(10)
   expect_identical(
-    purrr::map2_dbl(alpha, x, igamma),
-    igamma(alpha, x)
+    mapply(igamma, s, x),
+    igamma(s, x)
   )
-  for (alpha_ in alpha) {
+  for (s_ in s) {
     expect_identical(
-      purrr::map_dbl(x, igamma, alpha = alpha_),
-      igamma(alpha_, x)
+      vapply(x, function(x_) igamma(s_, x_), FUN.VALUE = numeric(1L)),
+      igamma(s_, x)
     )
   }
   for (x_ in x) {
     expect_identical(
-      purrr::map_dbl(alpha, igamma, x = x_),
-      igamma(alpha, x_)
+      vapply(s, function(s_) igamma(s_, x_), FUN.VALUE = numeric(1L)),
+      igamma(s, x_)
     )
   }
 })
 
 
-test_that("integrated gamma aligns with gamma", {
+test_that("incomplete gamma aligns with gamma", {
   set.seed(1)
-  alpha <- rexp(10)
+  s <- rexp(10)
   expect_identical(
-    gamma(alpha),
-    igamma(alpha, 0)
+    gamma(s),
+    igamma(s, 0)
   )
 })
 
-test_that("integrated gamma aligns with numeric integral", {
+test_that("incomplete gamma aligns with numeric integral", {
   set.seed(1)
-  alpha <- rexp(10)
+  s <- rexp(10)
   x <- rexp(10)
   rel.tol <- 1e-7
-  for (alpha_ in alpha) {
+  for (s_ in s) {
     for (x_ in x) {
       f <- function(t) {
-        t ^ (alpha_ - 1) * exp(-t)
+        t ^ (s_ - 1) * exp(-t)
       }
       int_f <- integrate(f, x_, Inf, rel.tol = rel.tol)
       expect_equal(
         int_f$value,
-        igamma(alpha_, x_),
+        igamma(s_, x_),
         tolerance = rel.tol
       )
     }

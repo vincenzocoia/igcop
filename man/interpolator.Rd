@@ -11,21 +11,21 @@
 \alias{interp_kappa_inv}
 \title{Interpolating Functions}
 \usage{
-interp_gen(x, eta, k)
+interp_gen(x, eta, alpha)
 
-interp_gen_D1(x, eta, k)
+interp_gen_D1(x, eta, alpha)
 
-interp_gen_inv_algo(p, eta, k, mxiter = 40, eps = 1e-12, bd = 5)
+interp_gen_inv_algo(p, eta, alpha, mxiter = 40, eps = 1e-12, bd = 5)
 
-interp_gen_inv(p, eta, k, mxiter = 40, eps = 1e-12, bd = 5)
+interp_gen_inv(p, eta, alpha, mxiter = 40, eps = 1e-12, bd = 5)
 
-interp_kappa(x, eta, k)
+interp_kappa(x, eta, alpha)
 
-interp_kappa_D1(x, eta, k)
+interp_kappa_D1(x, eta, alpha)
 
-interp_kappa_inv_algo(p, eta, k, mxiter = 80, eps = 1e-12, bd = 5)
+interp_kappa_inv_algo(p, eta, alpha, mxiter = 80, eps = 1e-12, bd = 5)
 
-interp_kappa_inv(p, eta, k, mxiter = 80, eps = 1e-12, bd = 5)
+interp_kappa_inv(p, eta, alpha, mxiter = 80, eps = 1e-12, bd = 5)
 }
 \arguments{
 \item{x}{Vector of values >=1 to evaluate the interpolating function at.}
@@ -33,10 +33,19 @@ interp_kappa_inv(p, eta, k, mxiter = 80, eps = 1e-12, bd = 5)
 \item{eta}{Vector of values >0 of second argument of the
 interpolating function.}
 
-\item{k}{Vector of values >1 corresponding to the \eqn{k} parameter
+\item{alpha}{Vector of values >0 corresponding to the \eqn{alpha} parameter
 of the IGL generating function.}
 
-\item{p}{Vector of values in \link{0,1} to evaluate the inverse function at.}
+\item{p}{Vector of values between 0 and 1 to evaluate the inverse function at.}
+
+\item{mxiter}{Maximum number of iterations to run the Newton-Raphson
+algorithm when computing inverse. Positive integer, default 20.}
+
+\item{eps}{The Newton-Raphson algorithm for computing an inverse will
+stop if the step size is less than this small number.}
+
+\item{bd}{The largest acceptable step size in the Newton-Raphson
+algorithm. Step size is reduced if it reaches this large.}
 }
 \description{
 These interpolating functions, denoted \eqn{H} in the vignette,

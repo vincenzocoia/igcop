@@ -41,7 +41,7 @@
 
 <meta property="og:title" content="Kappa version of generating function — igl_kappa" />
 <meta property="og:description" content="The kappa version of a generating function \(\psi\) is
-defined as \(\kappa(t) = \psi(t) - t \psi'(t)\).
+defined as \(\kappa(x) = \psi(x) + x \psi'(x)\).
 igl_kappa takes \(\psi\) to be the IGL generating
 function, igl_gen()." />
 
@@ -75,7 +75,7 @@ function, igl_gen()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">igcop</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -83,30 +83,21 @@ function, igl_gen()." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/definition.html">Integrated Gamma Copula Definition</a>
-    </li>
-  </ul>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/vincenzocoia/igcop">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
@@ -130,34 +121,34 @@ function, igl_gen()." />
 
     <div class="ref-description">
     <p>The kappa version of a generating function \(\psi\) is
-defined as \(\kappa(t) = \psi(t) - t \psi'(t)\).
+defined as \(\kappa(x) = \psi(x) + x \psi'(x)\).
 <code>igl_kappa</code> takes \(\psi\) to be the IGL generating
 function, <code><a href='igl_gen.html'>igl_gen()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>igl_kappa</span><span class='op'>(</span><span class='va'>t</span>, <span class='va'>k</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>igl_kappa</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
-<span class='fu'>igl_kappa_D</span><span class='op'>(</span><span class='va'>t</span>, <span class='va'>k</span><span class='op'>)</span>
+<span class='fu'>igl_kappa_D</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
-<span class='fu'>igl_kappa_inv</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>k</span><span class='op'>)</span></pre>
+<span class='fu'>igl_kappa_inv</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>alpha</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>t</th>
+      <th>x</th>
       <td><p>Numeric argument of the kappa function. Vectorized.</p></td>
     </tr>
     <tr>
-      <th>k</th>
-      <td><p>Parameter of the IGL generating function, <code><a href='igl_gen.html'>igl_gen()</a></code>. Vectorized.</p></td>
+      <th>alpha</th>
+      <td><p>Parameter of the IGL generating function, <code><a href='igl_gen.html'>igl_gen()</a></code>, &gt;0. Vectorized.</p></td>
+    </tr>
+    <tr>
+      <th>p</th>
+      <td><p>Numeric argument of the inverse function. Vectorized. Between 0 and 1.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>This function is a nearly direct application of the
-<code><a href='https://rdrr.io/r/stats/GammaDist.html'>stats::pgamma()</a></code> function.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><code>igl_kappa_D()</code> is the derivative.</p>
