@@ -4,10 +4,10 @@
 \alias{igamma}
 \title{(Upper) Incomplete Gamma Function}
 \usage{
-igamma(alpha, x)
+igamma(s, x)
 }
 \arguments{
-\item{alpha}{Scale parameter of the incomplete gamma function.
+\item{s}{Scale parameter of the incomplete gamma function.
 Vectorized, > 0.}
 
 \item{x}{Lower bound of the incomplete gamma function.
@@ -19,7 +19,7 @@ based on the Gamma cdf \code{pgamma}.
 }
 \details{
 The (Upper) Incomplete Gamma Function is defined as
-\deqn{\Gamma(\alpha, x) = \int_x^{\infty} t^{\alpha - 1} e^{-t} dt}.
+\deqn{\Gamma(s, x) = \int_x^{\infty} t^{s - 1} e^{-t} dt}.
 }
 \examples{
 igamma(1:5, 1:5)

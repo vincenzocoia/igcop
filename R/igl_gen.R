@@ -27,28 +27,15 @@
 igl_gen <- function(x, alpha) {
     res <- stats::pgamma(x, shape = alpha, lower.tail = FALSE) +
         alpha * (stats::pgamma(x, shape = alpha + 1) / x)
-    res[x == 0] <- 1
-    res
+    # Problem w/ res[x==0] <- 1: if length(res)=0 & length(x)=1, then length(res) becomes 1.
+    vctrs::vec_assign(res, x == 0, value = 1)
 }
 
-# igl_gen_v2 <- function(x, k) {
-#     x * (gamma(k) - igamma(k, 1 / x)) / gamma(k - 1) +
-#         igamma(k - 1, 1 / x) / gamma(k - 1)
-# }
-# diff <- function(x) igl_gen(x, 1.1) - igl_gen_v2(x, 1.1)
-# curve(diff, 0, 100)
 
 #' @rdname igl_gen
 igl_gen_D <- function(x, alpha) {
     - alpha / x ^ 2 * stats::pgamma(x, alpha + 1)
 }
-
-# igl_gen_D_v2 <- function(x, k) {
-#     (gamma(k) - igamma(k, 1 / x)) / gamma(k - 1)
-# }
-# diff <- function(x) igl_gen_D(x, 3) - igl_gen_D_v2(x, 3)
-# curve(diff, 0, 10)
-
 
 #' @rdname igl_gen
 igl_gen_DD <- function(x, alpha) {
@@ -67,6 +54,8 @@ igl_gen_DD <- function(x, alpha) {
 igl_gen_inv_algo <- function(p, alpha, mxiter = 20, eps = 1.e-12, bd = 5){
     if (length(p) != 1L) stop("Algorithm requires a single `p`.")
     if (length(alpha) != 1L) stop("Algorithm requires a single `alpha`.")
+    prod <- alpha * p
+    if (is.na(prod)) return(prod)
     if (p == 0) return(Inf)
     if (p == 1) return(0)
     x_start <- c(
@@ -101,28 +90,16 @@ igl_gen_inv_algo <- function(p, alpha, mxiter = 20, eps = 1.e-12, bd = 5){
 
 #' @rdname igl_gen
 igl_gen_inv <- function(p, alpha, mxiter = 20, eps = 1.e-12, bd = 5){
-    lengths <- c(p = length(p), alpha = length(alpha))
-    l <- max(lengths)
-    if (lengths[["p"]] == 1) p <- rep(p, l)
-    if (lengths[["alpha"]] == 1) alpha <- rep(alpha, l)
-    x <- numeric()
-    for (i in 1:l) {
-        x[i] <- igl_gen_inv_algo(
-            p[i], alpha = alpha[i], mxiter = mxiter, eps = eps, bd = bd
-        )
-    }
-    x
+    l <- vctrs::vec_size_common(p, alpha)
+    if (l == 0L) return(numeric(0L))
+    args <- vctrs::vec_recycle_common(p = p, alpha = alpha)
+    with(args, {
+        x <- numeric(0L)
+        for (i in 1:l) {
+            x[i] <- igl_gen_inv_algo(
+                p[i], alpha = alpha[i], mxiter = mxiter, eps = eps, bd = bd
+            )
+        }
+        x
+    })
 }
-
-# alpha <- 12.3
-# tibble(x = seq(0, 100, length.out = 1000)) %>%
-#     mutate(f_psi = igl_gen(x, alpha),
-#            f_surv = pgamma(x, alpha, lower.tail = FALSE),
-#            # f_cdf = pgamma(x, alpha + 1),
-#            f_ratio = alpha / x,
-#            f_start = 1 - (1 / x + 1) ^ (-alpha)) %>%
-#     pivot_longer(contains("f"), names_sep = "_",
-#                  names_to = c(".value", "fun")) %>%
-#     ggplot(aes(x, f)) +
-#     geom_line(aes(colour = fun, group = fun)) +
-#     ylim(0, 1)

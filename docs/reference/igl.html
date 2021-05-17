@@ -120,25 +120,25 @@
     <p>Functions related to the IGL copula family, denoted  by <code>'igl'</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>qcondigl</span><span class='op'>(</span><span class='va'>tau</span>, <span class='va'>u</span>, <span class='va'>cpar</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>qcondigl</span><span class='op'>(</span><span class='va'>tau</span>, <span class='va'>u</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
-<span class='fu'>pcondigl</span><span class='op'>(</span><span class='va'>v</span>, <span class='va'>u</span>, <span class='va'>cpar</span><span class='op'>)</span>
+<span class='fu'>pcondigl</span><span class='op'>(</span><span class='va'>v</span>, <span class='va'>u</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
-<span class='fu'>qcondigl21</span><span class='op'>(</span><span class='va'>tau</span>, <span class='va'>u</span>, <span class='va'>cpar</span><span class='op'>)</span>
+<span class='fu'>qcondigl21</span><span class='op'>(</span><span class='va'>tau</span>, <span class='va'>u</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
-<span class='fu'>pcondigl21</span><span class='op'>(</span><span class='va'>v</span>, <span class='va'>u</span>, <span class='va'>cpar</span><span class='op'>)</span>
+<span class='fu'>pcondigl21</span><span class='op'>(</span><span class='va'>v</span>, <span class='va'>u</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
-<span class='fu'>pcondigl12</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, <span class='va'>cpar</span><span class='op'>)</span>
+<span class='fu'>pcondigl12</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
-<span class='fu'>qcondigl12</span><span class='op'>(</span><span class='va'>tau</span>, <span class='va'>v</span>, <span class='va'>cpar</span><span class='op'>)</span>
+<span class='fu'>qcondigl12</span><span class='op'>(</span><span class='va'>tau</span>, <span class='va'>v</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
-<span class='fu'>digl</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, <span class='va'>cpar</span><span class='op'>)</span>
+<span class='fu'>digl</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
-<span class='fu'>pigl</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, <span class='va'>cpar</span><span class='op'>)</span>
+<span class='fu'>pigl</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
-<span class='fu'>rigl</span><span class='op'>(</span><span class='va'>n</span>, <span class='va'>cpar</span><span class='op'>)</span>
+<span class='fu'>rigl</span><span class='op'>(</span><span class='va'>n</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
-<span class='fu'>logdigl</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, <span class='va'>cpar</span><span class='op'>)</span></pre>
+<span class='fu'>logdigl</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, <span class='va'>alpha</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -154,7 +154,7 @@ evaluate a quantile function at.</p></td>
 and second copula variables.</p></td>
     </tr>
     <tr>
-      <th>cpar</th>
+      <th>alpha</th>
       <td><p>Single numeric &gt;0; corresponds to parameter <code>alpha</code> in the
 IGL copula family.</p></td>
     </tr>
@@ -179,21 +179,21 @@ variable 2 given 1.</p>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
 <span class='va'>u</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span>
 <span class='va'>v</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span>
-<span class='fu'>pigl</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, cpar <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+<span class='fu'>pigl</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, alpha <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;  [1] 0.09036086 0.10358874 0.49893409 0.37976926 0.19726813 0.48995618
-#&gt;  [7] 0.71269122 0.66079779 0.31652482 0.06094790</div><div class='input'><span class='fu'>digl</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, cpar <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+#&gt;  [7] 0.71269122 0.66079779 0.31652482 0.06094790</div><div class='input'><span class='fu'>digl</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, alpha <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;  [1] 1.573817e+00 1.351845e+00 1.628684e+00 1.317590e-01 2.054155e-01
-#&gt;  [6] 2.514377e-01 3.743734e-01 3.446458e-31 9.890313e-01 7.031873e-02</div><div class='input'><span class='fu'>logdigl</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, cpar <span class='op'>=</span> <span class='fl'>0.4</span><span class='op'>)</span>
+#&gt;  [6] 2.514377e-01 3.743734e-01 3.446458e-31 9.890313e-01 7.031873e-02</div><div class='input'><span class='fu'>logdigl</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, alpha <span class='op'>=</span> <span class='fl'>0.4</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;  [1]   0.20792570   0.14927593   0.11282773  -0.53704402  -0.16615410
-#&gt;  [6]  -0.41629460  -0.26890732 -11.61569597  -0.02645597  -0.34758937</div><div class='input'><span class='fu'>pcondigl21</span><span class='op'>(</span><span class='va'>v</span>, <span class='va'>u</span>, cpar <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
+#&gt;  [6]  -0.41629460  -0.26890732 -11.61569597  -0.02645597  -0.34758937</div><div class='input'><span class='fu'>pcondigl21</span><span class='op'>(</span><span class='va'>v</span>, <span class='va'>u</span>, alpha <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;  [1] 0.367517415 0.202267370 0.825425218 0.000291085 0.999961459 0.001544306
-#&gt;  [7] 0.001353188 1.000000000 0.141933361 0.999998899</div><div class='input'><span class='fu'>qcondigl21</span><span class='op'>(</span><span class='va'>v</span>, <span class='va'>u</span>, cpar <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
+#&gt;  [7] 0.001353188 1.000000000 0.141933361 0.999998899</div><div class='input'><span class='fu'>qcondigl21</span><span class='op'>(</span><span class='va'>v</span>, <span class='va'>u</span>, alpha <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;  [1] 0.1204253 0.1584193 0.6289526 0.8898574 0.3855237 0.8922194 0.9535514
-#&gt;  [8] 0.8484575 0.5537787 0.3055268</div><div class='input'><span class='fu'>pcondigl12</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, cpar <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
+#&gt;  [8] 0.8484575 0.5537787 0.3055268</div><div class='input'><span class='fu'>pcondigl12</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, alpha <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;  [1] 5.529694e-01 7.632423e-01 2.905738e-01 9.999573e-01 1.392047e-04
-#&gt;  [6] 9.997266e-01 9.997780e-01 0.000000e+00 9.216055e-01 3.539984e-06</div><div class='input'><span class='fu'>qcondigl12</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, cpar <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
+#&gt;  [6] 9.997266e-01 9.997780e-01 0.000000e+00 9.216055e-01 3.539984e-06</div><div class='input'><span class='fu'>qcondigl12</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, alpha <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;  [1] 0.1253460 0.1627296 0.6762018 0.6168242 0.6525954 0.6750200 0.8416717
-#&gt;  [8] 0.9923653 0.4208920 0.5751476</div><div class='input'><span class='fu'>rigl</span><span class='op'>(</span><span class='fl'>10</span>, cpar <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+#&gt;  [8] 0.9923653 0.4208920 0.5751476</div><div class='input'><span class='fu'>rigl</span><span class='op'>(</span><span class='fl'>10</span>, alpha <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 10 x 2</span><span>
 #&gt;         u      v
 #&gt;     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>

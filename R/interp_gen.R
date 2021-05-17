@@ -19,13 +19,14 @@
 #' of the IGL generating function.
 #' @rdname interpolator
 interp_gen <- function(x, eta, alpha) {
-    exp(-x) * igl_gen(eta * x, alpha)
+    exp(-x) * igl_gen(eta * x, alpha = alpha)
 }
 
 
 #' @rdname interpolator
 interp_gen_D1 <- function(x, eta, alpha) {
-    - exp(-x) * (igl_gen(eta * x, alpha) - eta * igl_gen_D(eta * x, alpha))
+    - exp(-x) * (igl_gen(eta * x, alpha = alpha) -
+                     eta * igl_gen_D(eta * x, alpha = alpha))
     # res[x == 1 & k > 2] <- -1
     # res[x == 1 & k == 2] <- -(1 + eta / 2)
     # res[x == 1 & k < 2 & k > 1] <- -Inf
@@ -43,6 +44,8 @@ interp_gen_inv_algo <- function(p, eta, alpha, mxiter = 40, eps = 1.e-12, bd = 5
     if (length(p) != 1L) stop("Algorithm requires a single `p`.")
     if (length(eta) != 1L) stop("Algorithm requires a single `eta`.")
     if (length(alpha) != 1L) stop("Algorithm requires a single `alpha`.")
+    prod <- alpha * eta * p
+    if (is.na(prod)) return(prod)
     if (p == 0) return(Inf)
     if (p == 1) return(0)
     x1 <- -log(p)
@@ -79,16 +82,16 @@ interp_gen_inv_algo <- function(p, eta, alpha, mxiter = 40, eps = 1.e-12, bd = 5
 
 #' @rdname interpolator
 interp_gen_inv <- function(p, eta, alpha, mxiter = 40, eps = 1.e-12, bd = 5) {
-    lengths <- c(p = length(p), eta = length(eta), alpha = length(alpha))
-    l <- max(lengths)
-    if (lengths[["p"]] == 1) p <- rep(p, l)
-    if (lengths[["eta"]] == 1) eta <- rep(eta, l)
-    if (lengths[["alpha"]] == 1) alpha <- rep(alpha, l)
-    x <- numeric()
-    for (i in 1:l) {
-        x[i] <- interp_gen_inv_algo(
-            p[i], eta = eta[i], alpha = alpha[i], mxiter = mxiter, eps = eps, bd = bd
-        )
-    }
-    x
+    l <- vctrs::vec_size_common(p, eta, alpha)
+    if (l == 0L) return(numeric(0L))
+    args <- vctrs::vec_recycle_common(p = p, eta = eta, alpha = alpha)
+    with(args, {
+        x <- numeric(0L)
+        for (i in 1:l) {
+            x[i] <- interp_gen_inv_algo(
+                p[i], eta = eta[i], alpha = alpha[i], mxiter = mxiter, eps = eps, bd = bd
+            )
+        }
+        x
+    })
 }

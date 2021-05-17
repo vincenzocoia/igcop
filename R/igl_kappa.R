@@ -24,21 +24,3 @@ igl_kappa_D <- function(x, alpha) {
 igl_kappa_inv <- function(p, alpha) {
   stats::qgamma(1 - p, shape = alpha)
 }
-
-
-
-## Kappa seems to be calculated correctly. I'd trust the simplified version -- calculation is more direct.
-# kappa_v2 <- function(x, k) {
-#   igl_gen(x, k) - x * igl_gen_D(x, k)
-# }
-#
-
-## Kappa primed? No difference.
-# kappa_D_v2 <- function(x, k) -x * igl_gen_DD(x, k)
-#
-
-## Kappa primed, numeric.
-# kappa_D_num <- function(x, k, eps = 1e-8) {
-#   (igl_kappa(x + eps, k) - igl_kappa(x, k)) / eps
-# }
-# kappa_D_num(2, 2)

@@ -14,6 +14,8 @@ interp_kappa_inv_algo <- function(p, eta, alpha, mxiter = 80, eps = 1.e-12, bd =
   if (length(p) != 1L) stop("Algorithm requires a single `p`.")
   if (length(eta) != 1L) stop("Algorithm requires a single `eta`.")
   if (length(alpha) != 1L) stop("Algorithm requires a single `alpha`.")
+  prod <- alpha * eta * p
+  if (is.na(prod)) return(prod)
   if (p == 0) return(Inf)
   if (p == 1) return(0)
   x1 <- -log(p)
@@ -45,16 +47,16 @@ interp_kappa_inv_algo <- function(p, eta, alpha, mxiter = 80, eps = 1.e-12, bd =
 
 #' @rdname interpolator
 interp_kappa_inv <- function(p, eta, alpha, mxiter = 80, eps = 1.e-12, bd = 5) {
-  lengths <- c(p = length(p), eta = length(eta), alpha = length(alpha))
-  l <- max(lengths)
-  if (lengths[["p"]] == 1) p <- rep(p, l)
-  if (lengths[["eta"]] == 1) eta <- rep(eta, l)
-  if (lengths[["alpha"]] == 1) alpha <- rep(alpha, l)
-  x <- numeric()
-  for (i in 1:l) {
-    x[i] <- interp_kappa_inv_algo(
-      p[i], eta = eta[i], alpha = alpha[i], mxiter = mxiter, eps = eps, bd = bd
-    )
-  }
-  x
+  l <- vctrs::vec_size_common(p, eta, alpha)
+  if (l == 0L) return(numeric(0L))
+  args <- vctrs::vec_recycle_common(p = p, eta = eta, alpha = alpha)
+  with(args, {
+    x <- numeric(0L)
+    for (i in 1:l) {
+      x[i] <- interp_kappa_inv_algo(
+        p[i], eta = eta[i], alpha = alpha[i], mxiter = mxiter, eps = eps, bd = bd
+      )
+    }
+    x
+  })
 }

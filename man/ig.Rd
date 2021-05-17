@@ -13,32 +13,33 @@
 \alias{rig}
 \title{IG Copula Family Functions}
 \usage{
-pcondig21(v, u, cpar)
+pcondig21(v, u, theta, alpha)
 
-qcondig21(tau, u, cpar)
+qcondig21(tau, u, theta, alpha)
 
-qcondig(tau, u, cpar)
+qcondig(tau, u, theta, alpha)
 
-pcondig(v, u, cpar)
+pcondig(v, u, theta, alpha)
 
-qcondig12(tau, v, cpar, mxiter = 80, eps = 1e-12, bd = 5)
+qcondig12(tau, v, theta, alpha, mxiter = 80, eps = 1e-12, bd = 5)
 
-pcondig12(u, v, cpar)
+pcondig12(u, v, theta, alpha)
 
-dig(u, v, cpar)
+dig(u, v, theta, alpha)
 
-logdig(u, v, cpar)
+logdig(u, v, theta, alpha)
 
-pig(u, v, cpar)
+pig(u, v, theta, alpha)
 
-rig(n, cpar)
+rig(n, theta, alpha)
 }
 \arguments{
 \item{u, v}{Vectors of values between 0 and 1 representing values of the first
 and second copula variables.}
 
-\item{cpar}{Vector of length 2 corresponding to the copula
-parameters \code{theta>0} and \code{alpha>0}, respectively.}
+\item{theta}{Parameter of the IG copula family. Vectorized; >0.}
+
+\item{alpha}{Parameter of the IG copula family. Vectorized; >0.}
 
 \item{tau}{Vector of quantile levels between 0 and 1
 to evaluate a quantile function at.}
@@ -68,15 +69,14 @@ Also, \code{qcondig21} and \code{pcondig21} are the same as
 variable 2 given 1.
 }
 \examples{
-set.seed(1)
 u <- runif(10)
 v <- runif(10)
-pig(u, v, cpar = c(5, 1))
-dig(u, v, cpar = c(2, 2))
-logdig(u, v, cpar = c(2, 2))
-pcondig21(v, u, cpar = c(3, 6))
-qcondig21(v, u, cpar = c(3, 6))
-pcondig12(u, v, cpar = c(3, 6))
-qcondig12(u, v, cpar = c(3, 6))
-rig(10, cpar = c(3, 3))
+pig(u, v, theta = 5, alpha = 1)
+dig(u, v, theta = 2, alpha = 2)
+logdig(u, v, theta = 2, alpha = 2)
+pcondig21(v, u, theta = 3, alpha = 6)
+qcondig21(v, u, theta = 3, alpha = 6)
+pcondig12(u, v, theta = 3, alpha = 6)
+qcondig12(u, v, theta = 3, alpha = 6)
+rig(10, theta = 3, alpha = 3)
 }

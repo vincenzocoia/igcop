@@ -15,7 +15,7 @@ coverage](https://codecov.io/gh/vincenzocoia/igcop/branch/master/graph/badge.svg
 MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://cran.r-project.org/web/licenses/MIT)
 <!-- badges: end -->
 
-The goal of igcop is to provide tools for computing on the Integrated
+The goal of igcop is to provide computational tools for the Integrated
 Gamma (IG) and Integrated Gamma Limit (IGL) copula families.
 
 ## Installation
@@ -31,34 +31,33 @@ devtools::install_github("vincenzocoia/igcop")
 
 ## Definition
 
-The IG copula family is defined by parameters *θ* &gt; 0 and
-*a**l**p**h**a* &gt; 0, with the IGL copula family obtained with *θ* → ∞
-(so, only has one parameter *a**l**p**h**a* &gt; 0).
+The IG copula family is defined by parameters *θ* &gt; 0 and *α* &gt; 0,
+with the IGL copula family obtained with *θ* → ∞. So, the IGL copula
+family only has one parameter, *α* &gt; 0. For a detailed definition,
+see Coia (2017).
 
 The IG and IGL copula families are unique in that they are not
-permutation symmetric. Also, the family of conditional distributions
-given the first variable has a non-constant extreme value index (EVI)
-across the first variable for the IG family, and is 0 for the IGL
-family. This means that, when used in a regression context, the
-conditional distribution of the response has an EVI that changes with
-the predictor for an IG copula, or reduces a heavy-tailed response to a
-light-tailed conditional distribution.
+permutation symmetric. Also, when used in a regression context, the
+conditional distribution of the response (the 2nd copula variable) has
+an EVI that increases with the predictor for an IG copula, and reduces a
+heavy-tailed response to a light-tailed conditional distribution for an
+IGL copula.
 
 ## Usage
 
-This package piggybacks on the base R syntax for distributions, whose
-functions adopt the convention:
+This package piggybacks on the base R syntax for distributions, such as
+`dnorm()` and `pexp()`, whose functions adopt the convention:
 
     <prefix><name>
 
 For IG and IGL copulas:
 
 -   `<prefix>` corresponds to one of:
-    -   `r` for random number generation (currently not supported for
-        conditional distributions),
     -   `p` for cdf,
-    -   `d` for density, and
-    -   `q` for quantile (for conditional distributions only).
+    -   `d` for density (and `logd` for log density),
+    -   `q` for quantile (for conditional distributions only), and
+    -   `r` for random number generation (not supported for conditional
+        distributions).
 -   `<name>` corresponds to the possible names:
     -   `ig` and `igl` correspond to an IG copula and IGL copula,
         respectively.
@@ -72,32 +71,28 @@ For IG and IGL copulas:
         [CopulaModel](https://github.com/vincenzocoia/CopulaModel)
         package).
 
-All of these functions have a `cpar` argument expecting the value of the
-copula parameters. For an IG copula, this is `c(theta, alpha)`, and just
-`alpha` for an IGL copula.
-
 Here are some examples, starting with evaluating the density of an IG
 copula at (0.3, 0.6):
 
 ``` r
 library(igcop)
-dig(0.3, 0.6, cpar = c(3, 2))
+dig(0.3, 0.6, theta = 3, alpha = 2)
 #> [1] 1.096211
 ```
 
 Computations are vectorized over both `u` and `v` (first and second
-variables). Here’s the cdf and density of an IGL copula at different
-values:
+variables), along with the parameter values. Here’s the cdf and density
+of an IGL copula at different values:
 
 ``` r
 u <- seq(0.1, 0.9, length.out = 9)
 v <- seq(0.9, 0.5, length.out = 9)
-pigl(u, v, cpar = 4)
+pigl(u, v, alpha = 4)
 #> [1] 0.1000000 0.2000000 0.2999711 0.3988536 0.4888134 0.5508382 0.5683229
 #> [8] 0.5447653 0.4998090
-digl(0.2, v, cpar = 4)
-#> [1] 2.213223e-08 1.250384e-04 6.146088e-03 4.943650e-02 1.683705e-01
-#> [6] 3.617879e-01 5.964016e-01 8.377819e-01 1.064300e+00
+digl(0.2, v, alpha = u)
+#> [1] 0.8522462 0.8230206 0.8471676 0.8915708 0.9458967 1.0058156 1.0691273
+#> [8] 1.1345476 1.2012456
 ```
 
 It doesn’t make sense to talk about quantiles for a multivariate
@@ -109,20 +104,20 @@ arguments to better align with the conditioning, and you can either
 explicitly include the `21` suffix or not.
 
 ``` r
-qcondig(v, u, cpar = c(5, 3))
+qcondig(v, u, theta = 5, alpha = 3)
 #> [1] 0.7435415 0.7228302 0.7121613 0.7073784 0.7056649 0.7039164 0.6972994
 #> [8] 0.6777041 0.6356285
-qcondig21(v, u, cpar = c(5, 3))
+qcondig21(v, u, theta = 5, alpha = 3)
 #> [1] 0.7435415 0.7228302 0.7121613 0.7073784 0.7056649 0.7039164 0.6972994
 #> [8] 0.6777041 0.6356285
 ```
 
 Here is the corresponding “1 given 2” distribution. Since this is less
 common in regression scenarios, you have to explicitly add the `12`
-prefix for “1 given 2”.
+prefix for “1 given 2.”
 
 ``` r
-qcondig12(v, u, cpar = c(5, 3))
+qcondig12(v, u, theta = 5, alpha = 3)
 #> [1] 0.8896885 0.8114873 0.7297887 0.6598357 0.6097781 0.5811235 0.5749922
 #> [8] 0.5976573 0.6689895
 ```
@@ -130,13 +125,26 @@ qcondig12(v, u, cpar = c(5, 3))
 Generating 5 values from an IG copula:
 
 ``` r
-rig(5, cpar = c(5, 4))
+rig(5, theta = 5, alpha = 4)
 #> # A tibble: 5 x 2
 #>       u     v
 #>   <dbl> <dbl>
-#> 1 0.682 0.414
-#> 2 0.183 0.351
-#> 3 0.754 0.138
-#> 4 0.216 0.146
-#> 5 0.136 0.626
+#> 1 0.648 0.742
+#> 2 0.131 0.221
+#> 3 0.836 0.865
+#> 4 0.182 0.233
+#> 5 0.706 0.922
 ```
+
+## References
+
+<div id="refs" class="references csl-bib-body hanging-indent">
+
+<div id="ref-coia2017" class="csl-entry">
+
+Coia, Vincenzo. 2017. “Forecasting of Nonlinear Extreme Quantiles Using
+Copula Models.” PhD Dissertation; The University of British Columbia.
+
+</div>
+
+</div>

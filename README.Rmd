@@ -1,5 +1,18 @@
 ---
 output: github_document
+references:
+- id: coia2017
+  title: Forecasting of Nonlinear Extreme Quantiles using Copula Models
+  author:
+  - family: Coia
+    given: Vincenzo
+  issue: 4
+  publisher: PhD Dissertation; The University of British Columbia
+  page: 261-263
+  type: PhD Dissertation
+  issued:
+    year: 2017
+    month: 2
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -22,7 +35,7 @@ knitr::opts_chunk$set(
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://cran.r-project.org/web/licenses/MIT)
 <!-- badges: end -->
 
-The goal of igcop is to provide tools for computing on the Integrated Gamma (IG) and Integrated Gamma Limit (IGL) copula families. 
+The goal of igcop is to provide computational tools for the Integrated Gamma (IG) and Integrated Gamma Limit (IGL) copula families.
 
 ## Installation
 
@@ -34,13 +47,13 @@ devtools::install_github("vincenzocoia/igcop")
 
 ## Definition
 
-The IG copula family is defined by parameters $\theta > 0$ and $alpha > 0$, with the IGL copula family obtained with $\theta \rightarrow \infty$ (so, only has one parameter $alpha > 0$).
+The IG copula family is defined by parameters $\theta > 0$ and $\alpha > 0$, with the IGL copula family obtained with $\theta \rightarrow \infty$. So, the IGL copula family only has one parameter, $\alpha > 0$. For a detailed definition, see Coia [-@coia2017].
 
-The IG and IGL copula families are unique in that they are not permutation symmetric. Also, the family of conditional distributions given the first variable has a non-constant extreme value index (EVI) across the first variable for the IG family, and is 0 for the IGL family. This means that, when used in a regression context, the conditional distribution of the response has an EVI that changes with the predictor for an IG copula, or reduces a heavy-tailed response to a light-tailed conditional distribution.
+The IG and IGL copula families are unique in that they are not permutation symmetric. Also, when used in a regression context, the conditional distribution of the response (the 2nd copula variable) has an EVI that increases with the predictor for an IG copula, and reduces a heavy-tailed response to a light-tailed conditional distribution for an IGL copula.
 
 ## Usage
 
-This package piggybacks on the base R syntax for distributions, whose functions adopt the convention:
+This package piggybacks on the base R syntax for distributions, such as `dnorm()` and `pexp()`, whose functions adopt the convention:
 
 ```
 <prefix><name>
@@ -49,31 +62,30 @@ This package piggybacks on the base R syntax for distributions, whose functions 
 For IG and IGL copulas:
 
 - `<prefix>` corresponds to one of:
-    - `r` for random number generation (currently not supported for conditional distributions),
     - `p` for cdf, 
-    - `d` for density, and 
-    - `q` for quantile (for conditional distributions only).
+    - `d` for density (and `logd` for log density),
+    - `q` for quantile (for conditional distributions only), and
+    - `r` for random number generation (not supported for conditional distributions).
 - `<name>` corresponds to the possible names:
     - `ig` and `igl` correspond to an IG copula and IGL copula, respectively.
     - `condig12` and `condigl12` correspond to a conditional distribution of the first variable given the second, of an IG copula and IGL copula respectively. 
     - `condig21` and `condigl21` correspond to a conditional distribution of the second variable given the first, of an IG copula and IGL copula respectively (also available as `condig` and `condigl` to match the syntax of the [CopulaModel](https://github.com/vincenzocoia/CopulaModel) package).
 
-All of these functions have a `cpar` argument expecting the value of the copula parameters. For an IG copula, this is `c(theta, alpha)`, and just `alpha` for an IGL copula.
 
 Here are some examples, starting with evaluating the density of an IG copula at (0.3, 0.6):
 
 ```{r example}
 library(igcop)
-dig(0.3, 0.6, cpar = c(3, 2))
+dig(0.3, 0.6, theta = 3, alpha = 2)
 ```
 
-Computations are vectorized over both `u` and `v` (first and second variables). Here's the cdf and density of an IGL copula at different values:
+Computations are vectorized over both `u` and `v` (first and second variables), along with the parameter values. Here's the cdf and density of an IGL copula at different values:
 
 ```{r}
 u <- seq(0.1, 0.9, length.out = 9)
 v <- seq(0.9, 0.5, length.out = 9)
-pigl(u, v, cpar = 4)
-digl(0.2, v, cpar = 4)
+pigl(u, v, alpha = 4)
+digl(0.2, v, alpha = u)
 ```
 
 It doesn't make sense to talk about quantiles for a multivariate distribution, so this is only defined for conditional distributions. 
@@ -81,20 +93,21 @@ It doesn't make sense to talk about quantiles for a multivariate distribution, s
 Here is an example of a distribution given the first variable ("2 given 1"). Note that the "2 given 1" distributions swap the `u` and `v` arguments to better align with the conditioning, and you can either explicitly include the `21` suffix or not.
 
 ```{r}
-qcondig(v, u, cpar = c(5, 3))
-qcondig21(v, u, cpar = c(5, 3))
+qcondig(v, u, theta = 5, alpha = 3)
+qcondig21(v, u, theta = 5, alpha = 3)
 ```
 
 Here is the corresponding "1 given 2" distribution. Since this is less common in regression scenarios, you have to explicitly add the `12` prefix for "1 given 2".
 
 ```{r}
-qcondig12(v, u, cpar = c(5, 3))
+qcondig12(v, u, theta = 5, alpha = 3)
 ```
 
 
 Generating 5 values from an IG copula:
 
 ```{r}
-rig(5, cpar = c(5, 4))
+rig(5, theta = 5, alpha = 4)
 ```
 
+## References

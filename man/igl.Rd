@@ -13,25 +13,25 @@
 \alias{logdigl}
 \title{IGL Copula Family Functions}
 \usage{
-qcondigl(tau, u, cpar)
+qcondigl(tau, u, alpha)
 
-pcondigl(v, u, cpar)
+pcondigl(v, u, alpha)
 
-qcondigl21(tau, u, cpar)
+qcondigl21(tau, u, alpha)
 
-pcondigl21(v, u, cpar)
+pcondigl21(v, u, alpha)
 
-pcondigl12(u, v, cpar)
+pcondigl12(u, v, alpha)
 
-qcondigl12(tau, v, cpar)
+qcondigl12(tau, v, alpha)
 
-digl(u, v, cpar)
+digl(u, v, alpha)
 
-pigl(u, v, cpar)
+pigl(u, v, alpha)
 
-rigl(n, cpar)
+rigl(n, alpha)
 
-logdigl(u, v, cpar)
+logdigl(u, v, alpha)
 }
 \arguments{
 \item{tau}{Vector of quantile levels between 0 and 1 to
@@ -40,7 +40,7 @@ evaluate a quantile function at.}
 \item{u, v}{Vectors of values between 0 and 1 representing values of the first
 and second copula variables.}
 
-\item{cpar}{Single numeric >0; corresponds to parameter \code{alpha} in the
+\item{alpha}{Single numeric >0; corresponds to parameter \code{alpha} in the
 IGL copula family.}
 
 \item{n}{Positive integer. Number of observations to randomly draw.}
@@ -62,12 +62,12 @@ variable 2 given 1.
 set.seed(1)
 u <- runif(10)
 v <- runif(10)
-pigl(u, v, cpar = 1)
-digl(u, v, cpar = 2)
-logdigl(u, v, cpar = 0.4)
-pcondigl21(v, u, cpar = 6)
-qcondigl21(v, u, cpar = 6)
-pcondigl12(u, v, cpar = 6)
-qcondigl12(u, v, cpar = 6)
-rigl(10, cpar = 3)
+pigl(u, v, alpha = 1)
+digl(u, v, alpha = 2)
+logdigl(u, v, alpha = 0.4)
+pcondigl21(v, u, alpha = 6)
+qcondigl21(v, u, alpha = 6)
+pcondigl12(u, v, alpha = 6)
+qcondigl12(u, v, alpha = 6)
+rigl(10, alpha = 3)
 }
