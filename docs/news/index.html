@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">igcop</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -114,11 +114,19 @@
       
     </div>
 
-    <div id="igcop-0109000" class="section level1">
-<h1 class="page-header" data-toc-text="0.1.0.9000">
-<a href="#igcop-0109000" class="anchor"></a>igcop 0.1.0.9000</h1>
+    <div id="igcop-020" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.0">
+<a href="#igcop-020" class="anchor"></a>igcop 0.2.0</h1>
 <ul>
 <li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
+<li>Completed the collection of distributional quantities to match that of the CopulaModel package.</li>
+<li>Computations of quantile functions are now more robust.</li>
+<li>Changed the parameterization of the copula families to make them more numerically stable.
+<ul>
+<li>Small values of the parameter <code>alpha</code> (previously = <code>k - 1</code>) are now reliable.</li>
+</ul>
+</li>
+<li>Placed the theta and alpha parameters of the IG copula as their own arguments.</li>
 </ul>
 </div>
     <div id="igcop-010" class="section level1">

@@ -47,7 +47,7 @@ devtools::install_github("vincenzocoia/igcop")
 
 ## Definition
 
-The IG copula family is defined by parameters $\theta > 0$ and $\alpha > 0$, with the IGL copula family obtained with $\theta \rightarrow \infty$. So, the IGL copula family only has one parameter, $\alpha > 0$. For a detailed definition, see Coia [-@coia2017].
+The IG copula family is defined by parameters $\theta > 0$ and $\alpha > 0$, with the IGL copula family obtained with $\theta \rightarrow \infty$. So, the IGL copula family only has one parameter, $\alpha > 0$. For a detailed definition, see Coia [-@coia2017]. Note, however, that this package uses a different parameterization that is more computationally stable.
 
 The IG and IGL copula families are unique in that they are not permutation symmetric. Also, when used in a regression context, the conditional distribution of the response (the 2nd copula variable) has an EVI that increases with the predictor for an IG copula, and reduces a heavy-tailed response to a light-tailed conditional distribution for an IGL copula.
 

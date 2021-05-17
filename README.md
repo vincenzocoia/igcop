@@ -34,7 +34,8 @@ devtools::install_github("vincenzocoia/igcop")
 The IG copula family is defined by parameters *θ* &gt; 0 and *α* &gt; 0,
 with the IGL copula family obtained with *θ* → ∞. So, the IGL copula
 family only has one parameter, *α* &gt; 0. For a detailed definition,
-see Coia (2017).
+see Coia (2017). Note, however, that this package uses a different
+parameterization that is more computationally stable.
 
 The IG and IGL copula families are unique in that they are not
 permutation symmetric. Also, when used in a regression context, the
@@ -127,13 +128,13 @@ Generating 5 values from an IG copula:
 ``` r
 rig(5, theta = 5, alpha = 4)
 #> # A tibble: 5 x 2
-#>       u     v
-#>   <dbl> <dbl>
-#> 1 0.648 0.742
-#> 2 0.131 0.221
-#> 3 0.836 0.865
-#> 4 0.182 0.233
-#> 5 0.706 0.922
+#>        u      v
+#>    <dbl>  <dbl>
+#> 1 0.474  0.568 
+#> 2 0.0510 0.0573
+#> 3 0.209  0.564 
+#> 4 0.809  0.636 
+#> 5 0.115  0.452
 ```
 
 ## References

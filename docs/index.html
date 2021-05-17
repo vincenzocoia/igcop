@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">igcop</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -86,7 +86,7 @@
 <div id="definition" class="section level2">
 <h2 class="hasAnchor">
 <a href="#definition" class="anchor"></a>Definition</h2>
-<p>The IG copula family is defined by parameters <em>θ</em> &gt; 0 and <em>α</em> &gt; 0, with the IGL copula family obtained with <em>θ</em> → ∞. So, the IGL copula family only has one parameter, <em>α</em> &gt; 0. For a detailed definition, see Coia (2017).</p>
+<p>The IG copula family is defined by parameters <em>θ</em> &gt; 0 and <em>α</em> &gt; 0, with the IGL copula family obtained with <em>θ</em> → ∞. So, the IGL copula family only has one parameter, <em>α</em> &gt; 0. For a detailed definition, see Coia (2017). Note, however, that this package uses a different parameterization that is more computationally stable.</p>
 <p>The IG and IGL copula families are unique in that they are not permutation symmetric. Also, when used in a regression context, the conditional distribution of the response (the 2nd copula variable) has an EVI that increases with the predictor for an IG copula, and reduces a heavy-tailed response to a light-tailed conditional distribution for an IGL copula.</p>
 </div>
 <div id="usage" class="section level2">
@@ -154,13 +154,13 @@
 <div class="sourceCode" id="cb7"><pre class="downlit">
 <span class="fu"><a href="reference/pcondig21.html">rig</a></span><span class="op">(</span><span class="fl">5</span>, theta <span class="op">=</span> <span class="fl">5</span>, alpha <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 5 x 2</span>
-<span class="co">#&gt;       u     v</span>
-<span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 0.220 0.407</span>
-<span class="co">#&gt; 2 0.940 0.170</span>
-<span class="co">#&gt; 3 0.507 0.366</span>
-<span class="co">#&gt; 4 0.629 0.577</span>
-<span class="co">#&gt; 5 0.187 0.424</span></pre></div>
+<span class="co">#&gt;        u      v</span>
+<span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 0.474  0.568 </span>
+<span class="co">#&gt; 2 0.0510 0.0573</span>
+<span class="co">#&gt; 3 0.209  0.564 </span>
+<span class="co">#&gt; 4 0.809  0.636 </span>
+<span class="co">#&gt; 5 0.115  0.452</span></pre></div>
 </div>
 <div id="references" class="section level2">
 <h2 class="hasAnchor">
