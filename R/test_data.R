@@ -1,5 +1,21 @@
+#' Test data
+#'
+#' Internal data used in the test scripts. `.u` and `.v` are vectors of
+#' matching length containing values between 0 and 1 and reasonably cover
+#' the unit square. `.tau` is the same as `.u`, and is useful for
+#' semantics. `.cpar` is a list of IG copula parameter pairs
+#' `c(theta, alpha)`, and `.theta` and `.alpha` are the corresponding
+#' (unique) individual values.
+#' @format Everything is a numeric vector, except `.cpar`, which is a list
+#' of bivariate numeric vectors. `.u`, `.v`, and `.tau` are of matching
+#' length; the rest are not intended to have matching lengths.
+#' @rdname test_data
 .u <- c(10^(-(5:1)), 2:8/10, 1 - 10^(-(1:5)))
+
+#' @rdname test_data
 .v <- .u[c(4, 16, 17, 9, 10, 6, 1, 14, 11, 13, 5, 3, 7, 8, 15, 2, 12)]
+
+#' @rdname test_data
 .cpar <- list(
   c(2.5, 12.3), # nearly independent
   c(2.5, 4.3), # weak dependence spear=.040
@@ -27,6 +43,12 @@
   c(4800.5,34.1), # spear=.937
   c(9600.5,34.1) # spear=.947  # try inference with this parameter vector
 )
-.alpha <- unique(vapply(.cpar, `[`, i = 2L, FUN.VALUE = numeric(1L)))
+
+#' @rdname test_data
 .theta <- unique(vapply(.cpar, `[`, i = 1L, FUN.VALUE = numeric(1L)))
+
+#' @rdname test_data
+.alpha <- unique(vapply(.cpar, `[`, i = 2L, FUN.VALUE = numeric(1L)))
+
+#' @rdname test_data
 .tau <- .u

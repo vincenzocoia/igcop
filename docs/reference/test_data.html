@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • igcop</title>
+<title>Test data — .u • igcop</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,13 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Test data — .u" />
+<meta property="og:description" content="Internal data used in the test scripts. .u and .v are vectors of
+matching length containing values between 0 and 1 and reasonably cover
+the unit square. .tau is the same as .u, and is useful for
+semantics. .cpar is a list of IG copula parameter pairs
+c(theta, alpha), and .theta and .alpha are the corresponding
+(unique) individual values." />
 
 
 
@@ -58,7 +64,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -108,78 +114,47 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Test data</h1>
+    
+    <div class="hidden name"><code>test_data.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Internal data used in the test scripts. <code>.u</code> and <code>.v</code> are vectors of
+matching length containing values between 0 and 1 and reasonably cover
+the unit square. <code>.tau</code> is the same as <code>.u</code>, and is useful for
+semantics. <code>.cpar</code> is a list of IG copula parameter pairs
+<code><a href='https://rdrr.io/r/base/c.html'>c(theta, alpha)</a></code>, and <code>.theta</code> and <code>.alpha</code> are the corresponding
+(unique) individual values.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='va'>.u</span>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="ig.html">pcondig21()</a></code> <code><a href="ig.html">qcondig21()</a></code> <code><a href="ig.html">qcondig()</a></code> <code><a href="ig.html">pcondig()</a></code> <code><a href="ig.html">qcondig12()</a></code> <code><a href="ig.html">pcondig12()</a></code> <code><a href="ig.html">dig()</a></code> <code><a href="ig.html">logdig()</a></code> <code><a href="ig.html">pig()</a></code> <code><a href="ig.html">rig()</a></code> </p>
-        </td>
-        <td><p>IG Copula Family Functions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="igamma.html">igamma()</a></code> </p>
-        </td>
-        <td><p>(Upper) Incomplete Gamma Function</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="igl.html">qcondigl()</a></code> <code><a href="igl.html">pcondigl()</a></code> <code><a href="igl.html">qcondigl21()</a></code> <code><a href="igl.html">pcondigl21()</a></code> <code><a href="igl.html">pcondigl12()</a></code> <code><a href="igl.html">qcondigl12()</a></code> <code><a href="igl.html">digl()</a></code> <code><a href="igl.html">pigl()</a></code> <code><a href="igl.html">rigl()</a></code> <code><a href="igl.html">logdigl()</a></code> </p>
-        </td>
-        <td><p>IGL Copula Family Functions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="igl_gen.html">igl_gen()</a></code> <code><a href="igl_gen.html">igl_gen_D()</a></code> <code><a href="igl_gen.html">igl_gen_DD()</a></code> <code><a href="igl_gen.html">igl_gen_inv_algo()</a></code> <code><a href="igl_gen.html">igl_gen_inv()</a></code> </p>
-        </td>
-        <td><p>Generating function for the IGL copula family</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="interpolator.html">interp_gen()</a></code> <code><a href="interpolator.html">interp_gen_D1()</a></code> <code><a href="interpolator.html">interp_gen_inv_algo()</a></code> <code><a href="interpolator.html">interp_gen_inv()</a></code> <code><a href="interpolator.html">interp_kappa()</a></code> <code><a href="interpolator.html">interp_kappa_D1()</a></code> <code><a href="interpolator.html">interp_kappa_inv_algo()</a></code> <code><a href="interpolator.html">interp_kappa_inv()</a></code> </p>
-        </td>
-        <td><p>Interpolating Functions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="kappa.html">igl_kappa()</a></code> <code><a href="kappa.html">igl_kappa_D()</a></code> <code><a href="kappa.html">igl_kappa_inv()</a></code> </p>
-        </td>
-        <td><p>Kappa version of generating function</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="test_data.html">.u</a></code> <code><a href="test_data.html">.v</a></code> <code><a href="test_data.html">.cpar</a></code> <code><a href="test_data.html">.theta</a></code> <code><a href="test_data.html">.alpha</a></code> <code><a href="test_data.html">.tau</a></code> </p>
-        </td>
-        <td><p>Test data</p></td>
-      </tr>
-    </tbody>
-    </table>
+<span class='va'>.v</span>
+
+<span class='va'>.cpar</span>
+
+<span class='va'>.theta</span>
+
+<span class='va'>.alpha</span>
+
+<span class='va'>.tau</span></pre>
+
+
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>Everything is a numeric vector, except <code>.cpar</code>, which is a list
+of bivariate numeric vectors. <code>.u</code>, <code>.v</code>, and <code>.tau</code> are of matching
+length; the rest are not intended to have matching lengths.</p>
+<p>An object of class <code>numeric</code> of length 17.</p>
+<p>An object of class <code>list</code> of length 25.</p>
+<p>An object of class <code>numeric</code> of length 14.</p>
+<p>An object of class <code>numeric</code> of length 11.</p>
+<p>An object of class <code>numeric</code> of length 17.</p>
+
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
