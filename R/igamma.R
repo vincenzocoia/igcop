@@ -19,7 +19,6 @@
 #' # Should be identical:
 #' igamma(1:5, 0)
 #' gamma(1:5)
-#' @export
 igamma <- function(s, x) {
   gamma(s) * stats::pgamma(x, shape = s, lower.tail = FALSE)
 }

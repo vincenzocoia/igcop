@@ -2,7 +2,6 @@
 
 export(dig)
 export(digl)
-export(igamma)
 export(logdig)
 export(logdigl)
 export(pcondig)
