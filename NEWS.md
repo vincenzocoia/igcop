@@ -1,3 +1,9 @@
+# igcop (development version)
+
+* Renamed `tau` argument to `p` in IG and IGL quantile functions. 
+* Removed `igl_gen_DD`, which was previously not used. 
+
+
 # igcop 0.2.0
 
 * Added a `NEWS.md` file to track changes to the package.

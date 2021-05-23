@@ -3,7 +3,6 @@
 \name{igl_gen}
 \alias{igl_gen}
 \alias{igl_gen_D}
-\alias{igl_gen_DD}
 \alias{igl_gen_inv_algo}
 \alias{igl_gen_inv}
 \title{Generating function for the IGL copula family}
@@ -11,8 +10,6 @@
 igl_gen(x, alpha)
 
 igl_gen_D(x, alpha)
-
-igl_gen_DD(x, alpha)
 
 igl_gen_inv_algo(p, alpha, mxiter = 20, eps = 1e-12, bd = 5)
 

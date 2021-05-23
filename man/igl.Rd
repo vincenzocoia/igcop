@@ -13,17 +13,17 @@
 \alias{logdigl}
 \title{IGL Copula Family Functions}
 \usage{
-qcondigl(tau, u, alpha)
+qcondigl(p, u, alpha)
 
 pcondigl(v, u, alpha)
 
-qcondigl21(tau, u, alpha)
+qcondigl21(p, u, alpha)
 
 pcondigl21(v, u, alpha)
 
 pcondigl12(u, v, alpha)
 
-qcondigl12(tau, v, alpha)
+qcondigl12(p, v, alpha)
 
 digl(u, v, alpha)
 
@@ -34,7 +34,7 @@ rigl(n, alpha)
 logdigl(u, v, alpha)
 }
 \arguments{
-\item{tau}{Vector of quantile levels between 0 and 1 to
+\item{p}{Vector of quantile levels between 0 and 1 to
 evaluate a quantile function at.}
 
 \item{u, v}{Vectors of values between 0 and 1 representing values of the first

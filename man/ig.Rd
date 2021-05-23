@@ -15,13 +15,13 @@
 \usage{
 pcondig21(v, u, theta, alpha)
 
-qcondig21(tau, u, theta, alpha)
+qcondig21(p, u, theta, alpha)
 
-qcondig(tau, u, theta, alpha)
+qcondig(p, u, theta, alpha)
 
 pcondig(v, u, theta, alpha)
 
-qcondig12(tau, v, theta, alpha, mxiter = 80, eps = 1e-12, bd = 5)
+qcondig12(p, v, theta, alpha, mxiter = 80, eps = 1e-12, bd = 5)
 
 pcondig12(u, v, theta, alpha)
 
@@ -41,7 +41,7 @@ and second copula variables.}
 
 \item{alpha}{Parameter of the IG copula family. Vectorized; >0.}
 
-\item{tau}{Vector of quantile levels between 0 and 1
+\item{p}{Vector of quantile levels between 0 and 1
 to evaluate a quantile function at.}
 
 \item{mxiter}{Maximum number of iterations to run the Newton-Raphson

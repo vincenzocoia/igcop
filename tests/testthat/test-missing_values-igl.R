@@ -78,7 +78,7 @@ test_that("pcondigl12() handles missingness appropriately", {
 })
 
 test_that("qcondigl12() handles missingness appropriately", {
-  args <- expand.grid(tau = u_na_nan,
+  args <- expand.grid(p = u_na_nan,
                       v = u_na_nan,
                       alpha = u_na_nan)
   eval <- do.call(qcondigl12, args = args)
@@ -93,7 +93,7 @@ test_that("qcondigl12() handles missingness appropriately", {
 })
 
 test_that("qcondigl21() handles missingness appropriately", {
-  args <- expand.grid(tau = u_na_nan,
+  args <- expand.grid(p = u_na_nan,
                       u = u_na_nan,
                       alpha = u_na_nan)
   eval <- do.call(qcondigl21, args = args)

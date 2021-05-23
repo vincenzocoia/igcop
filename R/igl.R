@@ -4,7 +4,7 @@
 #'
 #' @param u,v Vectors of values between 0 and 1 representing values of the first
 #' and second copula variables.
-#' @param tau Vector of quantile levels between 0 and 1 to
+#' @param p Vector of quantile levels between 0 and 1 to
 #' evaluate a quantile function at.
 #' @param alpha Single numeric >0; corresponds to parameter \code{alpha} in the
 #' IGL copula family.
@@ -29,10 +29,10 @@
 #' qcondigl12(u, v, alpha = 6)
 #' rigl(10, alpha = 3)
 #' @export
-qcondigl <- function(tau, u, alpha) {
+qcondigl <- function(p, u, alpha) {
     check_alpha(alpha)
     alpha <- alpha
-    inner <- igl_kappa_inv(1 - tau, alpha = alpha) / (1 - u)
+    inner <- igl_kappa_inv(1 - p, alpha = alpha) / (1 - u)
     1 - igl_gen(inner, alpha = alpha)
 }
 
@@ -66,11 +66,11 @@ pcondigl12 <- function(u, v, alpha) {
 
 #' @rdname igl
 #' @export
-qcondigl12 <- function(tau, v, alpha) {
+qcondigl12 <- function(p, v, alpha) {
     check_alpha(alpha)
     alpha <- alpha
     y <- igl_gen_inv(1 - v, alpha = alpha)
-    inner <- (1 - tau) * stats::pgamma(y, shape = alpha + 1)
+    inner <- (1 - p) * stats::pgamma(y, shape = alpha + 1)
     1 - stats::qgamma(inner, shape = alpha + 1) / y
 }
 
@@ -99,8 +99,8 @@ pigl <- function(u, v, alpha) {
 rigl <- function(n, alpha) {
     check_alpha(alpha)
     u <- stats::runif(n)
-    tau <- stats::runif(n)
-    v <- qcondigl(tau, u, alpha = alpha)
+    p <- stats::runif(n)
+    v <- qcondigl(p, u, alpha = alpha)
     v_na <- vctrs::vec_slice(v, is.na(v))
     u <- vctrs::vec_assign(u, is.na(v), v_na)
     res <- matrix(c(u, v), ncol = 2)

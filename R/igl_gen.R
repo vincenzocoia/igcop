@@ -37,13 +37,6 @@ igl_gen_D <- function(x, alpha) {
     - alpha / x ^ 2 * stats::pgamma(x, alpha + 1)
 }
 
-#' @rdname igl_gen
-igl_gen_DD <- function(x, alpha) {
-    2 * alpha / x ^ 3 * stats::pgamma(x, shape = alpha + 1) -
-        stats::dgamma(x, alpha + 1) / x ^ 2
-}
-
-
 #' @param mxiter Maximum number of iterations to run the Newton-Raphson
 #' algorithm when computing inverse. Positive integer, default 20.
 #' @param eps The Newton-Raphson algorithm for computing an inverse will
