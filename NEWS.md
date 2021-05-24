@@ -1,7 +1,7 @@
 # igcop (development version)
 
 * Renamed `tau` argument to `p` in IG and IGL quantile functions. 
-* Removed `igl_gen_DD`, which was previously not used. 
+* Removed `igl_gen_DD` and `igamma()` internal functions, which were not used for copula quantities.
 
 
 # igcop 0.2.0
