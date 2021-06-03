@@ -3,11 +3,9 @@
 \name{interp_gen}
 \alias{interp_gen}
 \alias{interp_gen_D1}
-\alias{interp_gen_inv_algo}
 \alias{interp_gen_inv}
 \alias{interp_kappa}
 \alias{interp_kappa_D1}
-\alias{interp_kappa_inv_algo}
 \alias{interp_kappa_inv}
 \title{Interpolating Functions}
 \usage{
@@ -15,15 +13,11 @@ interp_gen(x, eta, alpha)
 
 interp_gen_D1(x, eta, alpha)
 
-interp_gen_inv_algo(p, eta, alpha, mxiter = 40, eps = 1e-12, bd = 5)
-
 interp_gen_inv(p, eta, alpha, mxiter = 40, eps = 1e-12, bd = 5)
 
 interp_kappa(x, eta, alpha)
 
 interp_kappa_D1(x, eta, alpha)
-
-interp_kappa_inv_algo(p, eta, alpha, mxiter = 80, eps = 1e-12, bd = 5)
 
 interp_kappa_inv(p, eta, alpha, mxiter = 80, eps = 1e-12, bd = 5)
 }
@@ -36,7 +30,8 @@ interpolating function.}
 \item{alpha}{Vector of values >0 corresponding to the \eqn{alpha} parameter
 of the IGL generating function.}
 
-\item{p}{Vector of values between 0 and 1 to evaluate the inverse function at.}
+\item{p}{Vector of values between 0 and 1 to evaluate the inverse
+function at.}
 
 \item{mxiter}{Maximum number of iterations to run the Newton-Raphson
 algorithm when computing inverse. Positive integer, default 20.}
@@ -48,7 +43,7 @@ stop if the step size is less than this small number.}
 algorithm. Step size is reduced if it reaches this large.}
 }
 \description{
-These interpolating functions, denoted \eqn{H} in the vignette,
+These interpolating functions
 depend on a generating function (of a DJ copula).
 \code{interp_gen()} uses the IGL generating function \eqn{\Psi_k};
 \code{interp_kappa()} uses the "kappa version" of that same function.
@@ -57,6 +52,5 @@ depend on a generating function (of a DJ copula).
 Appending \verb{_inv} to the function name indicates inverse with
 respect to the first argument. Appending \verb{_D1} indicates
 derivative with respect to the first argument. Function arguments
-and parameters are vectorized, except for the algorithms (marked by
-\verb{_algo}).
+and parameters are vectorized.
 }

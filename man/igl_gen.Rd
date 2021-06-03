@@ -3,7 +3,6 @@
 \name{igl_gen}
 \alias{igl_gen}
 \alias{igl_gen_D}
-\alias{igl_gen_inv_algo}
 \alias{igl_gen_inv}
 \title{Generating function for the IGL copula family}
 \usage{
@@ -11,12 +10,10 @@ igl_gen(x, alpha)
 
 igl_gen_D(x, alpha)
 
-igl_gen_inv_algo(p, alpha, mxiter = 20, eps = 1e-12, bd = 5)
-
 igl_gen_inv(p, alpha, mxiter = 20, eps = 1e-12, bd = 5)
 }
 \arguments{
-\item{x}{Vector of values >=0 to evaluate the function at, .}
+\item{x}{Vector of values >=0 to evaluate the function at.}
 
 \item{alpha}{Parameter of the function, alpha > 0. Vectorized.}
 
@@ -24,33 +21,24 @@ igl_gen_inv(p, alpha, mxiter = 20, eps = 1e-12, bd = 5)
 0 and 1 (inclusive).}
 
 \item{mxiter}{Maximum number of iterations to run the Newton-Raphson
-algorithm when computing inverse. Positive integer, default 20.}
+algorithm for computing the inverse. Positive integer, defaults to 20.}
 
 \item{eps}{The Newton-Raphson algorithm for computing an inverse will
 stop if the step size is less than this small number.}
 
 \item{bd}{The largest acceptable step size in the Newton-Raphson
-algorithm. Step size is reduced if it reaches this large.}
+algorithm. Step size is reduced if it exceeds this bound.}
 }
 \description{
-\code{igl_gen} is the function itself, and \code{igl_gen_inv} is
-its inverse; \code{igl_gen_D} is the
-derivative; and \code{igl_gen_DD} is the second derivative.
-}
-\details{
-Function arguments and parameters are vectorized, except
-for the algorithms (marked by \verb{_algo}).
+\code{igl_gen} is the function itself; \code{igl_gen_inv} is
+its inverse; and \code{igl_gen_D} is the
+derivative. Function arguments and parameters are vectorized.
 }
 \examples{
-## Some examples of evaluating the functions.
 arg <- c(0, 0.5, 3, Inf, NA)
-#igl_gen(arg, alpha = 1)
-#igl_gen_D(arg, alpha = 0.2)
-#igl_gen_D(arg, alpha = 1)
-#igl_gen_D(arg, alpha = 2)
-#igl_gen_inv(c(0, 0.5, 1), alpha = 0.5)
-
-## Visual
-#foo <- function(u) igl_gen_inv(u, alpha = 0.5)
-#curve(foo)
+igl_gen(arg, alpha = 1)
+igl_gen(arg, alpha = 0.2)
+igl_gen_D(arg, alpha = 1)
+igl_gen_D(arg, alpha = 2)
+igl_gen_inv(c(0, 0.5, 1), alpha = 0.5)
 }

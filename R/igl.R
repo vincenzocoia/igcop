@@ -122,8 +122,4 @@ logdigl <- function(u, v, alpha) {
         stats::pgamma(y, shape = alpha + 1, log.p = TRUE)
 }
 
-check_alpha <- function(alpha) {
-    if (isTRUE(any(alpha < 0))) {
-        stop("`alpha` parameter must be positive.")
-    }
-}
+

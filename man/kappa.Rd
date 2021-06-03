@@ -15,9 +15,11 @@ igl_kappa_inv(p, alpha)
 \arguments{
 \item{x}{Numeric argument of the kappa function. Vectorized.}
 
-\item{alpha}{Parameter of the IGL generating function, \code{igl_gen()}, >0. Vectorized.}
+\item{alpha}{Parameter of the IGL generating function, \code{igl_gen()}, >0.
+Vectorized.}
 
-\item{p}{Numeric argument of the inverse function. Vectorized. Between 0 and 1.}
+\item{p}{Numeric argument of the inverse function. Vectorized.
+Between 0 and 1, inclusive.}
 }
 \description{
 The kappa version of a generating function \eqn{\psi} is
@@ -26,5 +28,5 @@ defined as \eqn{\kappa(x) = \psi(x) + x \psi'(x)}.
 function, \code{igl_gen()}.
 }
 \details{
-\code{igl_kappa_D()} is the derivative.
+\code{igl_kappa_D()} is the derivative; \code{igl_kappa_inv()} is the inverse.
 }
