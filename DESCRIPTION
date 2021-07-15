@@ -26,4 +26,7 @@ RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 Imports: 
     stats,
-    vctrs
+    vctrs,
+    Rcpp
+LinkingTo: 
+    Rcpp
