@@ -7,7 +7,7 @@
 #include <malloc.h>
 // sample main program for checking functions involving kappa
 int main(int argc, char *argv[])
-{ 
+{
   double dgamma(double,double,double);
   double igl_kappa(double,double);
   double igl_kappa_D(double,double);
@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
   inv=(double *) malloc(n * sizeof(double));
 
   for(i=1;i<=n;i++)
-  { x=i/5.; 
+  { x=i/5.;
     tem=dgamma(x,x,2.);
     printf("%f %f 2 %f\n", x,x,tem);
   }
@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
 
   eps = 1.e-12; bd = 5; mxiter = 20; iprint=0;
   for(j=0;j<n;j++)
-  { i=j+1;; pvec[j] = i/(n+1.); avec[j]=n-i+4.4; etavec[j]=i*0.1; 
+  { i=j+1;; pvec[j] = i/(n+1.); avec[j]=n-i+4.4; etavec[j]=i*0.1;
     interpkinv=interp_kappa_inv_algo(pvec[j],etavec[j],avec[j],mxiter,eps,bd,iprint);
     printf("%f %f %f %f\n", pvec[j],etavec[j],avec[j],interpkinv);
   }
@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
 #endif
 
 /*
-Map of dependencies among functions  
+Map of dependencies among functions
 gen is the psi function in the notes
 interp  is the H_psi function in the notes
 
@@ -95,25 +95,23 @@ interp_kappa_inv : interp_kappa_inv_algo (convert to void routine to link to R)
 ig.R
 pcondig21 : interp_gen_inv interp_kappa
 qcondig21 : interp_kappa_inv  interp_gen
-qcondig12_algo :  interp_gen_inv igl_gen igl_gen_D pcondig12 
+qcondig12_algo :  interp_gen_inv igl_gen igl_gen_D pcondig12
 qcondig12 : qcondig12_algo
 pcondig12 : interp_gen_inv interp_gen_D1
 dig : interp_gen_inv interp_kappa_D1 interp_gen_D1
 logdig  : interp_gen_inv igl_kappa igl_kappa_D igl_gen igl_gen_D
   (why different than log(dig)
-pig : interp_gen_inv  (link to the C version) 
-rig : qcondig21 
+pig : interp_gen_inv  (link to the C version)
+rig : qcondig21
 
 igl.R
 qcondigl21 : igl_kappa_inv
 pcondigl21 : igl_gen_inv igl_kappa
-pcondigl12 : igl_gen_inv igl_gen_D 
+pcondigl12 : igl_gen_inv igl_gen_D
 qcondigl12 : igl_gen_inv pgamma qgamma
 digl : igl_gen_inv igl_kappa_D igl_gen_D
 pigl : igl_gen_inv igl_gen
 rigl : qcondigl21
-
-Suggest to change tau as argument to p (avoid confusion with Kendall tau)
 */
 
 /*
@@ -140,35 +138,35 @@ double  dgamma(double x, double shape, double scale)
   return(pdf);
 }
 
-double igl_kappa(double x, double alpha) 
+double igl_kappa(double x, double alpha)
 { double pgamma(double,double,double);
   double res;
   res = 1.-pgamma(x, alpha, 1.);
   return(res);
 }
 
-double igl_kappa_D(double x, double alpha) 
+double igl_kappa_D(double x, double alpha)
 { double dgamma(double,double,double);
   double res;
   res = -dgamma(x, alpha, 1.);
   return(res);
 }
 
-double igl_kappa_inv(double p, double alpha) 
+double igl_kappa_inv(double p, double alpha)
 { double qgamma(double,double,double);
   double res;
   res = qgamma(1.-p, alpha, 1.);
   return(res);
 }
 
-double interp_kappa(double x, double eta, double alpha) 
+double interp_kappa(double x, double eta, double alpha)
 { double igl_kappa(double, double);
   double res;
   res = exp(-x) * igl_kappa(eta*x, alpha);
   return(res);
 }
 
-double interp_kappa_D1(double x, double eta, double alpha) 
+double interp_kappa_D1(double x, double eta, double alpha)
 { double igl_kappa(double, double);
   double igl_kappa_D(double, double);
   double res;
@@ -177,8 +175,8 @@ double interp_kappa_D1(double x, double eta, double alpha)
 }
 
 
-double interp_kappa_inv_algo(double p, double eta, double alpha, int mxiter, 
-   double eps, double bd, int iprint) 
+double interp_kappa_inv_algo(double p, double eta, double alpha, int mxiter,
+   double eps, double bd, int iprint)
 { double igl_kappa(double p, double alpha);
   double igl_kappa_D(double p, double alpha);
   double igl_kappa_inv(double p, double alpha);
@@ -193,10 +191,10 @@ double interp_kappa_inv_algo(double p, double eta, double alpha, int mxiter,
   p1 = interp_kappa(x1, eta, alpha);
   p2 = interp_kappa(x2, eta, alpha);
   diff1 = fabs(p1-p); diff2 = fabs(p2-p);
-  x=x1; 
+  x=x1;
   if(diff2<diff1) { x=x2; }
   iter = 0; diff = 1.;
-  while(iter < mxiter && fabs(diff) > eps) 
+  while(iter < mxiter && fabs(diff) > eps)
   { pex = p * exp(x);
     g = igl_kappa(eta*x, alpha) - pex;
     gp = eta * igl_kappa_D(eta*x, alpha) - pex;
@@ -211,8 +209,8 @@ double interp_kappa_inv_algo(double p, double eta, double alpha, int mxiter,
 }
 
 // p, eta and alpha are vectors of length n
-void interp_kappa_inv(int *n0, double *p, double *eta, double *alpha, 
-  int *mxiter0, double *eps0, double *bd0, double *inv) 
+void interp_kappa_inv(int *n0, double *p, double *eta, double *alpha,
+  int *mxiter0, double *eps0, double *bd0, double *inv)
 { int i,n,mxiter;
   double interp_kappa_inv_algo (double, double, double, int, double, double, int);
   double eps,bd;

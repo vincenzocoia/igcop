@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
   etavec=(double *) malloc(n * sizeof(double));
   inv=(double *) malloc(n * sizeof(double));
   for(i=1;i<=n;i++)
-  { x=i*0.5; alpha=n-i+0.4; 
+  { x=i*0.5; alpha=n-i+0.4;
     iglf = igl_gen(x,alpha);
     printf("igl %f %f %f\n", x,alpha,iglf);
   }
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
     printf("interp_gen_inv %f %f %f %f %f\n", p,eta,alpha,interpinv,interpf);
   }
 
-  // second group of inputs 
+  // second group of inputs
   eps = 1.e-12; bd = 5; mxiter = 20; iprint=1;
   printf("\nAnother group of inputs\n");
   for(i=1;i<=5;i++)
@@ -71,11 +71,11 @@ int main(int argc, char *argv[])
 #endif
 
 /*
-Map of dependencies among functions  
+Map of dependencies among functions
 gen is the psi function in the notes
 interp  is the H_psi function in the notes
 
-igl_gen.R and interp_gen.R  
+igl_gen.R and interp_gen.R
 igl_gen : pgamma  (pgamma in pgamma.c)
 igl_gen_D : pgamma
 igl_gen_DD : pgamma  dgamma  (dgamma in this file)
@@ -98,25 +98,25 @@ interp_kappa_inv : interp_kappa_inv_algo (convert to void routine to link to R)
 ig.R
 pcondig21 : interp_gen_inv interp_kappa
 qcondig21 : interp_kappa_inv  interp_gen
-qcondig12_algo :  interp_gen_inv igl_gen igl_gen_D pcondig12 
+qcondig12_algo :  interp_gen_inv igl_gen igl_gen_D pcondig12
 qcondig12 : qcondig12_algo
 pcondig12 : interp_gen_inv interp_gen_D1
 dig : interp_gen_inv interp_kappa_D1 interp_gen_D1
 logdig  : interp_gen_inv igl_kappa igl_kappa_D igl_gen igl_gen_D
   (why different than log(dig)
-pig : interp_gen_inv  (link to the C version) 
-rig : qcondig21 
+pig : interp_gen_inv  (link to the C version)
+rig : qcondig21
 
 igl.R
 qcondigl21 : igl_kappa_inv
 pcondigl21 : igl_gen_inv igl_kappa
-pcondigl12 : igl_gen_inv igl_gen_D 
+pcondigl12 : igl_gen_inv igl_gen_D
 qcondigl12 : igl_gen_inv pgamma qgamma
 digl : igl_gen_inv igl_kappa_D igl_gen_D
 pigl : igl_gen_inv igl_gen
 rigl : qcondigl21
 
-Suggest to change tau as argument to p (avoid confusion with Kendall tau)
+
 */
 
 /*
@@ -149,16 +149,16 @@ Suggest to change tau as argument to p (avoid confusion with Kendall tau)
 */
 
 // x>0, alpha>0
-double igl_gen(double x, double alpha) 
+double igl_gen(double x, double alpha)
 { double pgamma(double,double,double);
   double res,term1,term2;
-  term1 = 1.-pgamma(x, alpha, 1.); 
+  term1 = 1.-pgamma(x, alpha, 1.);
   term2 = alpha * pgamma(x, alpha+1., 1.) / x;
   res = term1+term2;
   return(res);
 }
 
-double igl_gen_D(double x, double alpha) 
+double igl_gen_D(double x, double alpha)
 { double pgamma(double,double,double);
   return( -(alpha / (x*x)) * pgamma(x, alpha+1., 1.) );
 }
@@ -174,7 +174,7 @@ double igl_gen_D(double x, double alpha)
 #' @rdname igl_gen
 */
 
-// p in (0,1), alpha>0,  
+// p in (0,1), alpha>0,
 // mxiter = 20, eps = 1.e-12, bd = 5 in calling routine
 double igl_gen_inv_algo (double p, double alpha, int mxiter, double eps, double bd, int iprint)
 { double prod,x1,x2,x3,p1,p2,p3,diff1,diff2,diff3;
@@ -191,7 +191,7 @@ double igl_gen_inv_algo (double p, double alpha, int mxiter, double eps, double 
   //1 / ((1 - p) ^ (-1 / alpha) - 1)
   x1 = 1. / (pow(1.-p, -1./ alpha) - 1.);
   x2 = alpha / p;
-  x2 = qgamma(p, alpha+1., 1.); 
+  x2 = qgamma(p, alpha+1., 1.);
   p1 = igl_gen(x1,alpha); p2 = igl_gen(x2,alpha); p3 = igl_gen(x3,alpha);
   // p_start = igl_gen(x_start, alpha = alpha)
   diff1 = fabs(p1-p); diff2 = fabs(p2-p); diff3 = fabs(p3-p);
@@ -204,24 +204,24 @@ double igl_gen_inv_algo (double p, double alpha, int mxiter, double eps, double 
   if (x == 0.) x = eps;
   x = log(x);
   iter = 0; diff = 1.;
-  while (iter < mxiter && fabs(diff) > eps) 
+  while (iter < mxiter && fabs(diff) > eps)
   { ex = exp(x);
     g = igl_gen(ex, alpha) - p;
     gp = igl_gen_D(ex, alpha) * ex;
     diff = g / gp;
     // if (x - diff < 0) diff = x / 2
     x -= diff;
-    while (fabs(diff) > bd) 
+    while (fabs(diff) > bd)
     { diff/=2.; x += diff; }
     iter++;
     if(iprint) printf("%d %f %f\n", iter, x, diff);
   }
   return(exp(x));
 }
- 
+
 // p and alpha are vectors of length n
-void igl_gen_inv(int *n0, double *p, double *alpha, 
-  int *mxiter0, double *eps0, double *bd0, double *inv) 
+void igl_gen_inv(int *n0, double *p, double *alpha,
+  int *mxiter0, double *eps0, double *bd0, double *inv)
 { int i,n,mxiter;
   double igl_gen_inv_algo (double, double, int, double, double, int);
   double eps,bd;
@@ -273,7 +273,7 @@ igl_gen_inv = function(p, alpha, mxiter = 20, eps = 1.e-12, bd = 5){
 */
 
 // x>1, eta>0, alpha>0
-double interp_gen (double x, double eta, double alpha) 
+double interp_gen (double x, double eta, double alpha)
 { double igl_gen(double, double);
   double res;
   res = exp(-x) * igl_gen(eta*x, alpha);
@@ -281,7 +281,7 @@ double interp_gen (double x, double eta, double alpha)
 }
 
 
-double interp_gen_D1 (double x, double eta, double alpha) 
+double interp_gen_D1 (double x, double eta, double alpha)
 { double igl_gen(double, double);
   double igl_gen_D(double, double);
   double res;
@@ -299,10 +299,10 @@ double interp_gen_D1 (double x, double eta, double alpha)
 #' @rdname interpolator
 */
 
-// p in (0,1), eta>0, alpha>0,  
+// p in (0,1), eta>0, alpha>0,
 // mxiter = 40, eps = 1.e-12, bd = 5 in calling routine
-double interp_gen_inv_algo(double p, double eta, double alpha, int mxiter, 
-  double eps, double bd, int iprint) 
+double interp_gen_inv_algo(double p, double eta, double alpha, int mxiter,
+  double eps, double bd, int iprint)
 { double prod,x1,x2,p1,p2,diff1,diff2;
   double x,diff,ex,g,gp;
   double interp_gen(double, double, double);
@@ -319,18 +319,18 @@ double interp_gen_inv_algo(double p, double eta, double alpha, int mxiter,
   p1 = interp_gen(x1, eta, alpha);
   p2 = interp_gen(x2, eta, alpha);
   diff1 = fabs(p1-p); diff2 = fabs(p2-p);
-  x=x1; 
+  x=x1;
   if(diff2<diff1) { x=x2; }
   x = log(x);
   iter = 0; diff = 1.;
-  while(iter < mxiter && fabs(diff) > eps) 
+  while(iter < mxiter && fabs(diff) > eps)
   { ex = exp(x);
     g = interp_gen(ex, eta, alpha) - p;
     gp = interp_gen_D1(ex, eta, alpha) * ex;
     diff = g / gp;
     // if (x - diff < 0) diff = x / 2
     x -= diff;
-    while (fabs(diff) > bd) 
+    while (fabs(diff) > bd)
     { diff/=2.; x += diff; }
     iter++;
     if(iprint) printf("%d %f %f\n", iter, x, diff);
@@ -339,8 +339,8 @@ double interp_gen_inv_algo(double p, double eta, double alpha, int mxiter,
 }
 
 // p, eta and alpha are vectors of length n
-void interp_gen_inv(int *n0, double *p, double *eta, double *alpha, 
-  int *mxiter0, double *eps0, double *bd0, double *inv) 
+void interp_gen_inv(int *n0, double *p, double *eta, double *alpha,
+  int *mxiter0, double *eps0, double *bd0, double *inv)
 { int i,n,mxiter;
   double interp_gen_inv_algo (double, double, double, int, double, double, int);
   double eps,bd;

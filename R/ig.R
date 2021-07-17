@@ -4,7 +4,7 @@
 #'
 #' @param u,v Vectors of values between 0 and 1 representing values of the first
 #' and second copula variables.
-#' @param tau Vector of quantile levels between 0 and 1
+#' @param p Vector of quantile levels between 0 and 1
 #'  to evaluate a quantile function at.
 #' @param theta Parameter of the IG copula family. Vectorized; >0.
 #' @param alpha Parameter of the IG copula family. Vectorized; >0.
@@ -41,14 +41,14 @@ pcondig21 <- function(v, u, theta, alpha) {
     1 - interp_kappa(y, eta = theta * (1 - u), alpha = alpha)
 }
 
-#' @param tau Vector of quantile levels between 0 and 1
+#' @param p Vector of quantile levels between 0 and 1
 #' to evaluate a quantile function at.
 #' @rdname ig
 #' @export
-qcondig21 <- function(tau, u, theta, alpha) {
+qcondig21 <- function(p, u, theta, alpha) {
     check_theta(theta)
     check_alpha(alpha)
-    inner <- y_interp_kappa_inv(1 - tau, eta = theta * (1 - u), alpha = alpha)
+    inner <- y_interp_kappa_inv(1 - p, eta = theta * (1 - u), alpha = alpha)
     1 - interp_gen(inner, eta = theta, alpha = alpha)
 }
 
@@ -130,8 +130,8 @@ rig <- function(n, theta, alpha) {
     check_theta(theta)
     check_alpha(alpha)
     u <- stats::runif(n)
-    tau <- stats::runif(n)
-    v <- qcondig(tau, u, theta = theta, alpha = alpha)
+    p <- stats::runif(n)
+    v <- qcondig(p, u, theta = theta, alpha = alpha)
     v_na <- vctrs::vec_slice(v, is.na(v))
     u <- vctrs::vec_assign(u, is.na(v), v_na)
     res <- matrix(c(u, v), ncol = 2)

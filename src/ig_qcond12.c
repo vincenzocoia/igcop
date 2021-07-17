@@ -8,7 +8,7 @@
 // sample main program for checking qcondig12
 int main(int argc, char *argv[])
 { double pcondig12(double, double, double, double);
-  double qcondig12_algo(double p, double v, double theta, double alpha, 
+  double qcondig12_algo(double p, double v, double theta, double alpha,
     int mxiter, double eps, double bd, int iprint);
   void qcondig12(int *, double *, double *, double *, double *, int *,
     double *, double *, double *);
@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 
   eps = 1.e-12; bd = 5; mxiter = 20; iprint=1;
   for(i=1;i<=n;i++)
-  { p=i/(n+1.);  v=0.3; theta=i*0.8; alpha=n-i+0.4; 
+  { p=i/(n+1.);  v=0.3; theta=i*0.8; alpha=n-i+0.4;
     //if(i>=3) iprint=0;
     qu = qcondig12_algo(p,v,theta,alpha, mxiter,eps,bd, iprint);
     pp = pcondig12(qu,v,theta,alpha);
@@ -43,8 +43,8 @@ int main(int argc, char *argv[])
 #endif
 
 // routine for linking to R
-void qcondig12(int *n0, double *p, double *v, double *theta, double *alpha, 
-  int *mxiter0, double *eps0, double *bd0, double *qu) 
+void qcondig12(int *n0, double *p, double *v, double *theta, double *alpha,
+  int *mxiter0, double *eps0, double *bd0, double *qu)
 { int i,n,mxiter;
   double qcondig12_algo(double, double, double, double, int, double, double, int);
   double eps,bd;
@@ -54,10 +54,10 @@ void qcondig12(int *n0, double *p, double *v, double *theta, double *alpha,
 }
 
 
-// 0<tau<1, 0<v<1, theta>0 alpha>0
-double qcondig12_algo(double tau, double v, double theta, double alpha, 
-  int mxiter, double eps, double bd, int iprint) 
-{ double x0, tau0, diff0;
+// 0<p<1, 0<v<1, theta>0 alpha>0
+double qcondig12_algo(double p, double v, double theta, double alpha,
+  int mxiter, double eps, double bd, int iprint)
+{ double x0, p0, diff0;
   double mindiff, x, diff, ex, g, gp;
   int i,iter;
   double pcondig12(double, double, double, double);
@@ -66,42 +66,42 @@ double qcondig12_algo(double tau, double v, double theta, double alpha,
   //double igl_gen(double, double);
   //double igl_gen_D(double, double);
   //double prod, y, denom;
-  if (tau <= 0) return(0.);
-  if (tau >= 1) return(1.);
-  //prod = alpha * theta * v * tau;
+  if (p <= 0) return(0.);
+  if (p >= 1) return(1.);
+  //prod = alpha * theta * v * p;
   //y = interp_gen_inv_algo(1.-v, theta, alpha, mxiter, eps, bd, 0);
   // prod, y and denom are unused??
   //denom = igl_gen(theta*y, alpha) - theta * igl_gen_D(theta*y, alpha);
-  // x0 = c(tau, 1:99/100)
-  // tau0 <- pcondig12(x0, v, theta = theta, alpha = alpha)
+  // x0 = c(p, 1:99/100)
+  // p0 <- pcondig12(x0, v, theta = theta, alpha = alpha)
   // i0 = which(diff0 == min(diff0))[1]
-  tau0 = pcondig12(tau, v, theta, alpha); 
-  mindiff = fabs(tau-tau0);
-  x = tau;
-  for(i=1.; i<100; i++) 
+  p0 = pcondig12(p, v, theta, alpha);
+  mindiff = fabs(p-p0);
+  x = p;
+  for(i=1.; i<100; i++)
   { x0=i/100.;
-    tau0 = pcondig12(x0, v, theta, alpha); 
-    diff0 = fabs(tau - tau0);
+    p0 = pcondig12(x0, v, theta, alpha);
+    diff0 = fabs(p - p0);
     if(diff0<mindiff) { mindiff=diff0; x=x0; }
   }
   x = -log(x);
   iter = 0; diff = 1;
-  while (iter < mxiter && fabs(diff) > eps) 
+  while (iter < mxiter && fabs(diff) > eps)
   { ex = exp(-x);
-    g = pcondig12(ex, v, theta, alpha) - tau;
+    g = pcondig12(ex, v, theta, alpha) - p;
     gp = -dig(ex, v, theta, alpha) * ex;
     diff = g / gp;
     if (x - diff < 0.) diff = x / 2.;
     x -= diff;
     while(fabs(diff) > bd) { diff /= 2.;  x += diff; }
-    iter++; 
+    iter++;
     if(iprint) printf("%d %f %f\n", iter, x, diff);
   }
   return(exp(-x));
 }
 
 // 0<u<1, 0<v<1, theta>0 alpha>0
-double pcondig12(double u, double v, double theta, double alpha) 
+double pcondig12(double u, double v, double theta, double alpha)
 { double interp_gen_inv_algo (double, double, double, int, double, double, int);
   double interp_gen_D1(double, double, double);
   double eps,bd,y,pcond;
@@ -115,7 +115,7 @@ double pcondig12(double u, double v, double theta, double alpha)
 }
 
 // 0<u<1, 0<v<1, theta>0 alpha>0
-double dig(double u, double v, double theta, double alpha) 
+double dig(double u, double v, double theta, double alpha)
 { double interp_gen_inv_algo (double, double, double, int, double, double, int);
   double interp_kappa_D1(double, double, double);
   double interp_gen_D1(double, double, double);
