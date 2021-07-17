@@ -110,4 +110,53 @@ Generating 5 values from an IG copula:
 rig(5, theta = 5, alpha = 4)
 ```
 
+## Function dependencies map
+
+
+Map of dependencies among functions
+gen is the psi function in the notes
+interp  is the H_psi function in the notes
+
+igl_gen.R and interp_gen.R
+igl_gen : pgamma  (pgamma in pgamma.c)
+igl_gen_D : pgamma
+igl_gen_DD : pgamma  dgamma  (dgamma in this file)
+igl_gen_inv_algo : qgamma igl_gen igl_gen_D
+igl_gen_inv : igl_gen_inv_algo (convert to void routine to link to R)
+interp_gen : igl_gen
+interp_gen_D1 : igl_gen
+interp_gen_inv_algo : igl_gen_inv_algo interp_gen interp_gen_D1
+interp_gen_inv : interp_gen_inv_algo (convert to void routine to link to R)
+
+igl_kappa.R and interp_kappa.R
+igl_kappa : pgamma
+igl_kappa_D : dgamma
+igl_kappa_inv : qgamma
+interp_kappa : igl_kappa
+interp_kappa_D1 : igl_kappa igl_kappa_D
+interp_kappa_inv_algo : igl_kappa_inv interp_kappa igl_kappa igl_kappa_D interp_kappa_inv
+interp_kappa_inv : interp_kappa_inv_algo (convert to void routine to link to R)
+
+ig.R
+pcondig21 : interp_gen_inv interp_kappa
+qcondig21 : interp_kappa_inv  interp_gen
+qcondig12_algo :  interp_gen_inv igl_gen igl_gen_D pcondig12
+qcondig12 : qcondig12_algo
+pcondig12 : interp_gen_inv interp_gen_D1
+dig : interp_gen_inv interp_kappa_D1 interp_gen_D1
+logdig  : interp_gen_inv igl_kappa igl_kappa_D igl_gen igl_gen_D
+  (why different than log(dig)
+pig : interp_gen_inv  (link to the C version)
+rig : qcondig21
+
+igl.R
+qcondigl21 : igl_kappa_inv
+pcondigl21 : igl_gen_inv igl_kappa
+pcondigl12 : igl_gen_inv igl_gen_D
+qcondigl12 : igl_gen_inv pgamma qgamma
+digl : igl_gen_inv igl_kappa_D igl_gen_D
+pigl : igl_gen_inv igl_gen
+rigl : qcondigl21
+
+
 ## References

@@ -55,7 +55,7 @@ Functions related to the IGL copula family, denoted  by \code{'igl'}.
 Inputting two vectors greater than length 1 is allowed, if they're
 the same length.
 Also, \code{qcondigl21} and \code{pcondigl21} are the same as
-\code{qcondigl} and \code{pcondigl} -- they're the distributions of
+\code{qcondigl} and \code{pcondigl} -- they are the distributions of
 variable 2 given 1.
 }
 \examples{

@@ -1,8 +1,9 @@
-#include <Rcpp.h>
+#include <R.h>
+#include <Rinternals.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <values.h>
+//#include <values.h>
 
 #ifdef MAIN2
 #include <malloc.h>
@@ -54,8 +55,13 @@ void qcondig12(int *n0, double *p, double *v, double *theta, double *alpha,
   { qu[i] = qcondig12_algo(p[i],v[i],theta[i],alpha[i],mxiter,eps,bd, 0); }
 }
 
-
-// 0<p<1, 0<v<1, theta>0 alpha>0
+//' Algorithm: Inverse of the 1|2 IG distribution function
+//' @param u,v Vectors of values between 0 and 1 representing values of the first
+//' and second copula variables.
+//' @param p Vector of quantile levels between 0 and 1
+//'  to evaluate a quantile function at.
+//' @param theta Parameter of the IG copula family. Vectorized; >0.
+//' @param alpha Parameter of the IG copula family. Vectorized; >0.
 double qcondig12_algo(double p, double v, double theta, double alpha,
   int mxiter, double eps, double bd, int iprint)
 { double x0, p0, diff0;

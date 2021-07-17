@@ -1,4 +1,5 @@
-#include <Rcpp.h>
+#include <R.h>
+#include <Rinternals.h>
 /*
  *  R : A Computer Langage for Statistical Data Analysis
  *  Copyright (C) 1995, 1996  Robert Gentleman and Ross Ihaka
@@ -20,7 +21,7 @@
 
 //#include "Mathlib.h"
 #include <math.h>
-#include <values.h>
+//#include <values.h>
 
 double fmin2(double x, double y)
 { return (x < y) ? x : y; }

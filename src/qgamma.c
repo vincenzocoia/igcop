@@ -1,4 +1,5 @@
-#include <Rcpp.h>
+#include <R.h>
+#include <Rinternals.h>
 /*
  *  R : A Computer Langage for Statistical Data Analysis
  *  Copyright (C) 1995, 1996  Robert Gentleman and Ross Ihaka
@@ -75,8 +76,8 @@ double qgamma(double p, double alpha, double scale)
   double p2, q, s1, s2, s3, s4, s5, s6, t, x, xx;
   double aa = 0.6931471806;
   double e = 0.5e-6;
-  double pmin = 0.000002;
-  double pmax = 0.999998;
+  //double pmin = 0.000002;
+  //double pmax = 0.999998;
   int i;
 
   /* test arguments and initialise */

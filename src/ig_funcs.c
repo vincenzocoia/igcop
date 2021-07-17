@@ -1,8 +1,9 @@
-#include <Rcpp.h>
+#include <R.h>
+#include <Rinternals.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <values.h>
+//#include <values.h>
 
 #ifdef MAIN
 #include <malloc.h>
@@ -71,85 +72,33 @@ int main(int argc, char *argv[])
 }
 #endif
 
-/*
-Map of dependencies among functions
-gen is the psi function in the notes
-interp  is the H_psi function in the notes
 
-igl_gen.R and interp_gen.R
-igl_gen : pgamma  (pgamma in pgamma.c)
-igl_gen_D : pgamma
-igl_gen_DD : pgamma  dgamma  (dgamma in this file)
-igl_gen_inv_algo : qgamma igl_gen igl_gen_D
-igl_gen_inv : igl_gen_inv_algo (convert to void routine to link to R)
-interp_gen : igl_gen
-interp_gen_D1 : igl_gen
-interp_gen_inv_algo : igl_gen_inv_algo interp_gen interp_gen_D1
-interp_gen_inv : interp_gen_inv_algo (convert to void routine to link to R)
-
-igl_kappa.R and interp_kappa.R
-igl_kappa : pgamma
-igl_kappa_D : dgamma
-igl_kappa_inv : qgamma
-interp_kappa : igl_kappa
-interp_kappa_D1 : igl_kappa igl_kappa_D
-interp_kappa_inv_algo : igl_kappa_inv interp_kappa igl_kappa igl_kappa_D interp_kappa_inv
-interp_kappa_inv : interp_kappa_inv_algo (convert to void routine to link to R)
-
-ig.R
-pcondig21 : interp_gen_inv interp_kappa
-qcondig21 : interp_kappa_inv  interp_gen
-qcondig12_algo :  interp_gen_inv igl_gen igl_gen_D pcondig12
-qcondig12 : qcondig12_algo
-pcondig12 : interp_gen_inv interp_gen_D1
-dig : interp_gen_inv interp_kappa_D1 interp_gen_D1
-logdig  : interp_gen_inv igl_kappa igl_kappa_D igl_gen igl_gen_D
-  (why different than log(dig)
-pig : interp_gen_inv  (link to the C version)
-rig : qcondig21
-
-igl.R
-qcondigl21 : igl_kappa_inv
-pcondigl21 : igl_gen_inv igl_kappa
-pcondigl12 : igl_gen_inv igl_gen_D
-qcondigl12 : igl_gen_inv pgamma qgamma
-digl : igl_gen_inv igl_kappa_D igl_gen_D
-pigl : igl_gen_inv igl_gen
-rigl : qcondigl21
-
-
-*/
-
-/*
-#' Generating function for the IGL copula family
-#'
-#' \code{igl_gen} is the function itself, and \code{igl_gen_inv} is
-#' its inverse; \code{igl_gen_D} is the
-#' derivative; and \code{igl_gen_DD} is the second derivative.
-#'
-#' Function arguments and parameters are vectorized, except
-#' for the algorithms (marked by `_algo`).
-#'
-#' @param x Vector of values >=0 to evaluate the function at, .
-#' @param p Vector of values to evaluate the inverse function at, between
-#' 0 and 1 (inclusive).
-#' @param alpha Parameter of the function, alpha > 0. Vectorized.
-#' @examples
-#' ## Some examples of evaluating the functions.
-#' arg <- c(0, 0.5, 3, Inf, NA)
-#' #igl_gen(arg, alpha = 1)
-#' #igl_gen_D(arg, alpha = 0.2)
-#' #igl_gen_D(arg, alpha = 1)
-#' #igl_gen_D(arg, alpha = 2)
-#' #igl_gen_inv(c(0, 0.5, 1), alpha = 0.5)
-#'
-#' ## Visual
-#' #foo <- function(u) igl_gen_inv(u, alpha = 0.5)
-#' #curve(foo)
-#' @rdname igl_gen
-*/
-
-// x>0, alpha>0
+//' Generating function for the IGL copula family
+//'
+//' \code{igl_gen} is the function itself, and \code{igl_gen_inv} is
+//' its inverse; \code{igl_gen_D} is the
+//' derivative; and \code{igl_gen_DD} is the second derivative.
+//'
+//' Function arguments and parameters are vectorized, except
+//' for the algorithms (marked by `_algo`).
+//'
+//' @param x Vector of values >=0 to evaluate the function at, .
+//' @param p Vector of values to evaluate the inverse function at, between
+//' 0 and 1 (inclusive).
+//' @param alpha Parameter of the function, alpha > 0. Vectorized.
+//' @examples
+//' ## Some examples of evaluating the functions.
+//' arg <- c(0, 0.5, 3, Inf, NA)
+//' #igl_gen(arg, alpha = 1)
+//' #igl_gen_D(arg, alpha = 0.2)
+//' #igl_gen_D(arg, alpha = 1)
+//' #igl_gen_D(arg, alpha = 2)
+//' #igl_gen_inv(c(0, 0.5, 1), alpha = 0.5)
+//'
+//' ## Visual
+//' #foo <- function(u) igl_gen_inv(u, alpha = 0.5)
+//' #curve(foo)
+//' @rdname igl_gen
 double igl_gen(double x, double alpha)
 { double pgamma(double,double,double);
   double res,term1,term2;
@@ -159,26 +108,25 @@ double igl_gen(double x, double alpha)
   return(res);
 }
 
+//' @rdname igl_gen
 double igl_gen_D(double x, double alpha)
 { double pgamma(double,double,double);
   return( -(alpha / (x*x)) * pgamma(x, alpha+1., 1.) );
 }
 
-
-/*
-#' @param mxiter Maximum number of iterations to run the Newton-Raphson
-#' algorithm when computing inverse. Positive integer, default 20.
-#' @param eps The Newton-Raphson algorithm for computing an inverse will
-#' stop if the step size is less than this small number.
-#' @param bd The largest acceptable step size in the Newton-Raphson
-#' algorithm. Step size is reduced if it reaches this large.
-#' @rdname igl_gen
-*/
-
-// p in (0,1), alpha>0,
-// mxiter = 20, eps = 1.e-12, bd = 5 in calling routine
-double igl_gen_inv_algo (double p, double alpha, int mxiter, double eps, double bd, int iprint)
-{ double prod,x1,x2,x3,p1,p2,p3,diff1,diff2,diff3;
+//' @param mxiter Maximum number of iterations to run the Newton-Raphson
+//' algorithm when computing inverse. Positive integer, default 20
+//' (which is used in the calling routine).
+//' @param eps The Newton-Raphson algorithm for computing an inverse will
+//' stop if the step size is less than this small number. 1.e-12 used
+//' in the calling routine.
+//' @param bd The largest acceptable step size in the Newton-Raphson
+//' algorithm. Step size is reduced if it reaches this large. `bd=5` in
+//' the calling routine.
+//' @rdname igl_gen
+double igl_gen_inv_algo (double p, double alpha, int mxiter, double eps,
+                         double bd, int iprint)
+{ double x1,x2,x3,p1,p2,p3,diff1,diff2,diff3;
   double x,best,diff,ex,g,gp;
   double qgamma(double,double,double);
   double igl_gen(double, double);
@@ -192,7 +140,7 @@ double igl_gen_inv_algo (double p, double alpha, int mxiter, double eps, double 
   //1 / ((1 - p) ^ (-1 / alpha) - 1)
   x1 = 1. / (pow(1.-p, -1./ alpha) - 1.);
   x2 = alpha / p;
-  x2 = qgamma(p, alpha+1., 1.);
+  x3 = qgamma(p, alpha+1., 1.);
   p1 = igl_gen(x1,alpha); p2 = igl_gen(x2,alpha); p3 = igl_gen(x3,alpha);
   // p_start = igl_gen(x_start, alpha = alpha)
   diff1 = fabs(p1-p); diff2 = fabs(p2-p); diff3 = fabs(p3-p);
@@ -250,30 +198,27 @@ igl_gen_inv = function(p, alpha, mxiter = 20, eps = 1.e-12, bd = 5){
 }
 #endif
 
-/*
-#' Interpolating Functions
-#'
-#' These interpolating functions, denoted \eqn{H} in the vignette,
-#' depend on a generating function (of a DJ copula).
-#' `interp_gen()` uses the IGL generating function \eqn{\Psi_k};
-#' `interp_kappa()` uses the "kappa version" of that same function.
-#'
-#' Appending `_inv` to the function name indicates inverse with
-#' respect to the first argument. Appending `_D1` indicates
-#' derivative with respect to the first argument. Function arguments
-#' and parameters are vectorized, except for the algorithms (marked by
-#' `_algo`).
-#'
-#' @param x Vector of values >=1 to evaluate the interpolating function at.
-#' @param p Vector of values between 0 and 1 to evaluate the inverse function at.
-#' @param eta Vector of values >0 of second argument of the
-#' interpolating function.
-#' @param alpha Vector of values >0 corresponding to the \eqn{alpha} parameter
-#' of the IGL generating function.
-#' @rdname interpolator
-*/
 
-// x>1, eta>0, alpha>0
+//' Interpolating Functions
+//'
+//' These interpolating functions, denoted \eqn{H} in the vignette,
+//' depend on a generating function (of a DJ copula).
+//' `interp_gen()` uses the IGL generating function \eqn{\Psi_k};
+//' `interp_kappa()` uses the "kappa version" of that same function.
+//'
+//' Appending `_inv` to the function name indicates inverse with
+//' respect to the first argument. Appending `_D1` indicates
+//' derivative with respect to the first argument. Function arguments
+//' and parameters are vectorized, except for the algorithms (marked by
+//' `_algo`).
+//'
+//' @param x Vector of values >=1 to evaluate the interpolating function at.
+//' @param p Vector of values between 0 and 1 to evaluate the inverse function at.
+//' @param eta Vector of values >0 of second argument of the
+//' interpolating function.
+//' @param alpha Vector of values >0 corresponding to the \eqn{alpha} parameter
+//' of the IGL generating function.
+//' @rdname interpolator
 double interp_gen (double x, double eta, double alpha)
 { double igl_gen(double, double);
   double res;
@@ -281,7 +226,7 @@ double interp_gen (double x, double eta, double alpha)
   return(res);
 }
 
-
+//' @rdname interpolator
 double interp_gen_D1 (double x, double eta, double alpha)
 { double igl_gen(double, double);
   double igl_gen_D(double, double);
@@ -290,27 +235,17 @@ double interp_gen_D1 (double x, double eta, double alpha)
   return(res);
 }
 
-/*
-#' @param mxiter Maximum number of iterations to run the Newton-Raphson
-#' algorithm when computing inverse. Positive integer, default 20.
-#' @param eps The Newton-Raphson algorithm for computing an inverse will
-#' stop if the step size is less than this small number.
-#' @param bd The largest acceptable step size in the Newton-Raphson
-#' algorithm. Step size is reduced if it reaches this large.
-#' @rdname interpolator
-*/
 
-// p in (0,1), eta>0, alpha>0,
-// mxiter = 40, eps = 1.e-12, bd = 5 in calling routine
+//' @inheritParams igl_gen_inv_algo
+//' @rdname interpolator
 double interp_gen_inv_algo(double p, double eta, double alpha, int mxiter,
   double eps, double bd, int iprint)
-{ double prod,x1,x2,p1,p2,diff1,diff2;
+{ double x1,x2,p1,p2,diff1,diff2;
   double x,diff,ex,g,gp;
   double interp_gen(double, double, double);
   double interp_gen_D1(double, double, double);
   double igl_gen_inv_algo (double, double, int, double, double, int);
   int iter;
-
   //prod = alpha * eta * p;
   // if (is.na(prod)) return(prod)
   if (p <= 0.) return(DBL_MAX); // Inf

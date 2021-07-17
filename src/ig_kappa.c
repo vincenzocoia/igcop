@@ -1,8 +1,9 @@
-#include <Rcpp.h>
+#include <R.h>
+#include <Rinternals.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <values.h>
+//#include <values.h>
 
 #ifdef MAIN
 #include <malloc.h>
@@ -68,68 +69,7 @@ int main(int argc, char *argv[])
 }
 #endif
 
-/*
-Map of dependencies among functions
-gen is the psi function in the notes
-interp  is the H_psi function in the notes
 
-igl_gen.R and interp_gen.R
-igl_gen : pgamma  (pgamma in pgamma.c)
-igl_gen_D : pgamma
-igl_gen_DD : pgamma  dgamma  (dgamma in this file)
-igl_gen_inv_algo : qgamma igl_gen igl_gen_D
-igl_gen_inv : igl_gen_inv_algo (convert to void routine to link to R)
-interp_gen : igl_gen
-interp_gen_D1 : igl_gen
-interp_gen_inv_algo : igl_gen_inv_algo interp_gen interp_gen_D1
-interp_gen_inv : interp_gen_inv_algo (convert to void routine to link to R)
-
-igl_kappa.R and interp_kappa.R
-igl_kappa : pgamma
-igl_kappa_D : dgamma
-igl_kappa_inv : qgamma
-interp_kappa : igl_kappa
-interp_kappa_D1 : igl_kappa igl_kappa_D
-interp_kappa_inv_algo : igl_kappa_inv interp_kappa igl_kappa igl_kappa_D interp_kappa_inv
-interp_kappa_inv : interp_kappa_inv_algo (convert to void routine to link to R)
-
-ig.R
-pcondig21 : interp_gen_inv interp_kappa
-qcondig21 : interp_kappa_inv  interp_gen
-qcondig12_algo :  interp_gen_inv igl_gen igl_gen_D pcondig12
-qcondig12 : qcondig12_algo
-pcondig12 : interp_gen_inv interp_gen_D1
-dig : interp_gen_inv interp_kappa_D1 interp_gen_D1
-logdig  : interp_gen_inv igl_kappa igl_kappa_D igl_gen igl_gen_D
-  (why different than log(dig)
-pig : interp_gen_inv  (link to the C version)
-rig : qcondig21
-
-igl.R
-qcondigl21 : igl_kappa_inv
-pcondigl21 : igl_gen_inv igl_kappa
-pcondigl12 : igl_gen_inv igl_gen_D
-qcondigl12 : igl_gen_inv pgamma qgamma
-digl : igl_gen_inv igl_kappa_D igl_gen_D
-pigl : igl_gen_inv igl_gen
-rigl : qcondigl21
-*/
-
-/*
-#' Kappa version of generating function
-#'
-#' The kappa version of a generating function \eqn{\psi} is
-#' defined as \eqn{\kappa(x) = \psi(x) + x \psi'(x)}.
-#' `igl_kappa` takes \eqn{\psi} to be the IGL generating
-#' function, `igl_gen()`.
-#'
-#' `igl_kappa_D()` is the derivative.
-#'
-#' @param x Numeric argument of the kappa function. Vectorized.
-#' @param p Numeric argument of the inverse function. Vectorized. Between 0 and 1.
-#' @param alpha Parameter of the IGL generating function, `igl_gen()`, >0. Vectorized.
-#' @rdname kappa
-*/
 
 double  dgamma(double x, double shape, double scale)
 { double xx,tem,pdf;
@@ -139,6 +79,19 @@ double  dgamma(double x, double shape, double scale)
   return(pdf);
 }
 
+//' Kappa version of generating function
+//'
+//' The kappa version of a generating function \eqn{\psi} is
+//' defined as \eqn{\kappa(x) = \psi(x) + x \psi'(x)}.
+//' `igl_kappa` takes \eqn{\psi} to be the IGL generating
+//' function, `igl_gen()`.
+//'
+//' `igl_kappa_D()` is the derivative.
+//'
+//' @param x Numeric argument of the kappa function. Vectorized.
+//' @param p Numeric argument of the inverse function. Vectorized. Between 0 and 1.
+//' @param alpha Parameter of the IGL generating function, `igl_gen()`, >0. Vectorized.
+//' @rdname kappa
 double igl_kappa(double x, double alpha)
 { double pgamma(double,double,double);
   double res;
@@ -146,6 +99,7 @@ double igl_kappa(double x, double alpha)
   return(res);
 }
 
+//' @rdname kappa
 double igl_kappa_D(double x, double alpha)
 { double dgamma(double,double,double);
   double res;
@@ -153,12 +107,14 @@ double igl_kappa_D(double x, double alpha)
   return(res);
 }
 
+//' @rdname kappa
 double igl_kappa_inv(double p, double alpha)
 { double qgamma(double,double,double);
   double res;
   res = qgamma(1.-p, alpha, 1.);
   return(res);
 }
+
 
 double interp_kappa(double x, double eta, double alpha)
 { double igl_kappa(double, double);
@@ -182,7 +138,7 @@ double interp_kappa_inv_algo(double p, double eta, double alpha, int mxiter,
   double igl_kappa_D(double p, double alpha);
   double igl_kappa_inv(double p, double alpha);
   double interp_kappa(double x, double eta, double alpha);
-  double prod, x1,x2, p1,p2, diff1,diff2, x, pex, diff,g,gp;
+  double x1,x2, p1,p2, diff1,diff2, x, pex, diff,g,gp;
   int iter;
   //prod = alpha * eta * p;
   if (p <= 0.) return(DBL_MAX);

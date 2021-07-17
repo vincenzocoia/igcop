@@ -1,3 +1,20 @@
+#' Generating function for the IGL copula family
+#'
+#' \code{igl_gen} is the function itself; \code{igl_gen_inv} is
+#' its inverse; and \code{igl_gen_D} is the
+#' derivative. Function arguments and parameters are vectorized.
+#'
+#' @param x Vector of values >=0 to evaluate the function at.
+#' @param p Vector of values to evaluate the inverse function at, between
+#' 0 and 1 (inclusive).
+#' @param alpha Parameter of the function, alpha > 0. Vectorized.
+#' @examples
+#' arg <- c(0, 0.5, 3, Inf, NA)
+#' igl_gen(arg, alpha = 1)
+#' igl_gen(arg, alpha = 0.2)
+#' igl_gen_D(arg, alpha = 1)
+#' igl_gen_D(arg, alpha = 2)
+#' igl_gen_inv(c(0, 0.5, 1), alpha = 0.5)
 #' @rdname igl_gen
 y_igl_gen_inv <- function(p, alpha)
 {

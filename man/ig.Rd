@@ -5,8 +5,8 @@
 \alias{qcondig21}
 \alias{qcondig}
 \alias{pcondig}
-\alias{qcondig12}
 \alias{pcondig12}
+\alias{qcondig12}
 \alias{dig}
 \alias{logdig}
 \alias{pig}
@@ -21,9 +21,9 @@ qcondig(p, u, theta, alpha)
 
 pcondig(v, u, theta, alpha)
 
-qcondig12(p, v, theta, alpha, mxiter = 80, eps = 1e-12, bd = 5)
-
 pcondig12(u, v, theta, alpha)
+
+qcondig12(p, v, theta, alpha, mxiter = 20, eps = 1e-12, bd = 5)
 
 dig(u, v, theta, alpha)
 
