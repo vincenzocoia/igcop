@@ -1,3 +1,4 @@
+#include <Rcpp.h>
 /*
  *  R : A Computer Langage for Statistical Data Analysis
  *  Copyright (C) 1995, 1996  Robert Gentleman and Ross Ihaka
@@ -69,7 +70,7 @@ static double lGam_neg(double x)
 { /* log |gamma(x)|   for  x <= 0   ### G(-x) = - pi / [ G(x) x  sin(pi x) ] */
   double sinpx;
 /*  double log(), sin(), Gam_pos();*/
- 
+
   x = -x;
   sinpx = sin(M_PI * x);
   //if (sinpx == 0.0) DOMAIN_ERROR;
