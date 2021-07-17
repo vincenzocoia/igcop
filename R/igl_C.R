@@ -61,7 +61,7 @@ qcondigl <- function(tau, u, alpha) {
 
 #' @rdname igl
 #' @export
-pcondiGl <- function(v, u, alpha) {
+pcondigl <- function(v, u, alpha) {
     check_alpha(alpha)
     y <- y_igl_gen_inv(1 - v, alpha = alpha)
     1 - igl_kappa((1 - u) * y, alpha = alpha)
@@ -73,11 +73,11 @@ qcondigl21 <- qcondigl
 
 #' @rdname igl
 #' @export
-pcondiGl21 <- pcondigl
+pcondigl21 <- pcondigl
 
 #' @rdname igl
 #' @export
-pcondiGl12 <- function(u, v, alpha) {
+pcondigl12 <- function(u, v, alpha) {
     check_alpha(alpha)
     y <- y_igl_gen_inv(1 - v, alpha)
     1 - (1 - u) ^ 2 *
@@ -87,7 +87,7 @@ pcondiGl12 <- function(u, v, alpha) {
 
 #' @rdname igl
 #' @export
-qcondiGl12 <- function(tau, v, alpha) {
+qcondigl12 <- function(tau, v, alpha) {
     check_alpha(alpha)
     y <- y_igl_gen_inv(1 - v, alpha = alpha)
     inner <- (1 - tau) * stats::pgamma(y, shape = alpha + 1)
@@ -96,7 +96,7 @@ qcondiGl12 <- function(tau, v, alpha) {
 
 #' @rdname igl
 #' @export
-diGl <- function(u, v, alpha) {
+digl <- function(u, v, alpha) {
     check_alpha(alpha)
     y <- y_igl_gen_inv(1 - v, alpha = alpha)
     (1 - u) *
@@ -123,7 +123,7 @@ y_igl_gen_inv <- function(p, alpha)
 
 #' @rdname igl
 #' @export
-piGl <- function(u, v, alpha) {
+pigl <- function(u, v, alpha) {
     check_alpha(alpha)
     alpha <- alpha
     y <- y_igl_gen_inv(1 - v, alpha = alpha)
@@ -149,7 +149,7 @@ rigl <- function(n, alpha) {
 
 #' @rdname igl
 #' @export
-logdiGl <- function(u, v, alpha) {
+logdigl <- function(u, v, alpha) {
     check_alpha(alpha)
     alpha <- alpha
     y <- y_igl_gen_inv(1 - v, alpha = alpha)

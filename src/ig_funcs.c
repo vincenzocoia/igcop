@@ -163,13 +163,6 @@ double igl_gen_D(double x, double alpha)
   return( -(alpha / (x*x)) * pgamma(x, alpha+1., 1.) );
 }
 
-#ifdef LATER
-// this function is not used for the copulas?
-igl_gen_DD = function(x, alpha) {
-    2 * alpha / x ^ 3 * stats::pgamma(x, shape = alpha + 1) -
-        stats::dgamma(x, alpha + 1) / x ^ 2
-}
-#endif 
 
 /*
 #' @param mxiter Maximum number of iterations to run the Newton-Raphson

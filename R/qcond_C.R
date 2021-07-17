@@ -1,4 +1,6 @@
-qcondiG12 <- function(p, v, theta, alpha, mxiter = 20, eps = 1.e-12, bd = 5)
+#' @rdname ig
+#' @export
+qcondig12 <- function(p, v, theta, alpha, mxiter = 20, eps = 1.e-12, bd = 5)
 {
   check_theta(theta)
   check_alpha(alpha)

@@ -25,7 +25,7 @@
 # y_igl_gen_inv <- function(p, alpha)
 # y_interp_kappa_inv <- function(p, eta, alpha)
 
-# Need qcondiG12 C routine with pointers
+# Need qcondig12 C routine with pointers
 
 
 #' IG Copula Family Functions
@@ -64,7 +64,7 @@
 #' qcondig12(u, v, theta = 3, alpha = 6)
 #' rig(10, theta = 3, alpha = 3)
 #' @export
-pcondiG21 <- function(v, u, theta, alpha) {
+pcondig21 <- function(v, u, theta, alpha) {
     check_theta(theta)
     check_alpha(alpha)
     y <- y_interp_gen_inv(1 - v, eta = theta, alpha = alpha)
@@ -75,7 +75,7 @@ pcondiG21 <- function(v, u, theta, alpha) {
 #' to evaluate a quantile function at.
 #' @rdname ig
 #' @export
-qcondiG21 <- function(tau, u, theta, alpha) {
+qcondig21 <- function(tau, u, theta, alpha) {
     check_theta(theta)
     check_alpha(alpha)
     inner <- y_interp_kappa_inv(1 - tau, eta = theta * (1 - u), alpha = alpha)
@@ -102,16 +102,16 @@ y_interp_kappa_inv <- function(p, eta, alpha)
 
 #' @rdname ig
 #' @export
-qcondiG <- qcondiG21
+qcondig <- qcondig21
 
 #' @rdname ig
 #' @export
-pcondiG <- pcondiG21
+pcondig <- pcondig21
 
 
 #' @rdname ig
 #' @export
-pcondiG12 <- function(u, v, theta, alpha) {
+pcondig12 <- function(u, v, theta, alpha) {
     check_theta(theta)
     check_alpha(alpha)
     y <- y_interp_gen_inv(1 - v, eta = theta, alpha = alpha)
@@ -122,7 +122,7 @@ pcondiG12 <- function(u, v, theta, alpha) {
 
 #' @rdname ig
 #' @export
-diG <- function(u, v, theta, alpha) {
+dig <- function(u, v, theta, alpha) {
     check_theta(theta)
     check_alpha(alpha)
     y <- y_interp_gen_inv(1 - v, eta = theta, alpha = alpha)
@@ -132,7 +132,7 @@ diG <- function(u, v, theta, alpha) {
 
 #' @rdname ig
 #' @export
-logdiG <- function(u, v, theta, alpha) {
+logdig <- function(u, v, theta, alpha) {
     check_theta(theta)
     check_alpha(alpha)
     y <- y_interp_gen_inv(1 - v, eta = theta, alpha = alpha)
@@ -160,7 +160,7 @@ y_interp_gen_inv <- function(p, eta, alpha)
 
 #' @rdname ig
 #' @export
-piG <- function(u, v, theta, alpha) {
+pig <- function(u, v, theta, alpha) {
     check_theta(theta)
     check_alpha(alpha)
     y <- y_interp_gen_inv(1 - v, eta = theta, alpha = alpha)
