@@ -1,33 +1,3 @@
-# H Joe, May 2021
-# Functions to convert from standalone R into links of R to C
-
-# Need interp_gen_inv C routine with pointers
-# pig : interp_gen_inv
-# dig : interp_gen_inv interp_kappa_D1 interp_gen_D1
-# logdig  : interp_gen_inv igl_kappa igl_kappa_D igl_gen igl_gen_D
-# pcondig21 : interp_gen_inv interp_kappa
-# pcondig12 : interp_gen_inv interp_gen_D1
-# qcondig12_algo :  interp_gen_inv igl_gen igl_gen_D pcondig12
-# qcondig12 : qcondig12_algo (link to interp_gen_inv C routine)
-
-# Need igl_gen_inv C routine with pointers
-# pcondigl21 : igl_gen_inv igl_kappa
-# pcondigl12 : igl_gen_inv igl_gen_D
-# qcondigl12 : igl_gen_inv pgamma qgamma
-# digl : igl_gen_inv igl_kappa_D igl_gen_D
-# pigl : igl_gen_inv igl_gen
-
-# Need interp_kappa_inv C routine with pointers
-# qcondig21 : interp_kappa_inv  interp_gen
-
-# For fewest code changes, added these three functions:
-# y_interp_gen_inv <- function(p, eta, alpha)
-# y_igl_gen_inv <- function(p, alpha)
-# y_interp_kappa_inv <- function(p, eta, alpha)
-
-# Need qcondig12 C routine with pointers
-
-
 #' IG Copula Family Functions
 #'
 #' Functions related to the IG copula family, denoted  by \code{'ig'}.
@@ -82,23 +52,7 @@ qcondig21 <- function(tau, u, theta, alpha) {
     1 - interp_gen(inner, eta = theta, alpha = alpha)
 }
 
-# new function for link to C
-# Roxygen2 documentation to be added
-y_interp_kappa_inv <- function(p, eta, alpha)
-{ # replace with link to C code
-  recycled <- vctrs::vec_recycle_common(p, eta, alpha)
-  pvec <- recycled[[1]]
-  thvec <- recycled[[2]]
-  avec <- recycled[[3]]
-  nn <- length(pvec)
-  mxiter <- 20
-  eps <- 1.e-12
-  bd <- 5
-  out <- .C("interp_kappa_inv", as.integer(nn), as.double(pvec),
-            as.double(thvec), as.double(avec), as.integer(mxiter),
-            as.double(eps), as.double(bd), inv=as.double(rep(0, nn)))
-  out$inv
-}
+
 
 #' @rdname ig
 #' @export
@@ -122,6 +76,25 @@ pcondig12 <- function(u, v, theta, alpha) {
 
 #' @rdname ig
 #' @export
+qcondig12 <- function(p, v, theta, alpha, mxiter = 20, eps = 1.e-12, bd = 5)
+{
+  check_theta(theta)
+  check_alpha(alpha)
+  recycled <- vctrs::vec_recycle_common(p, v, theta, alpha)
+  pvec <- recycled[[1]]
+  vvec <- recycled[[2]]
+  thvec <- recycled[[3]]
+  avec <- recycled[[4]]
+  nn <- length(pvec)
+  out <- .C("qcondig12", as.integer(nn), as.double(pvec), as.double(vvec),
+            as.double(thvec), as.double(avec),
+            as.integer(mxiter), as.double(eps), as.double(bd),
+            qu = as.double(rep(0, nn)))
+  out$qu
+}
+
+#' @rdname ig
+#' @export
 dig <- function(u, v, theta, alpha) {
     check_theta(theta)
     check_alpha(alpha)
@@ -141,22 +114,6 @@ logdig <- function(u, v, theta, alpha) {
         log(igl_gen(theta * y, alpha) - theta * igl_gen_D(theta * y, alpha))
 }
 
-
-y_interp_gen_inv <- function(p, eta, alpha)
-{ # replace with link to C code
-  recycled <- vctrs::vec_recycle_common(p, eta, alpha)
-  pvec <- recycled[[1]]
-  thvec <- recycled[[2]]
-  avec <- recycled[[3]]
-  nn <- length(pvec)
-  mxiter <- 20
-  eps <- 1.e-12
-  bd <- 5
-  out <- .C("interp_gen_inv", as.integer(nn), as.double(pvec), as.double(thvec),
-            as.double(avec), as.integer(mxiter), as.double(eps), as.double(bd),
-            inv=as.double(rep(0, nn)))
-  out$inv
-}
 
 #' @rdname ig
 #' @export
@@ -185,8 +142,4 @@ rig <- function(n, theta, alpha) {
     res
 }
 
-check_theta <- function(theta) {
-    if (isTRUE(any(theta < 0))) {
-        stop("`theta` parameter must be positive.")
-    }
-}
+
