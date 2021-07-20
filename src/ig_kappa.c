@@ -149,7 +149,6 @@ double interp_kappa_inv_algo(double p, double eta, double alpha, int mxiter,
   p1 = interp_kappa(x1, eta, alpha);
   p2 = interp_kappa(x2, eta, alpha);
   diff1 = fabs(p1-p); diff2 = fabs(p2-p);
-  Rprintf("%f %f %f\n", x1, x2, qgamma(0.5, 0.1, 1.));
   x=x1;
   if(diff2<diff1) { x=x2; }
   iter = 0; diff = 1.;
@@ -166,7 +165,6 @@ double interp_kappa_inv_algo(double p, double eta, double alpha, int mxiter,
     g = log(ik) - log(p);
     gp = interp_kappa_D1(x, eta, alpha) / ik * x;
     diff = g / gp;
-    Rprintf("%f %f %f %f\n", x, g, gp, diff);
     if (diff > bd) diff = bd;
     if (diff < -bd) diff = -bd;
     //if (x - diff < 0.) diff = x / 2.;
@@ -191,22 +189,3 @@ void interp_kappa_inv(int *n0, double *p, double *eta, double *alpha,
   { inv[i] = interp_kappa_inv_algo(p[i],eta[i],alpha[i],mxiter,eps,bd, 0); }
 }
 
-
-#ifdef DONE
-// convert to routine to link to R
-// needed for qcondig21
-interp_kappa_inv = function(p, eta, alpha, mxiter = 80, eps = 1.e-12, bd = 5) {
-  l = vctrs::vec_size_common(p, eta, alpha)
-  if (l == 0L) return(numeric(0L))
-  args = vctrs::vec_recycle_common(p = p, eta = eta, alpha = alpha)
-  with(args, {
-    x = numeric(0L)
-    for (i in 1:l) {
-      x[i] = interp_kappa_inv_algo(
-        p[i], eta = eta[i], alpha = alpha[i], mxiter = mxiter, eps = eps, bd = bd
-      )
-    }
-    x
-  })
-}
-#endif

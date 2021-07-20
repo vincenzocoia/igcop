@@ -21,6 +21,7 @@ test_that("digl() handles missingness appropriately", {
   args <- expand.grid(u = u_na_nan,
                       v = u_na_nan,
                       alpha = u_na_nan)
+  digl(args$u, args$v, args$alpha)
   eval <- do.call(digl, args = args)
   expect_true(all(is.na(eval[-1])))
   expect_false(is.na(eval[1]))

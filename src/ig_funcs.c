@@ -179,25 +179,6 @@ void igl_gen_inv(int *n0, double *p, double *alpha,
   { inv[i] = igl_gen_inv_algo(p[i],alpha[i],mxiter,eps,bd, 0); }
 }
 
-#ifdef DONE
-// convert to routine to link to R
-// needed for pcondigl21 pcondigl12 qcondigl12 digl pigl
-igl_gen_inv = function(p, alpha, mxiter = 20, eps = 1.e-12, bd = 5){
-    l = vctrs::vec_size_common(p, alpha)
-    if (l == 0L) return(numeric(0L))
-    args = vctrs::vec_recycle_common(p = p, alpha = alpha)
-    with(args, {
-        x = numeric(0L)
-        for (i in 1:l) {
-            x[i] = igl_gen_inv_algo(
-                p[i], alpha = alpha[i], mxiter = mxiter, eps = eps, bd = bd
-            )
-        }
-        x
-    })
-}
-#endif
-
 
 //' Interpolating Functions
 //'
@@ -245,7 +226,7 @@ double interp_gen_D1 (double x, double eta, double alpha)
 double interp_gen_inv_algo(double p, double eta, double alpha, int mxiter,
   double eps, double bd, int iprint)
 { double x1,x2,p1,p2,diff1,diff2;
-  double x,diff,ex,g,gp,prod;
+  double x,diff,g,gp,prod;
   double interp_gen(double, double, double);
   double interp_gen_D1(double, double, double);
   double igl_gen_inv_algo (double, double, int, double, double, int);
@@ -270,7 +251,6 @@ double interp_gen_inv_algo(double p, double eta, double alpha, int mxiter,
     g = interp_gen(x, eta, alpha) - p;
     gp = interp_gen_D1(x, eta, alpha);
     diff = g / gp;
-    Rprintf("%f %f %f %f\n", x, g, gp, diff);
     if (diff > bd) diff = bd;
     if (diff < -bd) diff = -bd;
     if (x - diff < 0.) diff = x / 2.;
@@ -295,25 +275,6 @@ void interp_gen_inv(int *n0, double *p, double *eta, double *alpha,
   { inv[i] = interp_gen_inv_algo(p[i],eta[i],alpha[i],mxiter,eps,bd, 0); }
 }
 
-
-#ifdef DONE
-// convert to routine to link to R
-// needed for pig, pcondig21, pcondig12, dig
-interp_gen_inv = function(p, eta, alpha, mxiter = 40, eps = 1.e-12, bd = 5) {
-    l = vctrs::vec_size_common(p, eta, alpha)
-    if (l == 0L) return(numeric(0L))
-    args = vctrs::vec_recycle_common(p = p, eta = eta, alpha = alpha)
-    with(args, {
-        x = numeric(0L)
-        for (i in 1:l) {
-            x[i] = interp_gen_inv_algo(
-                p[i], eta = eta[i], alpha = alpha[i], mxiter = mxiter, eps = eps, bd = bd
-            )
-        }
-        x
-    })
-}
-#endif
 
 // As per Rcpp GitHub Issue #636
 // https://github.com/RcppCore/Rcpp/issues/636#issuecomment-280985661

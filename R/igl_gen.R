@@ -21,8 +21,11 @@ igl_gen <- function(x, alpha) {
 #' @rdname igl_gen
 igl_gen_D <- function(x, alpha) {
   res <- - alpha / x ^ 2 * stats::pgamma(x, alpha + 1)
-  vctrs::vec_assign(res, x == 0, {
-    avec <- vctrs::vec_slice(alpha, x == 0)
-    - stats::dgamma(0, shape = avec) / 2
-  })
+  if (length(res) == 0) return(res)
+  res[isTRUE(x == 0)] <- - stats::dgamma(0, shape = alpha[isTRUE(x == 0)]) / 2
+  # vctrs::vec_assign(res, x == 0, {
+  #   avec <- vctrs::vec_slice(alpha, x == 0)
+  #   - stats::dgamma(0, shape = avec) / 2
+  # })
+  res
 }
