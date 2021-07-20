@@ -1,10 +1,15 @@
-context("Check that the quantile functions are the inverses of the conditional distributions.")
+context("Check that the quantile functions are the inverses of the
+        conditional distributions.")
 
 test_that("qcondig21 is the inverse of pcondig21", {
   for (cpar_ in .cpar){
-    qu <- qcondig(.v, .u, theta = cpar_[1], alpha = cpar_[2])
-    .v2 <- pcondig(qu, .u, theta = cpar_[1], alpha = cpar_[2])
-    expect_equal(.v, .v2)
+    i <- 7L
+    print(cpar_)
+    qu <- qcondig(.v[i], .u[i], theta = cpar_[1], alpha = cpar_[2])
+    print(paste("qu =", qu))
+    .v2 <- pcondig(qu, .u[i], theta = cpar_[1], alpha = cpar_[2])
+    print(paste(".v2 =", .v2))
+    expect_equal(.v[i], .v2)
   }
 })
 

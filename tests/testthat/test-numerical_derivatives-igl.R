@@ -6,6 +6,9 @@ digl_gaussian <- function(u, v, alpha) {
 }
 
 test_that("density matches the numerical density obtained from the cdf", {
+  uv <- expand.grid(u = 1:4 / 5, v = 1:4 / 5)
+  .u <- uv$u
+  .v <- uv$v
   #' Function to calculate numerical derivative
   digl_gaussian_numerical <- function(u, v, alpha, eps = 1.e-5) {
     x <- qnorm(u)
@@ -24,6 +27,9 @@ test_that("density matches the numerical density obtained from the cdf", {
 })
 
 test_that("the 2|1 cdf matches the numerically obtained cdf", {
+  uv <- expand.grid(u = 1:4 / 5, v = 1:4 / 5)
+  .u <- uv$u
+  .v <- uv$v
   #' Calculate numerical derivative
   pcondigl21_numerical <- function(v, u, alpha, eps = 1.e-8) {
     cdf11 <- pigl(u, v, alpha = alpha)
@@ -38,6 +44,9 @@ test_that("the 2|1 cdf matches the numerically obtained cdf", {
 })
 
 test_that("the 1|2 cdf matches the numerically obtained cdf", {
+  uv <- expand.grid(u = 1:4 / 5, v = 1:4 / 5)
+  .u <- uv$u
+  .v <- uv$v
   #' Calculate numerical derivative
   pcondigl12_log_numerical <- function(u, v, alpha, eps = 1.e-9) {
     x <- -log(u)
@@ -55,6 +64,9 @@ test_that("the 1|2 cdf matches the numerically obtained cdf", {
 
 
 test_that("density matches the numerical density obtained from the 2|1 conditional distribution", {
+  uv <- expand.grid(u = 1:4 / 5, v = 1:4 / 5)
+  .u <- uv$u
+  .v <- uv$v
   #' Calculate numerical derivative
   digl_numerical_from_2g1 <- function(u, v, alpha, eps = 1.e-10) {
     conda <- pcondigl21(v, u, alpha = alpha)

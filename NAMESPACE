@@ -2,6 +2,9 @@
 
 export(dig)
 export(digl)
+export(igl_kappa)
+export(igl_kappa_D)
+export(igl_kappa_inv)
 export(logdig)
 export(logdigl)
 export(pcondig)

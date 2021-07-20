@@ -9,12 +9,6 @@
 #' @param theta Parameter of the IG copula family. Vectorized; >0.
 #' @param alpha Parameter of the IG copula family. Vectorized; >0.
 #' @param n Positive integer. Number of observations to randomly draw.
-#' @param mxiter Maximum number of iterations to run the Newton-Raphson
-#' algorithm when computing inverse. Positive integer, default 20.
-#' @param eps The Newton-Raphson algorithm for computing an inverse will
-#' stop if the step size is less than this small number.
-#' @param bd The largest acceptable step size in the Newton-Raphson
-#' algorithm. Step size is reduced if it reaches this large.
 #' @note Inputting two vectors greater than length 1 is allowed, if they're
 #' the same length.
 #' Also, \code{qcondig21} and \code{pcondig21} are the same as
@@ -33,6 +27,9 @@
 #' pcondig12(u, v, theta = 3, alpha = 6)
 #' qcondig12(u, v, theta = 3, alpha = 6)
 #' rig(10, theta = 3, alpha = 3)
+#'
+#' # log density available for extra precision
+#' log(dig(0.1, 0.1, 2.5, 12.3)) == logdig(0.1, 0.1, 2.5, 12.3)
 #' @export
 pcondig21 <- function(v, u, theta, alpha) {
     check_theta(theta)
@@ -76,20 +73,23 @@ pcondig12 <- function(u, v, theta, alpha) {
 
 #' @rdname ig
 #' @export
-qcondig12 <- function(p, v, theta, alpha, mxiter = 20, eps = 1.e-12, bd = 5)
+qcondig12 <- function(p, v, theta, alpha)
 {
   check_theta(theta)
   check_alpha(alpha)
   recycled <- vctrs::vec_recycle_common(p, v, theta, alpha)
-  pvec <- recycled[[1]]
-  vvec <- recycled[[2]]
-  thvec <- recycled[[3]]
-  avec <- recycled[[4]]
+  pvec <- recycled[[1L]]
+  vvec <- recycled[[2L]]
+  thvec <- recycled[[3L]]
+  avec <- recycled[[4L]]
   nn <- length(pvec)
+  mxiter <- 20
+  eps <- 1.e-12
+  bd <- 5
   out <- .C("qcondig12", as.integer(nn), as.double(pvec), as.double(vvec),
             as.double(thvec), as.double(avec),
             as.integer(mxiter), as.double(eps), as.double(bd),
-            qu = as.double(rep(0, nn)))
+            qu = as.double(rep(0, nn)), NAOK = TRUE)
   out$qu
 }
 

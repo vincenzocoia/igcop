@@ -23,7 +23,7 @@ pcondig(v, u, theta, alpha)
 
 pcondig12(u, v, theta, alpha)
 
-qcondig12(p, v, theta, alpha, mxiter = 20, eps = 1e-12, bd = 5)
+qcondig12(p, v, theta, alpha)
 
 dig(u, v, theta, alpha)
 
@@ -43,15 +43,6 @@ and second copula variables.}
 
 \item{p}{Vector of quantile levels between 0 and 1
 to evaluate a quantile function at.}
-
-\item{mxiter}{Maximum number of iterations to run the Newton-Raphson
-algorithm when computing inverse. Positive integer, default 20.}
-
-\item{eps}{The Newton-Raphson algorithm for computing an inverse will
-stop if the step size is less than this small number.}
-
-\item{bd}{The largest acceptable step size in the Newton-Raphson
-algorithm. Step size is reduced if it reaches this large.}
 
 \item{n}{Positive integer. Number of observations to randomly draw.}
 }
@@ -79,4 +70,7 @@ qcondig21(v, u, theta = 3, alpha = 6)
 pcondig12(u, v, theta = 3, alpha = 6)
 qcondig12(u, v, theta = 3, alpha = 6)
 rig(10, theta = 3, alpha = 3)
+
+# log density available for extra precision
+log(dig(0.1, 0.1, 2.5, 12.3)) == logdig(0.1, 0.1, 2.5, 12.3)
 }

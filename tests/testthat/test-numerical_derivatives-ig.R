@@ -8,6 +8,9 @@ dig_gaussian <- function(u, v, cpar) {
 }
 
 test_that("density matches the numerical density obtained from the cdf", {
+  uv <- expand.grid(u = 1:4 / 5, v = 1:4 / 5)
+  .u <- uv$u
+  .v <- uv$v
   #' Function to calculate numerical derivative
   dig_gaussian_numerical <- function(u, v, cpar, eps = 1.e-5) {
     x <- qnorm(u)
@@ -21,6 +24,7 @@ test_that("density matches the numerical density obtained from the cdf", {
     (cdf22 + cdf11 - cdf12 - cdf21) / eps ^ 2
   }
   for (cpar_ in .cpar) {
+    print(cpar_)
     pdf1 <- dig_gaussian_numerical(.u, .v, cpar = cpar_)
     pdf2 <- dig_gaussian(.u, .v, cpar = cpar_)
     expect_equal(pdf1, pdf2, tolerance = 1e-4)
@@ -28,6 +32,9 @@ test_that("density matches the numerical density obtained from the cdf", {
 })
 
 test_that("the 2|1 cdf matches the numerically obtained cdf", {
+  uv <- expand.grid(u = 1:4 / 5, v = 1:4 / 5)
+  .u <- uv$u
+  .v <- uv$v
   #' Calculate numerical derivative
   pcondig21_numerical <- function(v, u, cpar, eps = 1.e-8) {
     theta <- cpar[1]
@@ -44,6 +51,9 @@ test_that("the 2|1 cdf matches the numerically obtained cdf", {
 })
 
 test_that("the 1|2 cdf matches the numerically obtained cdf", {
+  uv <- expand.grid(u = 1:4 / 5, v = 1:4 / 5)
+  .u <- uv$u
+  .v <- uv$v
   #' Calculate numerical derivative
   pcondig12_numerical <- function(u, v, cpar, eps = 1.e-8) {
     theta <- cpar[1]
@@ -60,6 +70,9 @@ test_that("the 1|2 cdf matches the numerically obtained cdf", {
 })
 
 test_that("density matches the numerical density obtained from the 2|1 conditional distribution", {
+  uv <- expand.grid(u = 1:4 / 5, v = 1:4 / 5)
+  .u <- uv$u
+  .v <- uv$v
   #' Calculate numerical derivative
   dig_gaussian_numerical_from_2g1 <- function(u, v, cpar, eps = 1.e-8) {
     theta <- cpar[1]
@@ -73,7 +86,7 @@ test_that("density matches the numerical density obtained from the 2|1 condition
   for (cpar_ in .cpar) {
     pdf1 <- dig_gaussian_numerical_from_2g1(.u, .v, cpar = cpar_)
     pdf2 <- dig_gaussian(.u, .v, cpar = cpar_)
-    expect_equal(pdf1, pdf2, tolerance = 1e-7)
+    expect_equal(pdf1, pdf2, tolerance = 1e-6)
   }
 })
 

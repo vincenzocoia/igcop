@@ -32,13 +32,13 @@ int main(int argc, char *argv[])
     //if(i>=3) iprint=0;
     qu = qcondig12_algo(p,v,theta,alpha, mxiter,eps,bd, iprint);
     pp = pcondig12(qu,v,theta,alpha);
-    printf("qcondig12_algo %f %f %f %f %f %f\n", p,v,theta,alpha,qu,pp);
+    Rprintf("qcondig12_algo %f %f %f %f %f %f\n", p,v,theta,alpha,qu,pp);
   }
 
   for(j=0;j<n;j++)
   { i=j+1;; pvec[j]=i/(n+1.); vvec[j]=0.3; thvec[j]=i*0.8; avec[j]=n-i+0.4; }
   qcondig12(&n,pvec,vvec,thvec,avec,&mxiter,&eps,&bd,quvec);
-  for(j=0;j<n;j++) printf("%f ", quvec[j]); printf("\n");
+  for(j=0;j<n;j++) Rprintf("%f ", quvec[j]); Rprintf("\n");
   free(pvec); free(vvec); free(thvec); free(avec); free(quvec);
   return(0);
 }
@@ -65,7 +65,7 @@ void qcondig12(int *n0, double *p, double *v, double *theta, double *alpha,
 double qcondig12_algo(double p, double v, double theta, double alpha,
   int mxiter, double eps, double bd, int iprint)
 { double x0, p0, diff0;
-  double mindiff, x, diff, ex, g, gp;
+  double mindiff, x, diff, ex, g, gp, prod;
   int i,iter;
   double pcondig12(double, double, double, double);
   double dig(double, double, double, double);
@@ -73,9 +73,10 @@ double qcondig12_algo(double p, double v, double theta, double alpha,
   //double igl_gen(double, double);
   //double igl_gen_D(double, double);
   //double prod, y, denom;
-  if (p <= 0) return(0.);
-  if (p >= 1) return(1.);
-  //prod = alpha * theta * v * p;
+  prod = alpha * theta * v * p;
+  if (isnan(prod)) return(prod);
+  if (p <= 0.) return(0.);
+  if (p >= 1.) return(1.);
   //y = interp_gen_inv_algo(1.-v, theta, alpha, mxiter, eps, bd, 0);
   // prod, y and denom are unused??
   //denom = igl_gen(theta*y, alpha) - theta * igl_gen_D(theta*y, alpha);
@@ -98,11 +99,14 @@ double qcondig12_algo(double p, double v, double theta, double alpha,
     g = pcondig12(ex, v, theta, alpha) - p;
     gp = -dig(ex, v, theta, alpha) * ex;
     diff = g / gp;
+    if (diff > bd) diff = bd;
+    if (diff < -bd) diff = -bd;
     if (x - diff < 0.) diff = x / 2.;
     x -= diff;
-    while(fabs(diff) > bd) { diff /= 2.;  x += diff; }
+    //while(fabs(diff) > bd) 
+    //{ diff /= 2.;  x += diff; R_CheckUserInterrupt(); }
     iter++;
-    if(iprint) printf("%d %f %f\n", iter, x, diff);
+    if(iprint) Rprintf("%d %f %f\n", iter, x, diff);
   }
   return(exp(-x));
 }
