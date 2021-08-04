@@ -35,7 +35,8 @@ pcondig21 <- function(v, u, theta, alpha) {
     check_theta(theta)
     check_alpha(alpha)
     y <- y_interp_gen_inv(1 - v, eta = theta, alpha = alpha)
-    1 - interp_kappa(y, eta = theta * (1 - u), alpha = alpha)
+    eta <- theta * (1 - u)
+    1 - y_interp_kappa(y, eta = eta, alpha = alpha)
 }
 
 #' @param p Vector of quantile levels between 0 and 1
@@ -46,10 +47,8 @@ qcondig21 <- function(p, u, theta, alpha) {
     check_theta(theta)
     check_alpha(alpha)
     inner <- y_interp_kappa_inv(1 - p, eta = theta * (1 - u), alpha = alpha)
-    1 - interp_gen(inner, eta = theta, alpha = alpha)
+    1 - y_interp_gen(inner, eta = theta, alpha = alpha)
 }
-
-
 
 #' @rdname ig
 #' @export
@@ -59,16 +58,21 @@ qcondig <- qcondig21
 #' @export
 pcondig <- pcondig21
 
-
 #' @rdname ig
 #' @export
 pcondig12 <- function(u, v, theta, alpha) {
     check_theta(theta)
     check_alpha(alpha)
-    y <- y_interp_gen_inv(1 - v, eta = theta, alpha = alpha)
-    1 - (1 - u) *
-        interp_gen_D1(y, eta = theta * (1 - u), alpha = alpha) /
-        interp_gen_D1(y, eta = theta, alpha = alpha)
+    v <- vctrs::vec_recycle_common(u, v, theta, alpha)
+    uvec <- v[[1L]]
+    vvec <- v[[2L]]
+    tvec <- v[[3L]]
+    avec <- v[[4L]]
+    nn <- length(uvec)
+    out <- .C("pcondig12_vec", as.integer(nn), as.double(uvec), as.double(vvec),
+              as.double(tvec), as.double(avec), out = as.double(rep(0, nn)),
+              NAOK = TRUE)
+    out$out
 }
 
 #' @rdname ig
@@ -96,12 +100,20 @@ qcondig12 <- function(p, v, theta, alpha)
 #' @rdname ig
 #' @export
 dig <- function(u, v, theta, alpha) {
-    check_theta(theta)
-    check_alpha(alpha)
-    y <- y_interp_gen_inv(1 - v, eta = theta, alpha = alpha)
-    interp_kappa_D1(y, eta = (1 - u) * theta, alpha = alpha) /
-        interp_gen_D1(y, eta = theta, alpha = alpha)
+  check_theta(theta)
+  check_alpha(alpha)
+  v <- vctrs::vec_recycle_common(u, v, theta, alpha)
+  uvec <- v[[1L]]
+  vvec <- v[[2L]]
+  tvec <- v[[3L]]
+  avec <- v[[4L]]
+  nn <- length(uvec)
+  out <- .C("dig_vec", as.integer(nn), as.double(uvec), as.double(vvec),
+            as.double(tvec), as.double(avec), out = as.double(rep(0, nn)),
+            NAOK = TRUE)
+  out$out
 }
+
 
 #' @rdname ig
 #' @export
@@ -110,8 +122,11 @@ logdig <- function(u, v, theta, alpha) {
     check_alpha(alpha)
     y <- y_interp_gen_inv(1 - v, eta = theta, alpha = alpha)
     eta2 <- (1 - u) * theta
-    log(igl_kappa(eta2 * y, alpha) - eta2 * igl_kappa_D(eta2 * y, alpha)) -
-        log(igl_gen(theta * y, alpha) - theta * igl_gen_D(theta * y, alpha))
+    k <- y_igl_kappa(eta2 * y, alpha)
+    kD <- y_igl_kappa_D(eta2 * y, alpha)
+    g <- y_igl_gen(theta * y, alpha)
+    gD <- y_igl_gen_D(theta * y, alpha)
+    log(k - eta2 * kD) - log(g - theta * gD)
 }
 
 
@@ -121,7 +136,7 @@ pig <- function(u, v, theta, alpha) {
     check_theta(theta)
     check_alpha(alpha)
     y <- y_interp_gen_inv(1 - v, eta = theta, alpha = alpha)
-    u + v - 1 + (1 - u) * interp_gen(y, eta = theta * (1 - u), alpha = alpha)
+    u + v - 1 + (1 - u) * y_interp_gen(y, eta = theta * (1 - u), alpha = alpha)
 }
 
 #' @rdname ig

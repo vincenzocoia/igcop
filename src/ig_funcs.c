@@ -101,17 +101,44 @@ int main(int argc, char *argv[])
 //' @rdname igl_gen
 double igl_gen(double x, double alpha)
 { double pgamma(double,double,double);
-  double res,term1,term2;
+  double prod,res,term1,term2;
+  prod = x * alpha;
+  if (isnan(prod)) return(prod);
+  if (x == 0.) return(1.);
   term1 = 1.-pgamma(x, alpha, 1.);
   term2 = alpha * pgamma(x, alpha+1., 1.) / x;
   res = term1+term2;
   return(res);
 }
 
+// p and alpha are vectors of length n
+void igl_gen_vec(int *n0, double *x, double *alpha, double *out)
+{ int i,n;
+  double igl_gen (double, double);
+  n=*n0;
+  for(i=0;i<n;i++)
+  { out[i] = igl_gen(x[i],alpha[i]); R_CheckUserInterrupt();}
+}
+
+
 //' @rdname igl_gen
 double igl_gen_D(double x, double alpha)
 { double pgamma(double,double,double);
+  double dgamma(double,double,double);
+  double prod;
+  prod = x * alpha;
+  if (isnan(prod)) return(prod);
+  if (x == 0.) return(- dgamma(0., alpha, 1.) / 2.);
   return( -(alpha / (x*x)) * pgamma(x, alpha+1., 1.) );
+}
+
+// x and alpha are vectors of length n
+void igl_gen_D_vec(int *n0, double *x, double *alpha, double *out)
+{ int i,n;
+  double igl_gen_D (double, double);
+  n=*n0;
+  for(i=0;i<n;i++)
+  { out[i] = igl_gen_D(x[i],alpha[i]); R_CheckUserInterrupt();}
 }
 
 //' @param mxiter Maximum number of iterations to run the Newton-Raphson
@@ -163,6 +190,7 @@ double igl_gen_inv_algo (double p, double alpha, int mxiter, double eps,
     //ex = exp(x);
     iter++;
     if(iprint) Rprintf("%d %f %f\n", iter, x, diff);
+    R_CheckUserInterrupt();
   }
   //return(exp(x));
   return(x);
@@ -175,8 +203,10 @@ void igl_gen_inv(int *n0, double *p, double *alpha,
   double igl_gen_inv_algo (double, double, int, double, double, int);
   double eps,bd;
   n=*n0; mxiter=*mxiter0; eps=*eps0; bd=*bd0;
-  for(i=0;i<n;i++)
-  { inv[i] = igl_gen_inv_algo(p[i],alpha[i],mxiter,eps,bd, 0); }
+  for(i=0;i<n;i++) { 
+    inv[i] = igl_gen_inv_algo(p[i],alpha[i],mxiter,eps,bd, 0); 
+    R_CheckUserInterrupt();
+  }
 }
 
 
@@ -207,19 +237,30 @@ double interp_gen (double x, double eta, double alpha)
   return(res);
 }
 
+// x, eta, alpha are vectors of length n
+void interp_gen_vec(int *n0, double *x, double *eta, 
+  double *alpha, double *out)
+{ int i,n;
+  double interp_gen (double, double, double);
+  n=*n0;
+  for(i=0;i<n;i++)
+  { out[i] = interp_gen(x[i],eta[i],alpha[i]); R_CheckUserInterrupt();}
+}
+
 //' @rdname interpolator
 double interp_gen_D1 (double x, double eta, double alpha)
 { double igl_gen(double, double);
   double igl_gen_D(double, double);
   double dgamma(double, double, double);
-  double res;
+  double res,prod;
+  prod = x * eta * alpha;
+  if (isnan(prod)) return(prod);
   if (x == 0.)
   { res = - (1. + eta / 2. * dgamma(0., alpha, 1.)); }
   else
   { res = -exp(-x) * (igl_gen(eta*x, alpha) - eta * igl_gen_D(eta*x, alpha)); }
   return(res);
 }
-
 
 //' @inheritParams igl_gen_inv_algo
 //' @rdname interpolator
@@ -259,6 +300,7 @@ double interp_gen_inv_algo(double p, double eta, double alpha, int mxiter,
     //{ diff/=2.; x += diff; R_CheckUserInterrupt(); }
     iter++;
     if(iprint) Rprintf("%d %f %f\n", iter, x, diff);
+    R_CheckUserInterrupt();
   }
   //return(exp(x));
   return(x);
@@ -271,8 +313,10 @@ void interp_gen_inv(int *n0, double *p, double *eta, double *alpha,
   double interp_gen_inv_algo (double, double, double, int, double, double, int);
   double eps,bd;
   n=*n0; mxiter=*mxiter0; eps=*eps0; bd=*bd0;
-  for(i=0;i<n;i++)
-  { inv[i] = interp_gen_inv_algo(p[i],eta[i],alpha[i],mxiter,eps,bd, 0); }
+  for(i=0;i<n;i++) { 
+    inv[i] = interp_gen_inv_algo(p[i],eta[i],alpha[i],mxiter,eps,bd, 0); 
+    R_CheckUserInterrupt();
+  }
 }
 
 

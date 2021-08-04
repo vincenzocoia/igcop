@@ -31,8 +31,8 @@
 #' @export
 qcondigl <- function(p, u, alpha) {
     check_alpha(alpha)
-    inner <- igl_kappa_inv(1 - p, alpha = alpha) / (1 - u)
-    1 - igl_gen(inner, alpha = alpha)
+    inner <- y_igl_kappa_inv(1 - p, alpha = alpha) / (1 - u)
+    1 - y_igl_gen(inner, alpha = alpha)
 }
 
 
@@ -41,7 +41,7 @@ qcondigl <- function(p, u, alpha) {
 pcondigl <- function(v, u, alpha) {
     check_alpha(alpha)
     y <- y_igl_gen_inv(1 - v, alpha = alpha)
-    1 - igl_kappa((1 - u) * y, alpha = alpha)
+    1 - y_igl_kappa((1 - u) * y, alpha = alpha)
 }
 
 #' @rdname igl
@@ -58,8 +58,8 @@ pcondigl12 <- function(u, v, alpha) {
     check_alpha(alpha)
     y <- y_igl_gen_inv(1 - v, alpha)
     1 - (1 - u) ^ 2 *
-        igl_gen_D((1 - u) * y, alpha = alpha) /
-        igl_gen_D(y, alpha = alpha)
+        y_igl_gen_D((1 - u) * y, alpha = alpha) /
+        y_igl_gen_D(y, alpha = alpha)
 }
 
 #' @rdname igl
@@ -67,8 +67,8 @@ pcondigl12 <- function(u, v, alpha) {
 qcondigl12 <- function(p, v, alpha) {
     check_alpha(alpha)
     y <- y_igl_gen_inv(1 - v, alpha = alpha)
-    inner <- (1 - p) * stats::pgamma(y, shape = alpha + 1)
-    1 - stats::qgamma(inner, shape = alpha + 1) / y
+    inner <- (1 - p) * y_pgamma(y, shape = alpha + 1)
+    1 - y_qgamma(inner, shape = alpha + 1) / y
 }
 
 #' @rdname igl
@@ -77,8 +77,8 @@ digl <- function(u, v, alpha) {
     check_alpha(alpha)
     y <- y_igl_gen_inv(1 - v, alpha = alpha)
     (1 - u) *
-        igl_kappa_D((1 - u) * y, alpha = alpha) /
-        igl_gen_D(y, alpha = alpha)
+        y_igl_kappa_D((1 - u) * y, alpha = alpha) /
+        y_igl_gen_D(y, alpha = alpha)
 }
 
 
@@ -88,7 +88,7 @@ pigl <- function(u, v, alpha) {
     check_alpha(alpha)
     alpha <- alpha
     y <- y_igl_gen_inv(1 - v, alpha = alpha)
-    u + v - 1 + (1 - u) * igl_gen((1 - u) * y, alpha = alpha)
+    u + v - 1 + (1 - u) * y_igl_gen((1 - u) * y, alpha = alpha)
 }
 
 #' @rdname igl
@@ -115,8 +115,8 @@ logdigl <- function(u, v, alpha) {
     alpha <- alpha
     y <- y_igl_gen_inv(1 - v, alpha = alpha)
     log(1 - u) + 2 * log(y) - log(alpha) +
-        stats::dgamma((1 - u) * y, shape = alpha, log = TRUE) -
-        stats::pgamma(y, shape = alpha + 1, log.p = TRUE)
+        log(y_dgamma((1 - u) * y, shape = alpha)) -
+        log(y_pgamma(y, shape = alpha + 1))
 }
 
 

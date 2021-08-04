@@ -72,7 +72,7 @@ double qgamma(double p, double alpha, double scale)
 { double pgamma(double,double,double);
   double qnorm(double,double,double);
   double lgamma(double);
-  double a, b, c, ch, g, p1, v;
+  double a, b, c, ch, g, p1, v, prod;
   double p2, q, s1, s2, s3, s4, s5, s6, t, x, xx;
   double aa = 0.6931471806;
   double e = 0.5e-6;
@@ -81,7 +81,8 @@ double qgamma(double p, double alpha, double scale)
   int i;
 
   /* test arguments and initialise */
-
+  prod = p * alpha * scale;
+  if (isnan(prod)) return(prod);
   //if(p < pmin || p > pmax || alpha<=0 ) DOMAIN_ERROR;
 
   v = 2*alpha;
@@ -145,4 +146,15 @@ double qgamma(double p, double alpha, double scale)
   /* possible loss of precision */
   /* errno = EDOM; */
   return 0.5*scale*ch;
+}
+
+
+// x, shape, alpha are vectors of length n
+void qgamma_void(int *n0, double *p, double *shape, 
+  double *scale, double *out)
+{ int i,n;
+  double qgamma (double, double, double);
+  n=*n0;
+  for(i=0;i<n;i++)
+  { out[i] = qgamma(p[i],shape[i],scale[i]); R_CheckUserInterrupt();}
 }

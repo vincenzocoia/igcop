@@ -72,11 +72,23 @@ int main(int argc, char *argv[])
 
 
 double  dgamma(double x, double shape, double scale)
-{ double xx,tem,pdf;
+{ double xx,tem,pdf,prod;
+  prod = x * shape * scale;
+  if (isnan(prod)) return(prod);
   xx = x/scale;
   tem = ((shape-1.)*log(xx) - lgamma(shape) - xx);
   pdf = exp(tem)/scale;
   return(pdf);
+}
+
+// x, shape, alpha are vectors of length n
+void dgamma_void(int *n0, double *x, double *shape, 
+  double *scale, double *out)
+{ int i,n;
+  double dgamma (double, double, double);
+  n=*n0;
+  for(i=0;i<n;i++)
+  { out[i] = dgamma(x[i],shape[i],scale[i]); R_CheckUserInterrupt();}
 }
 
 //' Kappa version of generating function
@@ -94,25 +106,58 @@ double  dgamma(double x, double shape, double scale)
 //' @rdname kappa
 double igl_kappa(double x, double alpha)
 { double pgamma(double,double,double);
-  double res;
+  double res,prod;
+  prod = x * alpha;
+  if (isnan(prod)) return(prod);
   res = 1.-pgamma(x, alpha, 1.);
   return(res);
+}
+
+// x and alpha are vectors of length n
+void igl_kappa_vec(int *n0, double *x, double *alpha, double *out)
+{ int i,n;
+  double igl_kappa (double, double);
+  n=*n0;
+  for(i=0;i<n;i++)
+  { out[i] = igl_kappa(x[i], alpha[i]); R_CheckUserInterrupt();}
 }
 
 //' @rdname kappa
 double igl_kappa_D(double x, double alpha)
 { double dgamma(double,double,double);
-  double res;
+  double res,prod;
+  prod = x * alpha;
+  if (isnan(prod)) return(prod);
   res = -dgamma(x, alpha, 1.);
   return(res);
+}
+
+// x and alpha are vectors of length n
+void igl_kappa_D_vec(int *n0, double *x, double *alpha, double *out)
+{ int i,n;
+  double igl_kappa_D (double, double);
+  n=*n0;
+  for(i=0;i<n;i++)
+  { out[i] = igl_kappa_D(x[i], alpha[i]); R_CheckUserInterrupt();}
 }
 
 //' @rdname kappa
 double igl_kappa_inv(double p, double alpha)
 { double qgamma(double,double,double);
-  double res;
+  double res,prod;
+  prod = p * alpha;
+  if (isnan(prod)) return(prod);
   res = qgamma(1.-p, alpha, 1.);
   return(res);
+}
+
+// x and alpha are vectors of length n
+void igl_kappa_inv_vec(int *n0, double *p, double *alpha, double *out)
+{ int i,n;
+  double igl_kappa_inv (double, double);
+  n=*n0;
+  for(i=0;i<n;i++)
+  { out[i] = igl_kappa_inv(p[i], alpha[i]); R_CheckUserInterrupt();}
 }
 
 
@@ -123,12 +168,31 @@ double interp_kappa(double x, double eta, double alpha)
   return(res);
 }
 
+// x, eta, alpha are vectors of length n
+void interp_kappa_vec(int *n0, double *x, double *eta, 
+  double *alpha, double *out)
+{ int i,n;
+  double interp_kappa (double, double, double);
+  n=*n0;
+  for(i=0;i<n;i++)
+  { out[i] = interp_kappa(x[i], eta[i], alpha[i]); R_CheckUserInterrupt();}
+}
+
 double interp_kappa_D1(double x, double eta, double alpha)
 { double igl_kappa(double, double);
   double igl_kappa_D(double, double);
   double res;
   res = -exp(-x) * (igl_kappa(eta*x, alpha) - eta* igl_kappa_D(eta*x, alpha));
   return(res);
+}
+
+// x, eta, alpha are vectors of length n
+void interp_kappa_D1_vec(int *n0, double *x, double *eta, double *alpha, double *out)
+{ int i,n;
+  double interp_kappa_D1 (double, double, double);
+  n=*n0;
+  for(i=0;i<n;i++)
+  { out[i] = interp_kappa_D1(x[i], eta[i], alpha[i]); R_CheckUserInterrupt();}
 }
 
 
@@ -174,6 +238,7 @@ double interp_kappa_inv_algo(double p, double eta, double alpha, int mxiter,
     //{ diff /= 2.;  x += diff; R_CheckUserInterrupt(); }
     iter++;
     if(iprint) Rprintf("%d %f %f\n", iter, x, diff);
+    R_CheckUserInterrupt();
   }
   return(x);
 }
@@ -185,7 +250,9 @@ void interp_kappa_inv(int *n0, double *p, double *eta, double *alpha,
   double interp_kappa_inv_algo (double, double, double, int, double, double, int);
   double eps,bd;
   n=*n0; mxiter=*mxiter0; eps=*eps0; bd=*bd0;
-  for(i=0;i<n;i++)
-  { inv[i] = interp_kappa_inv_algo(p[i],eta[i],alpha[i],mxiter,eps,bd, 0); }
+  for(i=0;i<n;i++) { 
+    inv[i] = interp_kappa_inv_algo(p[i],eta[i],alpha[i],mxiter,eps,bd, 0); 
+    R_CheckUserInterrupt();
+  }
 }
 

@@ -51,8 +51,10 @@ void qcondig12(int *n0, double *p, double *v, double *theta, double *alpha,
   double qcondig12_algo(double, double, double, double, int, double, double, int);
   double eps,bd;
   n=*n0; mxiter=*mxiter0; eps=*eps0; bd=*bd0;
-  for(i=0;i<n;i++)
-  { qu[i] = qcondig12_algo(p[i],v[i],theta[i],alpha[i],mxiter,eps,bd, 0); }
+  for(i=0;i<n;i++) { 
+    qu[i] = qcondig12_algo(p[i],v[i],theta[i],alpha[i],mxiter,eps,bd, 0); 
+    R_CheckUserInterrupt();
+  }
 }
 
 //' Algorithm: Inverse of the 1|2 IG distribution function
@@ -107,6 +109,7 @@ double qcondig12_algo(double p, double v, double theta, double alpha,
     //{ diff /= 2.;  x += diff; R_CheckUserInterrupt(); }
     iter++;
     if(iprint) Rprintf("%d %f %f\n", iter, x, diff);
+    R_CheckUserInterrupt();
   }
   return(exp(-x));
 }
@@ -125,6 +128,16 @@ double pcondig12(double u, double v, double theta, double alpha)
   return(pcond);
 }
 
+// u, v, theta, alpha are vectors of length n
+void pcondig12_vec(int *n0, double *u, double *v, double *theta, 
+  double *alpha, double *out)
+{ int i,n;
+  double pcondig12 (double, double, double, double);
+  n=*n0;
+  for(i=0;i<n;i++)
+  { out[i] = pcondig12(u[i],v[i],theta[i],alpha[i]); R_CheckUserInterrupt();}
+}
+
 // 0<u<1, 0<v<1, theta>0 alpha>0
 double dig(double u, double v, double theta, double alpha)
 { double interp_gen_inv_algo (double, double, double, int, double, double, int);
@@ -138,3 +151,12 @@ double dig(double u, double v, double theta, double alpha)
   return(pdf);
 }
 
+// u, v, theta, alpha are vectors of length n
+void dig_vec(int *n0, double *u, double *v, double *theta, 
+  double *alpha, double *out)
+{ int i,n;
+  double dig (double, double, double, double);
+  n=*n0;
+  for(i=0;i<n;i++)
+  { out[i] = dig(u[i],v[i],theta[i],alpha[i]); R_CheckUserInterrupt();}
+}

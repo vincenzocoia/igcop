@@ -39,13 +39,14 @@ static double
 
 double pgamma(double x, double p, double scale)
 {
-  double pn1, pn2, pn3, pn4, pn5, pn6, arg, c, rn, a, b, an;
+  double pn1, pn2, pn3, pn4, pn5, pn6, arg, c, rn, a, b, an, prod;
   double sum;
   double fmin2(double, double);
   double pnorm(double, double, double);
 
   /* check that we have valid values for x and p */
-
+  prod = x * p * scale;
+  if (isnan(prod)) return(prod);
   //if (p <= zero || scale <= zero) DOMAIN_ERROR;
   x = x / scale;
   if (x <= zero) return 0.0;
@@ -113,4 +114,15 @@ double pgamma(double x, double p, double scale)
     if (arg >= elimit) sum = one - exp(arg);
   }
   return sum;
+}
+
+
+// x, shape, alpha are vectors of length n
+void pgamma_void(int *n0, double *x, double *shape, 
+  double *scale, double *out)
+{ int i,n;
+  double pgamma (double, double, double);
+  n=*n0;
+  for(i=0;i<n;i++)
+  { out[i] = pgamma(x[i],shape[i],scale[i]); R_CheckUserInterrupt();}
 }

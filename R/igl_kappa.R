@@ -29,3 +29,4 @@ igl_kappa_D <- function(x, alpha) {
 igl_kappa_inv <- function(p, alpha) {
   stats::qgamma(1 - p, shape = alpha)
 }
+

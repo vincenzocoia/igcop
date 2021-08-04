@@ -20,10 +20,9 @@ test_that("density matches the numerical density obtained from the cdf", {
     (cdf22 + cdf11 - cdf12 - cdf21) / eps ^ 2
   }
   for (alpha_ in .alpha) {
-    print(alpha_)
     pdf1 <- digl_gaussian_numerical(.u, .v, alpha = alpha_)
     pdf2 <- digl_gaussian(.u, .v, alpha = alpha_)
-    expect_equal(pdf1, pdf2, tolerance = 1e-4)
+    expect_equal(pdf1, pdf2, tolerance = 1e-3)
   }
 })
 
@@ -77,7 +76,7 @@ test_that("density matches the numerical density obtained from the 2|1 condition
   for (alpha_ in .alpha) {
     pdf1 <- digl_numerical_from_2g1(.u, .v, alpha = alpha_)
     pdf2 <- digl(.u, .v, alpha = alpha_)
-    expect_equal(pdf1, pdf2, tolerance = 1e-5)
+    expect_equal(pdf1, pdf2, tolerance = 1e-4)
   }
 })
 
