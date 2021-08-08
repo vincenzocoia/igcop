@@ -24,7 +24,6 @@ test_that("density matches the numerical density obtained from the cdf", {
     (cdf22 + cdf11 - cdf12 - cdf21) / eps ^ 2
   }
   for (cpar_ in .cpar) {
-    print(cpar_)
     pdf1 <- dig_gaussian_numerical(.u, .v, cpar = cpar_)
     pdf2 <- dig_gaussian(.u, .v, cpar = cpar_)
     expect_equal(pdf1, pdf2, tolerance = 1e-4)
