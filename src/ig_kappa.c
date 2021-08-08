@@ -69,8 +69,6 @@ int main(int argc, char *argv[])
 }
 #endif
 
-
-
 double  dgamma(double x, double shape, double scale)
 { double xx,tem,pdf,prod;
   prod = x * shape * scale;
@@ -91,19 +89,6 @@ void dgamma_void(int *n0, double *x, double *shape,
   { out[i] = dgamma(x[i],shape[i],scale[i]); R_CheckUserInterrupt();}
 }
 
-//' Kappa version of generating function
-//'
-//' The kappa version of a generating function \eqn{\psi} is
-//' defined as \eqn{\kappa(x) = \psi(x) + x \psi'(x)}.
-//' `igl_kappa` takes \eqn{\psi} to be the IGL generating
-//' function, `igl_gen()`.
-//'
-//' `igl_kappa_D()` is the derivative.
-//'
-//' @param x Numeric argument of the kappa function. Vectorized.
-//' @param p Numeric argument of the inverse function. Vectorized. Between 0 and 1.
-//' @param alpha Parameter of the IGL generating function, `igl_gen()`, >0. Vectorized.
-//' @rdname kappa
 double igl_kappa(double x, double alpha)
 { double pgamma(double,double,double);
   double res,prod;
@@ -122,7 +107,6 @@ void igl_kappa_vec(int *n0, double *x, double *alpha, double *out)
   { out[i] = igl_kappa(x[i], alpha[i]); R_CheckUserInterrupt();}
 }
 
-//' @rdname kappa
 double igl_kappa_D(double x, double alpha)
 { double dgamma(double,double,double);
   double res,prod;
@@ -141,7 +125,6 @@ void igl_kappa_D_vec(int *n0, double *x, double *alpha, double *out)
   { out[i] = igl_kappa_D(x[i], alpha[i]); R_CheckUserInterrupt();}
 }
 
-//' @rdname kappa
 double igl_kappa_inv(double p, double alpha)
 { double qgamma(double,double,double);
   double res,prod;

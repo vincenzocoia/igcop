@@ -73,32 +73,6 @@ int main(int argc, char *argv[])
 #endif
 
 
-//' Generating function for the IGL copula family
-//'
-//' \code{igl_gen} is the function itself, and \code{igl_gen_inv} is
-//' its inverse; \code{igl_gen_D} is the
-//' derivative; and \code{igl_gen_DD} is the second derivative.
-//'
-//' Function arguments and parameters are vectorized, except
-//' for the algorithms (marked by `_algo`).
-//'
-//' @param x Vector of values >=0 to evaluate the function at, .
-//' @param p Vector of values to evaluate the inverse function at, between
-//' 0 and 1 (inclusive).
-//' @param alpha Parameter of the function, alpha > 0. Vectorized.
-//' @examples
-//' ## Some examples of evaluating the functions.
-//' arg <- c(0, 0.5, 3, Inf, NA)
-//' #igl_gen(arg, alpha = 1)
-//' #igl_gen_D(arg, alpha = 0.2)
-//' #igl_gen_D(arg, alpha = 1)
-//' #igl_gen_D(arg, alpha = 2)
-//' #igl_gen_inv(c(0, 0.5, 1), alpha = 0.5)
-//'
-//' ## Visual
-//' #foo <- function(u) igl_gen_inv(u, alpha = 0.5)
-//' #curve(foo)
-//' @rdname igl_gen
 double igl_gen(double x, double alpha)
 { double pgamma(double,double,double);
   double prod,res,term1,term2;
@@ -120,8 +94,6 @@ void igl_gen_vec(int *n0, double *x, double *alpha, double *out)
   { out[i] = igl_gen(x[i],alpha[i]); R_CheckUserInterrupt();}
 }
 
-
-//' @rdname igl_gen
 double igl_gen_D(double x, double alpha)
 { double pgamma(double,double,double);
   double dgamma(double,double,double);
@@ -141,16 +113,6 @@ void igl_gen_D_vec(int *n0, double *x, double *alpha, double *out)
   { out[i] = igl_gen_D(x[i],alpha[i]); R_CheckUserInterrupt();}
 }
 
-//' @param mxiter Maximum number of iterations to run the Newton-Raphson
-//' algorithm when computing inverse. Positive integer, default 20
-//' (which is used in the calling routine).
-//' @param eps The Newton-Raphson algorithm for computing an inverse will
-//' stop if the step size is less than this small number. 1.e-12 used
-//' in the calling routine.
-//' @param bd The largest acceptable step size in the Newton-Raphson
-//' algorithm. Step size is reduced if it reaches this large. `bd=5` in
-//' the calling routine.
-//' @rdname igl_gen
 double igl_gen_inv_algo (double p, double alpha, int mxiter, double eps,
                          double bd, int iprint)
 { double x1,x2,x3,p1,p2,p3,diff1,diff2,diff3;
@@ -209,27 +171,6 @@ void igl_gen_inv(int *n0, double *p, double *alpha,
   }
 }
 
-
-//' Interpolating Functions
-//'
-//' These interpolating functions, denoted \eqn{H} in the vignette,
-//' depend on a generating function (of a DJ copula).
-//' `interp_gen()` uses the IGL generating function \eqn{\Psi_k};
-//' `interp_kappa()` uses the "kappa version" of that same function.
-//'
-//' Appending `_inv` to the function name indicates inverse with
-//' respect to the first argument. Appending `_D1` indicates
-//' derivative with respect to the first argument. Function arguments
-//' and parameters are vectorized, except for the algorithms (marked by
-//' `_algo`).
-//'
-//' @param x Vector of values >=1 to evaluate the interpolating function at.
-//' @param p Vector of values between 0 and 1 to evaluate the inverse function at.
-//' @param eta Vector of values >0 of second argument of the
-//' interpolating function.
-//' @param alpha Vector of values >0 corresponding to the \eqn{alpha} parameter
-//' of the IGL generating function.
-//' @rdname interpolator
 double interp_gen (double x, double eta, double alpha)
 { double igl_gen(double, double);
   double res;
@@ -247,7 +188,6 @@ void interp_gen_vec(int *n0, double *x, double *eta,
   { out[i] = interp_gen(x[i],eta[i],alpha[i]); R_CheckUserInterrupt();}
 }
 
-//' @rdname interpolator
 double interp_gen_D1 (double x, double eta, double alpha)
 { double igl_gen(double, double);
   double igl_gen_D(double, double);
@@ -262,8 +202,6 @@ double interp_gen_D1 (double x, double eta, double alpha)
   return(res);
 }
 
-//' @inheritParams igl_gen_inv_algo
-//' @rdname interpolator
 double interp_gen_inv_algo(double p, double eta, double alpha, int mxiter,
   double eps, double bd, int iprint)
 { double x1,x2,p1,p2,diff1,diff2;

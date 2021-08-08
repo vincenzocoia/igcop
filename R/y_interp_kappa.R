@@ -26,8 +26,7 @@ y_interp_kappa_D1 <- function(x, eta, alpha) {
 }
 
 #' @rdname interpolator
-y_interp_kappa_inv <- function(p, eta, alpha)
-{
+y_interp_kappa_inv <- function(p, eta, alpha) {
   recycled <- vctrs::vec_recycle_common(p, eta, alpha)
   pvec <- recycled[[1L]]
   thvec <- recycled[[2L]]

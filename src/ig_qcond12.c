@@ -57,13 +57,6 @@ void qcondig12(int *n0, double *p, double *v, double *theta, double *alpha,
   }
 }
 
-//' Algorithm: Inverse of the 1|2 IG distribution function
-//' @param u,v Vectors of values between 0 and 1 representing values of the first
-//' and second copula variables.
-//' @param p Vector of quantile levels between 0 and 1
-//'  to evaluate a quantile function at.
-//' @param theta Parameter of the IG copula family. Vectorized; >0.
-//' @param alpha Parameter of the IG copula family. Vectorized; >0.
 double qcondig12_algo(double p, double v, double theta, double alpha,
   int mxiter, double eps, double bd, int iprint)
 { double x0, p0, diff0;
