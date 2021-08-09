@@ -99,8 +99,8 @@ double igl_gen_D(double x, double alpha)
   double dgamma(double,double,double);
   double prod;
   prod = x * alpha;
-  if (isnan(prod)) return(prod);
-  if (x == 0.) return(- dgamma(0., alpha, 1.) / 2.);
+  if (isnan(prod)) { return(prod); }
+  if (x == 0.) { return(-dgamma(0., alpha, 1.) / 2.); }
   return( -(alpha / (x*x)) * pgamma(x, alpha+1., 1.) );
 }
 
@@ -165,8 +165,8 @@ void igl_gen_inv(int *n0, double *p, double *alpha,
   double igl_gen_inv_algo (double, double, int, double, double, int);
   double eps,bd;
   n=*n0; mxiter=*mxiter0; eps=*eps0; bd=*bd0;
-  for(i=0;i<n;i++) { 
-    inv[i] = igl_gen_inv_algo(p[i],alpha[i],mxiter,eps,bd, 0); 
+  for(i=0;i<n;i++) {
+    inv[i] = igl_gen_inv_algo(p[i],alpha[i],mxiter,eps,bd, 0);
     R_CheckUserInterrupt();
   }
 }
@@ -179,7 +179,7 @@ double interp_gen (double x, double eta, double alpha)
 }
 
 // x, eta, alpha are vectors of length n
-void interp_gen_vec(int *n0, double *x, double *eta, 
+void interp_gen_vec(int *n0, double *x, double *eta,
   double *alpha, double *out)
 { int i,n;
   double interp_gen (double, double, double);
@@ -251,8 +251,8 @@ void interp_gen_inv(int *n0, double *p, double *eta, double *alpha,
   double interp_gen_inv_algo (double, double, double, int, double, double, int);
   double eps,bd;
   n=*n0; mxiter=*mxiter0; eps=*eps0; bd=*bd0;
-  for(i=0;i<n;i++) { 
-    inv[i] = interp_gen_inv_algo(p[i],eta[i],alpha[i],mxiter,eps,bd, 0); 
+  for(i=0;i<n;i++) {
+    inv[i] = interp_gen_inv_algo(p[i],eta[i],alpha[i],mxiter,eps,bd, 0);
     R_CheckUserInterrupt();
   }
 }
