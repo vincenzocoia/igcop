@@ -46,7 +46,7 @@ double pgamma(double x, double p, double scale)
 
   /* check that we have valid values for x and p */
   prod = x * p * scale;
-  if (isnan(prod)) return(prod);
+  if (ISNAN(prod)) return(prod);
   //if (p <= zero || scale <= zero) DOMAIN_ERROR;
   x = x / scale;
   if (x <= zero) return 0.0;

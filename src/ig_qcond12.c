@@ -69,7 +69,7 @@ double qcondig12_algo(double p, double v, double theta, double alpha,
   //double igl_gen_D(double, double);
   //double prod, y, denom;
   prod = alpha * theta * v * p;
-  if (isnan(prod)) return(prod);
+  if (ISNAN(prod)) return(prod);
   if (p <= 0.) return(0.);
   if (p >= 1.) return(1.);
   //y = interp_gen_inv_algo(1.-v, theta, alpha, mxiter, eps, bd, 0);

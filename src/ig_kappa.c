@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
 double  dgamma(double x, double shape, double scale)
 { double xx,tem,pdf,prod;
   prod = x * shape * scale;
-  if (isnan(prod)) return(prod);
+  if (ISNAN(prod)) return(prod);
   xx = x/scale;
   tem = ((shape-1.)*log(xx) - lgamma(shape) - xx);
   pdf = exp(tem)/scale;
@@ -93,7 +93,7 @@ double igl_kappa(double x, double alpha)
 { double pgamma(double,double,double);
   double res,prod;
   prod = x * alpha;
-  if (isnan(prod)) return(prod);
+  if (ISNAN(prod)) return(prod);
   res = 1.-pgamma(x, alpha, 1.);
   return(res);
 }
@@ -111,7 +111,7 @@ double igl_kappa_D(double x, double alpha)
 { double dgamma(double,double,double);
   double res,prod;
   prod = x * alpha;
-  if (isnan(prod)) return(prod);
+  if (ISNAN(prod)) return(prod);
   res = -dgamma(x, alpha, 1.);
   return(res);
 }
@@ -129,7 +129,7 @@ double igl_kappa_inv(double p, double alpha)
 { double qgamma(double,double,double);
   double res,prod;
   prod = p * alpha;
-  if (isnan(prod)) return(prod);
+  if (ISNAN(prod)) return(prod);
   res = qgamma(1.-p, alpha, 1.);
   return(res);
 }
@@ -188,7 +188,7 @@ double interp_kappa_inv_algo(double p, double eta, double alpha, int mxiter,
   double x1,x2, p1,p2, diff1,diff2, x, ik, diff,g,gp,prod, logx;
   int iter;
   prod = alpha * eta * p;
-  if (isnan(prod)) return(prod);
+  if (ISNAN(prod)) return(prod);
   if (p <= 0.) return(DBL_MAX);
   if (p >= 1.) return(0.);
   x1 = -log(p);

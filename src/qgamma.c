@@ -82,7 +82,7 @@ double qgamma(double p, double alpha, double scale)
 
   /* test arguments and initialise */
   prod = p * alpha * scale;
-  if (isnan(prod)) return(prod);
+  if (ISNAN(prod)) return(prod);
   //if(p < pmin || p > pmax || alpha<=0 ) DOMAIN_ERROR;
 
   v = 2*alpha;
@@ -126,7 +126,7 @@ double qgamma(double p, double alpha, double scale)
     p2 = p-pgamma(p1, xx, 1.0);
 #ifdef HAVE_ISNAN
     //if(!finite(p2)) DOMAIN_ERROR;
-    if(!finite(p2)) return(-1.);
+    if(!R_FINITE(p2)) return(-1.);
 //#else
     //if(errno != 0) DOMAIN_ERROR;
 #endif

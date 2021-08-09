@@ -77,7 +77,7 @@ double igl_gen(double x, double alpha)
 { double pgamma(double,double,double);
   double prod,res,term1,term2;
   prod = x * alpha;
-  if (isnan(prod)) return(prod);
+  if (ISNAN(prod)) return(prod);
   if (x == 0.) return(1.);
   term1 = 1.-pgamma(x, alpha, 1.);
   term2 = alpha * pgamma(x, alpha+1., 1.) / x;
@@ -99,7 +99,7 @@ double igl_gen_D(double x, double alpha)
   double dgamma(double,double,double);
   double prod;
   prod = x * alpha;
-  if (isnan(prod)) { return(prod); }
+  if (ISNAN(prod)) { return(prod); }
   if (x == 0.) { return(-dgamma(0., alpha, 1.) / 2.); }
   return( -(alpha / (x*x)) * pgamma(x, alpha+1., 1.) );
 }
@@ -122,7 +122,7 @@ double igl_gen_inv_algo (double p, double alpha, int mxiter, double eps,
   double igl_gen_D(double, double);
   int iter;
   prod = alpha * p;
-  if (isnan(prod)) return(prod);
+  if (ISNAN(prod)) return(prod);
   if (p == 0.) return(DBL_MAX);  // Inf
   if (p == 1.) return(0.);
   x1 = 1. / (pow(1.-p, -1./ alpha) - 1.);
@@ -194,7 +194,7 @@ double interp_gen_D1 (double x, double eta, double alpha)
   double dgamma(double, double, double);
   double res,prod;
   prod = x * eta * alpha;
-  if (isnan(prod)) return(prod);
+  if (ISNAN(prod)) return(prod);
   if (x == 0.)
   { res = - (1. + eta / 2. * dgamma(0., alpha, 1.)); }
   else
@@ -211,7 +211,7 @@ double interp_gen_inv_algo(double p, double eta, double alpha, int mxiter,
   double igl_gen_inv_algo (double, double, int, double, double, int);
   int iter;
   prod = alpha * eta * p;
-  if (isnan(prod)) return(prod);
+  if (ISNAN(prod)) return(prod);
   if (p <= 0.) return(DBL_MAX); // Inf
   if (p >= 1.) return(0.);
   x1 = -log(p);
