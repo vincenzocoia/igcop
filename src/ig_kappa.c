@@ -73,6 +73,7 @@ double  dgamma(double x, double shape, double scale)
 { double xx,tem,pdf,prod;
   prod = x * shape * scale;
   if (ISNAN(prod)) return(prod);
+  if(x==0. && shape==1.) return(1./scale);
   xx = x/scale;
   tem = ((shape-1.)*log(xx) - lgamma(shape) - xx);
   pdf = exp(tem)/scale;

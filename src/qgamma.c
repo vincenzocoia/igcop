@@ -95,7 +95,7 @@ double qgamma(double p, double alpha, double scale)
       /* starting approximation for small chi-squared */
     ch = pow(p*xx*exp(g+xx*aa),1.0/xx);
     //if(ch < e) DOMAIN_ERROR;
-    if(ch < e) return(-1.);
+    if(ch < e) return(1.e-08);
   }
   else if(v > C3) {
     /* starting approximation using Wilson and Hilferty estimate */
@@ -150,7 +150,7 @@ double qgamma(double p, double alpha, double scale)
 
 
 // x, shape, alpha are vectors of length n
-void qgamma_void(int *n0, double *p, double *shape, 
+void qgamma_void(int *n0, double *p, double *shape,
   double *scale, double *out)
 { int i,n;
   double qgamma (double, double, double);
