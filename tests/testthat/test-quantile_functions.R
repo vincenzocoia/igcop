@@ -30,7 +30,7 @@ test_that("qcondigl12 is the inverse of pcondigl12", {
   for (alpha_ in .alpha){
     qu <- qcondigl12(.u, .v, alpha = alpha_)
     u2 <- pcondigl12(qu, .v, alpha = alpha_)
-    print(which(qu > 1 | qu < 0))
+    if (alpha_ == 0.1) print(qu[c(7, 16)])
     expect_equal(.u, u2, tolerance = 0.1)
   }
 })

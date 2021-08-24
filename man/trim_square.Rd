@@ -4,12 +4,15 @@
 \alias{trim_square}
 \title{Trim values to (0, 1)}
 \usage{
-trim_square(u, eps = 1e-04)
+trim_square(u, eps = 1e-06, lower = TRUE, upper = TRUE)
 }
 \arguments{
 \item{u}{Vector of values.}
 
 \item{eps}{Distance from 0 and 1 for which to truncate.}
+
+\item{lower, upper}{Logical; should the lower bound (0) be considered
+in the truncation? Should the upper bound (1)?}
 }
 \value{
 The vector \code{u} with its values possibly truncated.

@@ -10,7 +10,14 @@
 #' of bivariate numeric vectors. `.u`, `.v`, and `.p` are of matching
 #' length; the rest are not intended to have matching lengths.
 #' @rdname test_data
-.u <- c(10 ^ (-(5:1)), 2:8 / 10, 1 - 10 ^ (-(1:5)))
+.u <- {
+  u <- c(10 ^ (-(5:1)), 2:8 / 10, 1 - 10 ^ (-(1:5)))
+  eps <- 1e-4
+  # trim_square(u)
+  u[u < eps] <- eps
+  u[u > 1 - eps] <- 1 - eps
+  u
+}
 
 #' @rdname test_data
 .v <- .u[c(4, 16, 17, 9, 10, 6, 1, 14, 11, 13, 5, 3, 7, 8, 15, 2, 12)]

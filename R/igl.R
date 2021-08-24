@@ -63,9 +63,11 @@ pcondigl12 <- function(u, v, alpha) {
     v <- trim_square(v)
     u <- trim_square(u)
     y <- y_igl_gen_inv(1 - v, alpha)
-    1 - (1 - u) ^ 2 *
-        y_igl_gen_D((1 - u) * y, alpha = alpha) /
-        y_igl_gen_D(y, alpha = alpha)
+    y <- trim_square(y, upper = FALSE, eps = 1e-10)
+    num <- y_igl_gen_D((1 - u) * y, alpha = alpha)
+    den <- y_igl_gen_D(y, alpha = alpha)
+    den <- trim_square(den, upper = FALSE, eps = 1e-10)
+    1 - (1 - u) ^ 2 * num / den
 }
 
 #' @rdname igl
@@ -76,7 +78,8 @@ qcondigl12 <- function(p, v, alpha) {
     v <- trim_square(v)
     y <- y_igl_gen_inv(1 - v, alpha = alpha)
     inner <- (1 - p) * y_pgamma(y, shape = alpha + 1)
-    1 - y_qgamma(inner, shape = alpha + 1) / y
+    res <- 1 - y_qgamma(inner, shape = alpha + 1) / y
+    trim_square(res)
 }
 
 #' @rdname igl
