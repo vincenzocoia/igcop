@@ -1,48 +1,5 @@
-#include <R.h>
-#include <Rinternals.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-//#include <values.h>
-
-#ifdef MAIN2
-#include <malloc.h>
-// sample main program for checking qcondig12
-int main(int argc, char *argv[])
-{ double pcondig12(double, double, double, double);
-  double qcondig12_algo(double p, double v, double theta, double alpha,
-    int mxiter, double eps, double bd, int iprint);
-  void qcondig12(int *, double *, double *, double *, double *, int *,
-    double *, double *, double *);
-  double p, v, theta, alpha, qu, pp;
-  int n,i,mxiter,iprint,j;
-  double eps,bd;
-  double *pvec,*vvec,*thvec,*avec,*quvec;
-
-  n=5;
-  pvec=(double *) malloc(n * sizeof(double));
-  vvec=(double *) malloc(n * sizeof(double));
-  thvec=(double *) malloc(n * sizeof(double));
-  avec=(double *) malloc(n * sizeof(double));
-  quvec=(double *) malloc(n * sizeof(double));
-
-  eps = 1.e-12; bd = 5; mxiter = 20; iprint=1;
-  for(i=1;i<=n;i++)
-  { p=i/(n+1.);  v=0.3; theta=i*0.8; alpha=n-i+0.4;
-    //if(i>=3) iprint=0;
-    qu = qcondig12_algo(p,v,theta,alpha, mxiter,eps,bd, iprint);
-    pp = pcondig12(qu,v,theta,alpha);
-    Rprintf("qcondig12_algo %f %f %f %f %f %f\n", p,v,theta,alpha,qu,pp);
-  }
-
-  for(j=0;j<n;j++)
-  { i=j+1;; pvec[j]=i/(n+1.); vvec[j]=0.3; thvec[j]=i*0.8; avec[j]=n-i+0.4; }
-  qcondig12(&n,pvec,vvec,thvec,avec,&mxiter,&eps,&bd,quvec);
-  for(j=0;j<n;j++) Rprintf("%f ", quvec[j]); Rprintf("\n");
-  free(pvec); free(vvec); free(thvec); free(avec); free(quvec);
-  return(0);
-}
-#endif
+#include <Rcpp.h>
+using namespace Rcpp;
 
 // routine for linking to R
 void qcondig12(int *n0, double *p, double *v, double *theta, double *alpha,
