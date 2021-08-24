@@ -31,6 +31,8 @@
 #' @export
 qcondigl <- function(p, u, alpha) {
     check_alpha(alpha)
+    p <- trim_square(p)
+    u <- trim_square(u)
     inner <- y_igl_kappa_inv(1 - p, alpha = alpha) / (1 - u)
     1 - y_igl_gen(inner, alpha = alpha)
 }
@@ -40,6 +42,8 @@ qcondigl <- function(p, u, alpha) {
 #' @export
 pcondigl <- function(v, u, alpha) {
     check_alpha(alpha)
+    v <- trim_square(v)
+    u <- trim_square(u)
     y <- y_igl_gen_inv(1 - v, alpha = alpha)
     1 - y_igl_kappa((1 - u) * y, alpha = alpha)
 }
@@ -56,6 +60,8 @@ pcondigl21 <- pcondigl
 #' @export
 pcondigl12 <- function(u, v, alpha) {
     check_alpha(alpha)
+    v <- trim_square(v)
+    u <- trim_square(u)
     y <- y_igl_gen_inv(1 - v, alpha)
     1 - (1 - u) ^ 2 *
         y_igl_gen_D((1 - u) * y, alpha = alpha) /
@@ -66,6 +72,8 @@ pcondigl12 <- function(u, v, alpha) {
 #' @export
 qcondigl12 <- function(p, v, alpha) {
     check_alpha(alpha)
+    p <- trim_square(p)
+    v <- trim_square(v)
     y <- y_igl_gen_inv(1 - v, alpha = alpha)
     inner <- (1 - p) * y_pgamma(y, shape = alpha + 1)
     1 - y_qgamma(inner, shape = alpha + 1) / y
@@ -75,6 +83,8 @@ qcondigl12 <- function(p, v, alpha) {
 #' @export
 digl <- function(u, v, alpha) {
     check_alpha(alpha)
+    v <- trim_square(v)
+    u <- trim_square(u)
     y <- y_igl_gen_inv(1 - v, alpha = alpha)
     (1 - u) *
         y_igl_kappa_D((1 - u) * y, alpha = alpha) /
@@ -86,7 +96,8 @@ digl <- function(u, v, alpha) {
 #' @export
 pigl <- function(u, v, alpha) {
     check_alpha(alpha)
-    alpha <- alpha
+    v <- trim_square(v)
+    u <- trim_square(u)
     y <- y_igl_gen_inv(1 - v, alpha = alpha)
     u + v - 1 + (1 - u) * y_igl_gen((1 - u) * y, alpha = alpha)
 }
@@ -97,6 +108,8 @@ rigl <- function(n, alpha) {
     check_alpha(alpha)
     u <- stats::runif(n)
     p <- stats::runif(n)
+    p <- trim_square(p)
+    u <- trim_square(u)
     v <- qcondigl(p, u, alpha = alpha)
     v_na <- vctrs::vec_slice(v, is.na(v))
     u <- vctrs::vec_assign(u, is.na(v), v_na)
@@ -112,7 +125,8 @@ rigl <- function(n, alpha) {
 #' @export
 logdigl <- function(u, v, alpha) {
     check_alpha(alpha)
-    alpha <- alpha
+    v <- trim_square(v)
+    u <- trim_square(u)
     y <- y_igl_gen_inv(1 - v, alpha = alpha)
     log(1 - u) + 2 * log(y) - log(alpha) +
         log(y_dgamma((1 - u) * y, shape = alpha)) -

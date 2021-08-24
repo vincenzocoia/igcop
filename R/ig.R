@@ -34,6 +34,8 @@
 pcondig21 <- function(v, u, theta, alpha) {
     check_theta(theta)
     check_alpha(alpha)
+    u <- trim_square(u)
+    v <- trim_square(v)
     y <- y_interp_gen_inv(1 - v, eta = theta, alpha = alpha)
     eta <- theta * (1 - u)
     1 - y_interp_kappa(y, eta = eta, alpha = alpha)
@@ -46,6 +48,8 @@ pcondig21 <- function(v, u, theta, alpha) {
 qcondig21 <- function(p, u, theta, alpha) {
     check_theta(theta)
     check_alpha(alpha)
+    u <- trim_square(u)
+    p <- trim_square(p)
     inner <- y_interp_kappa_inv(1 - p, eta = theta * (1 - u), alpha = alpha)
     1 - y_interp_gen(inner, eta = theta, alpha = alpha)
 }
@@ -63,6 +67,8 @@ pcondig <- pcondig21
 pcondig12 <- function(u, v, theta, alpha) {
     check_theta(theta)
     check_alpha(alpha)
+    u <- trim_square(u)
+    v <- trim_square(v)
     v <- vctrs::vec_recycle_common(u, v, theta, alpha)
     uvec <- v[[1L]]
     vvec <- v[[2L]]
@@ -81,6 +87,8 @@ qcondig12 <- function(p, v, theta, alpha)
 {
   check_theta(theta)
   check_alpha(alpha)
+  v <- trim_square(v)
+  p <- trim_square(p)
   recycled <- vctrs::vec_recycle_common(p, v, theta, alpha)
   pvec <- recycled[[1L]]
   vvec <- recycled[[2L]]
@@ -102,6 +110,8 @@ qcondig12 <- function(p, v, theta, alpha)
 dig <- function(u, v, theta, alpha) {
   check_theta(theta)
   check_alpha(alpha)
+  u <- trim_square(u)
+  v <- trim_square(v)
   v <- vctrs::vec_recycle_common(u, v, theta, alpha)
   uvec <- v[[1L]]
   vvec <- v[[2L]]
@@ -120,6 +130,8 @@ dig <- function(u, v, theta, alpha) {
 logdig <- function(u, v, theta, alpha) {
     check_theta(theta)
     check_alpha(alpha)
+    u <- trim_square(u)
+    v <- trim_square(v)
     y <- y_interp_gen_inv(1 - v, eta = theta, alpha = alpha)
     eta2 <- (1 - u) * theta
     k <- y_igl_kappa(eta2 * y, alpha)
@@ -135,6 +147,8 @@ logdig <- function(u, v, theta, alpha) {
 pig <- function(u, v, theta, alpha) {
     check_theta(theta)
     check_alpha(alpha)
+    u <- trim_square(u)
+    v <- trim_square(v)
     y <- y_interp_gen_inv(1 - v, eta = theta, alpha = alpha)
     u + v - 1 + (1 - u) * y_interp_gen(y, eta = theta * (1 - u), alpha = alpha)
 }
@@ -146,6 +160,8 @@ rig <- function(n, theta, alpha) {
     check_alpha(alpha)
     u <- stats::runif(n)
     p <- stats::runif(n)
+    u <- trim_square(u)
+    p <- trim_square(p)
     v <- qcondig(p, u, theta = theta, alpha = alpha)
     v_na <- vctrs::vec_slice(v, is.na(v))
     u <- vctrs::vec_assign(u, is.na(v), v_na)

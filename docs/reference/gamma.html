@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • igcop</title>
+<title>Gamma Distribution Links to C — y_pgamma • igcop</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,10 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Gamma Distribution Links to C — y_pgamma" />
+<meta property="og:description" content="pgamma(), dgamma(), and qgamma() are defined natively in igcop,
+written in C. The R functions named with a y_ prefix link to the ones
+in C." />
 
 
 
@@ -58,7 +61,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -108,90 +111,47 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Gamma Distribution Links to C</h1>
+    
+    <div class="hidden name"><code>gamma.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p><code><a href='https://rdrr.io/r/stats/GammaDist.html'>pgamma()</a></code>, <code><a href='https://rdrr.io/r/stats/GammaDist.html'>dgamma()</a></code>, and <code><a href='https://rdrr.io/r/stats/GammaDist.html'>qgamma()</a></code> are defined natively in igcop,
+written in C. The R functions named with a <code>y_</code> prefix link to the ones
+in C.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>y_pgamma</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>shape</span>, scale <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="check_params.html">check_alpha()</a></code> <code><a href="check_params.html">check_theta()</a></code> </p>
-        </td>
-        <td><p>Check validity of copula parameters</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="dot-onUnload.html">.onUnload()</a></code> </p>
-        </td>
-        <td><p>Clean up due to the use of C code</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="gamma.html">y_pgamma()</a></code> <code><a href="gamma.html">y_dgamma()</a></code> <code><a href="gamma.html">y_qgamma()</a></code> </p>
-        </td>
-        <td><p>Gamma Distribution Links to C</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ig.html">pcondig21()</a></code> <code><a href="ig.html">qcondig21()</a></code> <code><a href="ig.html">qcondig()</a></code> <code><a href="ig.html">pcondig()</a></code> <code><a href="ig.html">pcondig12()</a></code> <code><a href="ig.html">qcondig12()</a></code> <code><a href="ig.html">dig()</a></code> <code><a href="ig.html">logdig()</a></code> <code><a href="ig.html">pig()</a></code> <code><a href="ig.html">rig()</a></code> </p>
-        </td>
-        <td><p>IG Copula Family Functions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="igl.html">qcondigl()</a></code> <code><a href="igl.html">pcondigl()</a></code> <code><a href="igl.html">qcondigl21()</a></code> <code><a href="igl.html">pcondigl21()</a></code> <code><a href="igl.html">pcondigl12()</a></code> <code><a href="igl.html">qcondigl12()</a></code> <code><a href="igl.html">digl()</a></code> <code><a href="igl.html">pigl()</a></code> <code><a href="igl.html">rigl()</a></code> <code><a href="igl.html">logdigl()</a></code> </p>
-        </td>
-        <td><p>IGL Copula Family Functions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="igl_gen.html">y_igl_gen()</a></code> <code><a href="igl_gen.html">y_igl_gen_D()</a></code> <code><a href="igl_gen.html">y_igl_gen_inv()</a></code> </p>
-        </td>
-        <td><p>Generating function for the IGL copula family</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="interpolator.html">y_interp_gen()</a></code> <code><a href="interpolator.html">y_interp_gen_inv()</a></code> <code><a href="interpolator.html">y_interp_kappa()</a></code> <code><a href="interpolator.html">y_interp_kappa_D1()</a></code> <code><a href="interpolator.html">y_interp_kappa_inv()</a></code> </p>
-        </td>
-        <td><p>Interpolating Functions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="kappa.html">y_igl_kappa()</a></code> <code><a href="kappa.html">y_igl_kappa_D()</a></code> <code><a href="kappa.html">y_igl_kappa_inv()</a></code> </p>
-        </td>
-        <td><p>Kappa version of generating function</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="test_data.html">.u</a></code> <code><a href="test_data.html">.v</a></code> <code><a href="test_data.html">.cpar</a></code> <code><a href="test_data.html">.theta</a></code> <code><a href="test_data.html">.alpha</a></code> <code><a href="test_data.html">.p</a></code> </p>
-        </td>
-        <td><p>Test data</p></td>
-      </tr>
-    </tbody>
+<span class='fu'>y_dgamma</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>shape</span>, scale <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+
+<span class='fu'>y_qgamma</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>shape</span>, scale <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>Vector of quantiles.</p></td>
+    </tr>
+    <tr>
+      <th>shape, scale</th>
+      <td><p>Vector of shape and scale parameters.</p></td>
+    </tr>
+    <tr>
+      <th>p</th>
+      <td><p>Vector of probability levels.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Vector of the evaluated representation of the Gamma distribution.</p>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

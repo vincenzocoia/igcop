@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">igcop</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9000</span>
       </span>
     </div>
 
@@ -154,13 +154,85 @@
 <div class="sourceCode" id="cb7"><pre class="downlit">
 <span class="fu"><a href="reference/pcondig21.html">rig</a></span><span class="op">(</span><span class="fl">5</span>, theta <span class="op">=</span> <span class="fl">5</span>, alpha <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 5 x 2</span>
-<span class="co">#&gt;        u      v</span>
-<span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 0.474  0.568 </span>
-<span class="co">#&gt; 2 0.0510 0.0573</span>
-<span class="co">#&gt; 3 0.209  0.564 </span>
-<span class="co">#&gt; 4 0.809  0.636 </span>
-<span class="co">#&gt; 5 0.115  0.452</span></pre></div>
+<span class="co">#&gt;       u      v</span>
+<span class="co">#&gt;   &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 0.534 0.224 </span>
+<span class="co">#&gt; 2 0.525 0.0973</span>
+<span class="co">#&gt; 3 0.239 0.585 </span>
+<span class="co">#&gt; 4 0.498 0.721 </span>
+<span class="co">#&gt; 5 0.306 0.815</span></pre></div>
+</div>
+<div id="function-nomenclature-and-dependencies-map" class="section level2">
+<h2 class="hasAnchor">
+<a href="#function-nomenclature-and-dependencies-map" class="anchor"></a>Function Nomenclature and Dependencies Map</h2>
+<p>The copula quantities are the top-level functions, and are the only ones made publicly available. These include:</p>
+<ul>
+<li>IG copula: <code><a href="reference/pcondig21.html">pig()</a></code>, (<code>log</code>)<code><a href="reference/pcondig21.html">dig()</a></code>, <code><a href="reference/pcondig21.html">rig()</a></code>, <code><a href="reference/pcondig21.html">qcondig()</a></code>(<code>21</code>), <code><a href="reference/pcondig21.html">pcondig()</a></code>(<code>21</code>), <code><a href="reference/pcondig21.html">qcondig12()</a></code>, <code><a href="reference/pcondig21.html">pcondig12()</a></code>.</li>
+<li>IGL copula: <code><a href="reference/qcondigl.html">pigl()</a></code>, (<code>log</code>)<code><a href="reference/qcondigl.html">digl()</a></code>, <code><a href="reference/qcondigl.html">rigl()</a></code>, <code><a href="reference/qcondigl.html">qcondigl()</a></code>(<code>21</code>), <code><a href="reference/qcondigl.html">pcondigl()</a></code>(<code>21</code>), <code><a href="reference/qcondigl.html">qcondigl12()</a></code>, <code><a href="reference/qcondigl.html">pcondigl12()</a></code>.</li>
+</ul>
+<p>Of these, only <code><a href="reference/pcondig21.html">qcondig12()</a></code> has a direct link to a C function.</p>
+<p>All other functions are internal, and directly link to C. Using the notation of Coia (2017), the four main functions are:</p>
+<ul>
+<li>
+<em>Ψ</em><sub><em>k</em></sub> is <code><a href="reference/y_igl_gen.html">y_igl_gen()</a></code> in R,</li>
+<li>
+<em>κ</em><sub><em>k</em></sub> is <code><a href="reference/y_igl_kappa.html">y_igl_kappa()</a></code> in R,</li>
+<li>
+<em>H</em><sub><em>Ψ</em><sub><em>k</em></sub></sub> is <code><a href="reference/y_interp_gen.html">y_interp_gen()</a></code> in R, and</li>
+<li>
+<em>H</em><sub><em>κ</em><sub><em>k</em></sub></sub> is <code><a href="reference/y_interp_gen.html">y_interp_kappa()</a></code> in R</li>
+</ul>
+<p>Related functions have the following suffixes:</p>
+<ul>
+<li>
+<code>_inv</code>: function inverse.</li>
+<li>
+<code>_D</code>: function derivative.</li>
+<li>
+<code>_D1</code>: function derivative with respect to first argument.</li>
+</ul>
+<p>Some Gamma distribution quantities are stored in-house as well, such as <code>dgamma</code>, <code>pgamma</code>, and <code>qgamma</code>, along with some helper functions like <code>fmin2</code>.</p>
+<p>There are three functions involved when linking to C:</p>
+<ol>
+<li>The R function first ensures all inputs are vectors of the same length (using <code><a href="https://vctrs.r-lib.org/reference/vec_recycle.html">vctrs::vec_recycle_common()</a></code>), and passes the inputs to a void C routine via <code><a href="https://rdrr.io/r/base/Foreign.html">.C()</a></code>.</li>
+<li>The void C routine loops along each entry of the vectors, passing the values into a bottom-level C function.</li>
+<li>The bottom-level C function computes the desired quantity on scalar inputs.</li>
+</ol>
+<p>Map of dependencies among functions:</p>
+<ul>
+<li><p><code>igl_gen</code> : <code>pgamma</code></p></li>
+<li><p><code>igl_gen_D</code> : <code>pgamma</code></p></li>
+<li><p><code>igl_gen_DD</code> : <code>pgamma</code> <code>dgamma</code></p></li>
+<li><p><code>igl_gen_inv_algo</code> : <code>qgamma</code> <code>igl_gen</code> <code>igl_gen_D</code></p></li>
+<li><p><code>igl_gen_inv</code> : <code>igl_gen_inv_algo</code></p></li>
+<li><p><code>interp_gen</code> : <code>igl_gen</code></p></li>
+<li><p><code>interp_gen_D1</code> : <code>igl_gen</code></p></li>
+<li><p><code>interp_gen_inv_algo</code> : <code>igl_gen_inv_algo</code> <code>interp_gen</code> <code>interp_gen_D1</code></p></li>
+<li><p><code>interp_gen_inv</code> : <code>interp_gen_inv_algo</code></p></li>
+<li><p><code>igl_kappa</code> : <code>pgamma</code></p></li>
+<li><p><code>igl_kappa_D</code> : <code>dgamma</code></p></li>
+<li><p><code>igl_kappa_inv</code> : <code>qgamma</code></p></li>
+<li><p><code>interp_kappa</code> : <code>igl_kappa</code></p></li>
+<li><p><code>interp_kappa_D1</code> : <code>igl_kappa</code> <code>igl_kappa_D</code></p></li>
+<li><p><code>interp_kappa_inv_algo</code> : <code>igl_kappa_inv</code> <code>interp_kappa</code> <code>igl_kappa</code> <code>igl_kappa_D</code> <code>interp_kappa_inv</code></p></li>
+<li><p><code>interp_kappa_inv</code> : <code>interp_kappa_inv_algo</code></p></li>
+<li><p><code>pcondig21</code> : <code>interp_gen_inv</code> <code>interp_kappa</code></p></li>
+<li><p><code>qcondig21</code> : <code>interp_kappa_inv</code> <code>interp_gen</code></p></li>
+<li><p><code>qcondig12_algo</code> : <code>interp_gen_inv</code> <code>igl_gen</code> <code>igl_gen_D</code> <code>pcondig12</code></p></li>
+<li><p><code>qcondig12</code> : <code>qcondig12_algo</code></p></li>
+<li><p><code>pcondig12</code> : <code>interp_gen_inv</code> <code>interp_gen_D1</code></p></li>
+<li><p><code>dig</code> : <code>interp_gen_inv</code> <code>interp_kappa_D1</code> <code>interp_gen_D1</code></p></li>
+<li><p><code>logdig</code> : <code>interp_gen_inv</code> <code>igl_kappa</code> <code>igl_kappa_D</code> <code>igl_gen</code> <code>igl_gen_D</code></p></li>
+<li><p><code>pig</code> : <code>interp_gen_inv</code></p></li>
+<li><p><code>rig</code> : <code>qcondig21</code></p></li>
+<li><p><code>qcondigl21</code> : <code>igl_kappa_inv</code></p></li>
+<li><p><code>pcondigl21</code> : <code>igl_gen_inv</code> <code>igl_kappa</code></p></li>
+<li><p><code>pcondigl12</code> : <code>igl_gen_inv</code> <code>igl_gen_D</code></p></li>
+<li><p><code>qcondigl12</code> : <code>igl_gen_inv</code> <code>pgamma</code> <code>qgamma</code></p></li>
+<li><p><code>digl</code> : <code>igl_gen_inv</code> <code>igl_kappa_D</code> <code>igl_gen_D</code></p></li>
+<li><p><code>pigl</code> : <code>igl_gen_inv</code> <code>igl_gen</code></p></li>
+<li><p><code>rigl</code> : <code>qcondigl21</code></p></li>
+</ul>
 </div>
 <div id="references" class="section level2">
 <h2 class="hasAnchor">
