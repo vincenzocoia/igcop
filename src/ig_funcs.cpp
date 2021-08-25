@@ -2,7 +2,7 @@
 using namespace Rcpp;
 
 
-double igl_gen(double x, double alpha)
+double igl_gen_single(double x, double alpha)
 { double pgamma(double,double,double);
   double prod,res,term1,term2;
   prod = x * alpha;
@@ -15,15 +15,18 @@ double igl_gen(double x, double alpha)
 }
 
 // p and alpha are vectors of length n
-void igl_gen_vec(int *n0, double *x, double *alpha, double *out)
-{ int i,n;
+// [[Rcpp::export]]
+NumericVector igl_gen_vec(NumericVector x, NumericVector alpha)
+{ int n = x.size();
+  int i;
   double igl_gen (double, double);
-  n=*n0;
+  NumericVector out(n);
   for(i=0;i<n;i++)
-  { out[i] = igl_gen(x[i],alpha[i]); R_CheckUserInterrupt();}
+  { out[i] = igl_gen_single(x[i],alpha[i]); }
+  return(out);
 }
 
-double igl_gen_D(double x, double alpha)
+double igl_gen_D_single(double x, double alpha)
 { double pgamma(double,double,double);
   double dgamma(double,double,double);
   double prod;
@@ -34,12 +37,15 @@ double igl_gen_D(double x, double alpha)
 }
 
 // x and alpha are vectors of length n
-void igl_gen_D_vec(int *n0, double *x, double *alpha, double *out)
-{ int i,n;
-  double igl_gen_D (double, double);
-  n=*n0;
+// [[Rcpp::export]]
+NumericVector igl_gen_D_vec(NumericVector x, NumericVector alpha)
+{ int i;
+  int n = x.size();
+  double igl_gen_D_single (double, double);
+  NumericVector out(n);
   for(i=0;i<n;i++)
-  { out[i] = igl_gen_D(x[i],alpha[i]); R_CheckUserInterrupt();}
+  { out[i] = igl_gen_D_single(x[i],alpha[i]); }
+  return(out);
 }
 
 double igl_gen_inv_algo (double p, double alpha, int mxiter, double eps,
@@ -47,8 +53,8 @@ double igl_gen_inv_algo (double p, double alpha, int mxiter, double eps,
 { double x1,x2,x3,p1,p2,p3,diff1,diff2,diff3;
   double x,best,diff,g,gp,prod;
   double qgamma(double,double,double);
-  double igl_gen(double, double);
-  double igl_gen_D(double, double);
+  double igl_gen_single(double, double);
+  double igl_gen_D_single(double, double);
   int iter;
   prod = alpha * p;
   if (ISNAN(prod)) return(prod);
@@ -57,7 +63,9 @@ double igl_gen_inv_algo (double p, double alpha, int mxiter, double eps,
   x1 = 1. / (pow(1.-p, -1./ alpha) - 1.);
   x2 = alpha / p;
   x3 = qgamma(p, alpha+1., 1.);
-  p1 = igl_gen(x1,alpha); p2 = igl_gen(x2,alpha); p3 = igl_gen(x3,alpha);
+  p1 = igl_gen_single(x1,alpha);
+  p2 = igl_gen_single(x2,alpha);
+  p3 = igl_gen_single(x3,alpha);
   diff1 = fabs(p1-p); diff2 = fabs(p2-p); diff3 = fabs(p3-p);
   x=x1; best=diff1;
   if(diff2<best) { x=x2; best=diff2; }
@@ -69,8 +77,8 @@ double igl_gen_inv_algo (double p, double alpha, int mxiter, double eps,
   while (iter < mxiter && fabs(diff) > eps)
   { //g = igl_gen(ex, alpha) - p;
     //gp = igl_gen_D(ex, alpha) * ex;
-    g = igl_gen(x, alpha) - p;
-    gp = igl_gen_D(x, alpha);
+    g = igl_gen_single(x, alpha) - p;
+    gp = igl_gen_D_single(x, alpha);
     diff = g / gp;
     if (diff > bd) diff = bd;
     if (diff < -bd) diff = -bd;
@@ -88,38 +96,43 @@ double igl_gen_inv_algo (double p, double alpha, int mxiter, double eps,
 }
 
 // p and alpha are vectors of length n
-void igl_gen_inv(int *n0, double *p, double *alpha,
-  int *mxiter0, double *eps0, double *bd0, double *inv)
-{ int i,n,mxiter;
+// [[Rcpp::export]]
+NumericVector igl_gen_inv_vec(NumericVector p, NumericVector alpha,
+  int mxiter, double eps, double bd)
+{ int n = p.size();
+  int i,mxiter;
   double igl_gen_inv_algo (double, double, int, double, double, int);
   double eps,bd;
-  n=*n0; mxiter=*mxiter0; eps=*eps0; bd=*bd0;
+  NumericVector inv(n);
   for(i=0;i<n;i++) {
     inv[i] = igl_gen_inv_algo(p[i],alpha[i],mxiter,eps,bd, 0);
-    R_CheckUserInterrupt();
   }
+  return(inv);
 }
 
-double interp_gen (double x, double eta, double alpha)
-{ double igl_gen(double, double);
+double interp_gen_single (double x, double eta, double alpha)
+{ double igl_gen_single(double, double);
   double res;
-  res = exp(-x) * igl_gen(eta*x, alpha);
+  res = exp(-x) * igl_gen_single(eta*x, alpha);
   return(res);
 }
 
 // x, eta, alpha are vectors of length n
-void interp_gen_vec(int *n0, double *x, double *eta,
-  double *alpha, double *out)
-{ int i,n;
-  double interp_gen (double, double, double);
-  n=*n0;
+// [[Rcpp::export]]
+NumericVector interp_gen_vec(NumericVector x, NumericVector eta,
+                             NumericVector alpha)
+{ int i;
+  int n = x.size();
+  double interp_gen_single (double, double, double);
+  NumericVector out(n);
   for(i=0;i<n;i++)
-  { out[i] = interp_gen(x[i],eta[i],alpha[i]); R_CheckUserInterrupt();}
+  { out[i] = interp_gen(x[i],eta[i],alpha[i]); }
+  return(out);
 }
 
-double interp_gen_D1 (double x, double eta, double alpha)
-{ double igl_gen(double, double);
-  double igl_gen_D(double, double);
+double interp_gen_D1_single (double x, double eta, double alpha)
+{ double igl_gen_single(double, double);
+  double igl_gen_D_single(double, double);
   double dgamma(double, double, double);
   double res,prod;
   prod = x * eta * alpha;
@@ -127,7 +140,8 @@ double interp_gen_D1 (double x, double eta, double alpha)
   if (x == 0.)
   { res = - (1. + eta / 2. * dgamma(0., alpha, 1.)); }
   else
-  { res = -exp(-x) * (igl_gen(eta*x, alpha) - eta * igl_gen_D(eta*x, alpha)); }
+  { res = -exp(-x) *
+    (igl_gen_single(eta*x, alpha) - eta * igl_gen_D_single(eta*x, alpha)); }
   return(res);
 }
 
@@ -135,8 +149,8 @@ double interp_gen_inv_algo(double p, double eta, double alpha, int mxiter,
   double eps, double bd, int iprint)
 { double x1,x2,p1,p2,diff1,diff2;
   double x,diff,g,gp,prod;
-  double interp_gen(double, double, double);
-  double interp_gen_D1(double, double, double);
+  double interp_gen_single(double, double, double);
+  double interp_gen_D1_single(double, double, double);
   double igl_gen_inv_algo (double, double, int, double, double, int);
   int iter;
   prod = alpha * eta * p;
@@ -145,8 +159,8 @@ double interp_gen_inv_algo(double p, double eta, double alpha, int mxiter,
   if (p >= 1.) return(0.);
   x1 = -log(p);
   x2 = igl_gen_inv_algo(p, alpha, mxiter, eps, bd, 0) / eta;
-  p1 = interp_gen(x1, eta, alpha);
-  p2 = interp_gen(x2, eta, alpha);
+  p1 = interp_gen_single(x1, eta, alpha);
+  p2 = interp_gen_single(x2, eta, alpha);
   diff1 = fabs(p1-p); diff2 = fabs(p2-p);
   x=x1;
   if(diff2<diff1) { x=x2; }
@@ -156,8 +170,8 @@ double interp_gen_inv_algo(double p, double eta, double alpha, int mxiter,
   { //ex = exp(x);
     //g = interp_gen(ex, eta, alpha) - p;
     //gp = interp_gen_D1(ex, eta, alpha) * ex;
-    g = interp_gen(x, eta, alpha) - p;
-    gp = interp_gen_D1(x, eta, alpha);
+    g = interp_gen_single(x, eta, alpha) - p;
+    gp = interp_gen_D1_single(x, eta, alpha);
     diff = g / gp;
     if (diff > bd) diff = bd;
     if (diff < -bd) diff = -bd;
@@ -174,16 +188,19 @@ double interp_gen_inv_algo(double p, double eta, double alpha, int mxiter,
 }
 
 // p, eta and alpha are vectors of length n
-void interp_gen_inv(int *n0, double *p, double *eta, double *alpha,
-  int *mxiter0, double *eps0, double *bd0, double *inv)
-{ int i,n,mxiter;
+// [[Rcpp::export]]
+NumericVector interp_gen_inv_vec(NumericVector p, NumericVector eta,
+  NumericVector alpha, int mxiter, double eps, double bd)
+{ int i,mxiter;
+  int n = p.size();
   double interp_gen_inv_algo (double, double, double, int, double, double, int);
   double eps,bd;
-  n=*n0; mxiter=*mxiter0; eps=*eps0; bd=*bd0;
+  NumericVector inv(n);
   for(i=0;i<n;i++) {
     inv[i] = interp_gen_inv_algo(p[i],eta[i],alpha[i],mxiter,eps,bd, 0);
     R_CheckUserInterrupt();
   }
+  return(inv);
 }
 
 
