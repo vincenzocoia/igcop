@@ -6,16 +6,14 @@ using namespace Rcpp;
 NumericVector qcondig12_vec(NumericVector p, NumericVector v,
   NumericVector theta, NumericVector alpha,
   int mxiter, double eps, double bd)
-{ int i,mxiter;
+{ int i;
   int n = p.size();
   double qcondig12_algo(double, double, double, double, int, double, double, int);
-  double eps,bd;
   NumericVector qu(n);
   for(i=0;i<n;i++) {
     qu[i] = qcondig12_algo(p[i],v[i],theta[i],alpha[i],mxiter,eps,bd, 0);
-    R_CheckUserInterrupt();
   }
-  return(qu)
+  return(qu);
 }
 
 double qcondig12_algo(double p, double v, double theta, double alpha,

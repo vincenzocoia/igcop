@@ -65,44 +65,21 @@ pcondig <- pcondig21
 #' @rdname ig
 #' @export
 pcondig12 <- function(u, v, theta, alpha) {
-    check_theta(theta)
-    check_alpha(alpha)
-    u <- trim_square(u)
-    v <- trim_square(v)
-    v <- vctrs::vec_recycle_common(u, v, theta, alpha)
-    uvec <- v[[1L]]
-    vvec <- v[[2L]]
-    tvec <- v[[3L]]
-    avec <- v[[4L]]
-    nn <- length(uvec)
-    out <- .C("pcondig12_vec", as.integer(nn), as.double(uvec), as.double(vvec),
-              as.double(tvec), as.double(avec), out = as.double(rep(0, nn)),
-              NAOK = TRUE)
-    out$out
+  check_theta(theta)
+  check_alpha(alpha)
+  u <- trim_square(u)
+  v <- trim_square(v)
+  formals_to("pcondig12_vec")
 }
 
 #' @rdname ig
 #' @export
-qcondig12 <- function(p, v, theta, alpha)
-{
+qcondig12 <- function(p, v, theta, alpha) {
   check_theta(theta)
   check_alpha(alpha)
-  v <- trim_square(v)
   p <- trim_square(p)
-  recycled <- vctrs::vec_recycle_common(p, v, theta, alpha)
-  pvec <- recycled[[1L]]
-  vvec <- recycled[[2L]]
-  thvec <- recycled[[3L]]
-  avec <- recycled[[4L]]
-  nn <- length(pvec)
-  mxiter <- 20
-  eps <- 1.e-12
-  bd <- 5
-  out <- .C("qcondig12", as.integer(nn), as.double(pvec), as.double(vvec),
-            as.double(thvec), as.double(avec),
-            as.integer(mxiter), as.double(eps), as.double(bd),
-            qu = as.double(rep(0, nn)), NAOK = TRUE)
-  out$qu
+  v <- trim_square(v)
+  formals_to("qcondig12_vec")
 }
 
 #' @rdname ig
@@ -112,18 +89,8 @@ dig <- function(u, v, theta, alpha) {
   check_alpha(alpha)
   u <- trim_square(u)
   v <- trim_square(v)
-  v <- vctrs::vec_recycle_common(u, v, theta, alpha)
-  uvec <- v[[1L]]
-  vvec <- v[[2L]]
-  tvec <- v[[3L]]
-  avec <- v[[4L]]
-  nn <- length(uvec)
-  out <- .C("dig_vec", as.integer(nn), as.double(uvec), as.double(vvec),
-            as.double(tvec), as.double(avec), out = as.double(rep(0, nn)),
-            NAOK = TRUE)
-  out$out
+  formals_to("dig_vec")
 }
-
 
 #' @rdname ig
 #' @export

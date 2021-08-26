@@ -20,7 +20,7 @@ NumericVector igl_kappa_vec(NumericVector x, NumericVector alpha)
   n = x.size();
   for(i=0;i<n;i++)
   { out[i] = igl_kappa_single(x[i], alpha[i]); }
-  return(out)
+  return(out);
 }
 
 double igl_kappa_D_single(double x, double alpha)
@@ -38,10 +38,10 @@ NumericVector igl_kappa_D_vec(NumericVector x, NumericVector alpha)
 { int n = x.size();
   int i;
   double igl_kappa_D_single (double, double);
-  double out(n)
+  NumericVector out(n);
   for(i=0;i<n;i++)
   { out[i] = igl_kappa_D_single(x[i], alpha[i]); }
-  return(out)
+  return(out);
 }
 
 double igl_kappa_inv_single(double p, double alpha)
@@ -79,7 +79,7 @@ NumericVector interp_kappa_vec(NumericVector x, NumericVector eta,
 { int n = x.size();
   int i;
   double interp_kappa_single (double, double, double);
-  double out(n);
+  NumericVector out(n);
   for(i=0;i<n;i++)
   { out[i] = interp_kappa_single(x[i], eta[i], alpha[i]); }
   return(out);
@@ -159,9 +159,8 @@ double interp_kappa_inv_algo(double p, double eta, double alpha, int mxiter,
 NumericVector interp_kappa_inv_vec(NumericVector p, NumericVector eta,
    NumericVector alpha, int mxiter, double eps, double bd)
 { int n = p.size();
-  int i,mxiter;
+  int i;
   double interp_kappa_inv_algo (double, double, double, int, double, double, int);
-  double eps,bd;
   NumericVector inv(n);
   for(i=0;i<n;i++) {
     inv[i] = interp_kappa_inv_algo(p[i],eta[i],alpha[i],mxiter,eps,bd, 0);

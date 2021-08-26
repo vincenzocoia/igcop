@@ -100,9 +100,8 @@ double igl_gen_inv_algo (double p, double alpha, int mxiter, double eps,
 NumericVector igl_gen_inv_vec(NumericVector p, NumericVector alpha,
   int mxiter, double eps, double bd)
 { int n = p.size();
-  int i,mxiter;
+  int i;
   double igl_gen_inv_algo (double, double, int, double, double, int);
-  double eps,bd;
   NumericVector inv(n);
   for(i=0;i<n;i++) {
     inv[i] = igl_gen_inv_algo(p[i],alpha[i],mxiter,eps,bd, 0);
@@ -126,7 +125,7 @@ NumericVector interp_gen_vec(NumericVector x, NumericVector eta,
   double interp_gen_single (double, double, double);
   NumericVector out(n);
   for(i=0;i<n;i++)
-  { out[i] = interp_gen(x[i],eta[i],alpha[i]); }
+  { out[i] = interp_gen_single(x[i],eta[i],alpha[i]); }
   return(out);
 }
 
@@ -191,10 +190,9 @@ double interp_gen_inv_algo(double p, double eta, double alpha, int mxiter,
 // [[Rcpp::export]]
 NumericVector interp_gen_inv_vec(NumericVector p, NumericVector eta,
   NumericVector alpha, int mxiter, double eps, double bd)
-{ int i,mxiter;
+{ int i;
   int n = p.size();
   double interp_gen_inv_algo (double, double, double, int, double, double, int);
-  double eps,bd;
   NumericVector inv(n);
   for(i=0;i<n;i++) {
     inv[i] = interp_gen_inv_algo(p[i],eta[i],alpha[i],mxiter,eps,bd, 0);
