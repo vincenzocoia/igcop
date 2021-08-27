@@ -4,11 +4,10 @@ using namespace Rcpp;
 
 double igl_kappa_single(double x, double alpha)
 { double pgamma(double, double, double, int, int);
-  double res,prod;
+  double prod;
   prod = x * alpha;
   if (ISNAN(prod)) return(prod);
-  res = 1.-R::pgamma(x, alpha, 1., 1, 0);
-  return(res);
+  return(R::pgamma(x, alpha, 1., 0, 0));
 }
 
 // x and alpha are vectors of length n

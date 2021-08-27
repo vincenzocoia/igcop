@@ -77,8 +77,8 @@ qcondigl12 <- function(p, v, alpha) {
     p <- trim_square(p)
     v <- trim_square(v)
     y <- y_igl_gen_inv(1 - v, alpha = alpha)
-    inner <- (1 - p) * pgamma(y, shape = alpha + 1)
-    res <- 1 - qgamma(inner, shape = alpha + 1) / y
+    inner <- (1 - p) * stats::pgamma(y, shape = alpha + 1)
+    res <- 1 - stats::qgamma(inner, shape = alpha + 1) / y
     trim_square(res)
 }
 
@@ -132,8 +132,8 @@ logdigl <- function(u, v, alpha) {
     u <- trim_square(u)
     y <- y_igl_gen_inv(1 - v, alpha = alpha)
     log(1 - u) + 2 * log(y) - log(alpha) +
-        dgamma((1 - u) * y, shape = alpha, log = TRUE) -
-        pgamma(y, shape = alpha + 1, log.p = TRUE)
+        stats::dgamma((1 - u) * y, shape = alpha, log = TRUE) -
+        stats::pgamma(y, shape = alpha + 1, log.p = TRUE)
 }
 
 

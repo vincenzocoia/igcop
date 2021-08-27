@@ -2,7 +2,6 @@
 using namespace Rcpp;
 //using namespace R;
 
-
 double igl_gen_single(double x, double alpha)
 { double pgamma(double, double, double, int, int);
   double prod,res,term1,term2;
@@ -15,7 +14,6 @@ double igl_gen_single(double x, double alpha)
   return(res);
 }
 
-// p and alpha are vectors of length n
 // [[Rcpp::export]]
 NumericVector igl_gen_vec(NumericVector x, NumericVector alpha)
 { int n = x.size();

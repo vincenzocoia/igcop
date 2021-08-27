@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // igl_gen_vec
 NumericVector igl_gen_vec(NumericVector x, NumericVector alpha);
 RcppExport SEXP _igcop_igl_gen_vec(SEXP xSEXP, SEXP alphaSEXP) {

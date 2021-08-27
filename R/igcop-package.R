@@ -1,5 +1,5 @@
 ## usethis namespace: start
-#' @importFrom Rcpp sourceCpp
+#' @importFrom Rcpp evalCpp
 #' @useDynLib igcop, .registration = TRUE
 ## usethis namespace: end
 NULL
