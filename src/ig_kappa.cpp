@@ -1,12 +1,13 @@
 #include <Rcpp.h>
 using namespace Rcpp;
+//using namespace R;
 
 double igl_kappa_single(double x, double alpha)
-{ double pgamma(double,double,double);
+{ double pgamma(double, double, double, int, int);
   double res,prod;
   prod = x * alpha;
   if (ISNAN(prod)) return(prod);
-  res = 1.-pgamma(x, alpha, 1.);
+  res = 1.-R::pgamma(x, alpha, 1., 1, 0);
   return(res);
 }
 
@@ -24,11 +25,11 @@ NumericVector igl_kappa_vec(NumericVector x, NumericVector alpha)
 }
 
 double igl_kappa_D_single(double x, double alpha)
-{ double dgamma(double,double,double);
+{ double dgamma(double, double, double, int);
   double res,prod;
   prod = x * alpha;
   if (ISNAN(prod)) return(prod);
-  res = -dgamma(x, alpha, 1.);
+  res = -R::dgamma(x, alpha, 1., 0);
   return(res);
 }
 
@@ -45,11 +46,11 @@ NumericVector igl_kappa_D_vec(NumericVector x, NumericVector alpha)
 }
 
 double igl_kappa_inv_single(double p, double alpha)
-{ double qgamma(double,double,double);
+{ double qgamma(double, double, double, int, int);
   double res,prod;
   prod = p * alpha;
   if (ISNAN(prod)) return(prod);
-  res = qgamma(1.-p, alpha, 1.);
+  res = R::qgamma(1. - p, alpha, 1., 1, 0);
   return(res);
 }
 

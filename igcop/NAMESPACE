@@ -1,3 +1,0 @@
-useDynLib(igcop, .registration=TRUE)
-importFrom(Rcpp, evalCpp)
-exportPattern("^[[:alpha:]]+")

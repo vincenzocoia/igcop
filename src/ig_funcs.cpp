@@ -1,15 +1,16 @@
 #include <Rcpp.h>
 using namespace Rcpp;
+//using namespace R;
 
 
 double igl_gen_single(double x, double alpha)
-{ double pgamma(double,double,double);
+{ double pgamma(double, double, double, int, int);
   double prod,res,term1,term2;
   prod = x * alpha;
   if (ISNAN(prod)) return(prod);
   if (x == 0.) return(1.);
-  term1 = 1.-pgamma(x, alpha, 1.);
-  term2 = alpha * pgamma(x, alpha+1., 1.) / x;
+  term1 = R::pgamma(x, alpha, 1., 0, 0);
+  term2 = alpha * R::pgamma(x, alpha + 1., 1., 1, 0) / x;
   res = term1+term2;
   return(res);
 }
@@ -27,13 +28,17 @@ NumericVector igl_gen_vec(NumericVector x, NumericVector alpha)
 }
 
 double igl_gen_D_single(double x, double alpha)
-{ double pgamma(double,double,double);
-  double dgamma(double,double,double);
+{ double pgamma(double, double, double, int, int);
+  double dgamma(double, double, double, int);
   double prod;
   prod = x * alpha;
   if (ISNAN(prod)) { return(prod); }
-  if (x == 0.) { return(-dgamma(0., alpha, 1.) / 2.); }
-  return( -(alpha / (x*x)) * pgamma(x, alpha+1., 1.) );
+  if (x == 0.) {
+    return(-R::dgamma(0., alpha, 1., 0) / 2.);
+  }
+  return(
+    -(alpha / (x*x)) * R::pgamma(x, alpha + 1., 1., 1, 0)
+  );
 }
 
 // x and alpha are vectors of length n
@@ -52,7 +57,7 @@ double igl_gen_inv_algo (double p, double alpha, int mxiter, double eps,
                          double bd, int iprint)
 { double x1,x2,x3,p1,p2,p3,diff1,diff2,diff3;
   double x,best,diff,g,gp,prod;
-  double qgamma(double,double,double);
+  double qgamma(double, double, double, int, int);
   double igl_gen_single(double, double);
   double igl_gen_D_single(double, double);
   int iter;
@@ -62,12 +67,15 @@ double igl_gen_inv_algo (double p, double alpha, int mxiter, double eps,
   if (p == 1.) return(0.);
   x1 = 1. / (pow(1.-p, -1./ alpha) - 1.);
   x2 = alpha / p;
-  x3 = qgamma(p, alpha+1., 1.);
-  p1 = igl_gen_single(x1,alpha);
-  p2 = igl_gen_single(x2,alpha);
-  p3 = igl_gen_single(x3,alpha);
-  diff1 = fabs(p1-p); diff2 = fabs(p2-p); diff3 = fabs(p3-p);
-  x=x1; best=diff1;
+  x3 = R::qgamma(p, alpha + 1., 1., 1, 0);
+  p1 = igl_gen_single(x1, alpha);
+  p2 = igl_gen_single(x2, alpha);
+  p3 = igl_gen_single(x3, alpha);
+  diff1 = fabs(p1 - p);
+  diff2 = fabs(p2 - p);
+  diff3 = fabs(p3 - p);
+  x = x1;
+  best = diff1;
   if(diff2<best) { x=x2; best=diff2; }
   if(diff3<best) { x=x3; best=diff3; }
   if (x == 0.) x = eps;
@@ -132,12 +140,12 @@ NumericVector interp_gen_vec(NumericVector x, NumericVector eta,
 double interp_gen_D1_single (double x, double eta, double alpha)
 { double igl_gen_single(double, double);
   double igl_gen_D_single(double, double);
-  double dgamma(double, double, double);
+  double dgamma(double, double, double, int);
   double res,prod;
   prod = x * eta * alpha;
   if (ISNAN(prod)) return(prod);
   if (x == 0.)
-  { res = - (1. + eta / 2. * dgamma(0., alpha, 1.)); }
+  { res = - (1. + eta / 2. * R::dgamma(0., alpha, 1., 0)); }
   else
   { res = -exp(-x) *
     (igl_gen_single(eta*x, alpha) - eta * igl_gen_D_single(eta*x, alpha)); }
