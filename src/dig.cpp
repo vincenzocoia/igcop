@@ -13,7 +13,6 @@ NumericVector dig_vec(NumericVector u, NumericVector v, NumericVector theta,
   return(out);
 }
 
-// 0<u<1, 0<v<1, theta>0 alpha>0
 double dig_single(double u, double v, double theta, double alpha)
 { double interp_gen_inv_algo (double, double, double, int, double, double, int);
   double interp_kappa_D1_single(double, double, double);

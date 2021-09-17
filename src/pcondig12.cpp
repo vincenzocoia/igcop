@@ -13,7 +13,6 @@ NumericVector pcondig12_vec(NumericVector u, NumericVector v,
   return(out);
 }
 
-// 0<u<1, 0<v<1, theta>0 alpha>0
 double pcondig12_single(double u, double v, double theta, double alpha)
 { double interp_gen_inv_algo (double, double, double, int, double, double, int);
   double interp_gen_D1_single(double, double, double);

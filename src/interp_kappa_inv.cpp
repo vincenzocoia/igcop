@@ -3,11 +3,13 @@ using namespace Rcpp;
 
 // [[Rcpp::export]]
 NumericVector interp_kappa_inv_vec(NumericVector p, NumericVector eta,
-                                   NumericVector alpha, int mxiter, double eps, double bd)
+                                   NumericVector alpha)
 { int n = p.size();
   int i;
   double interp_kappa_inv_algo (double, double, double, int, double, double, int);
   NumericVector inv(n);
+  double eps = 1.e-12, bd = 5.;
+  int mxiter = 20;
   for(i=0;i<n;i++) {
     inv[i] = interp_kappa_inv_algo(p[i],eta[i],alpha[i],mxiter,eps,bd, 0);
   }

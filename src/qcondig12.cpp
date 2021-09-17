@@ -3,12 +3,13 @@ using namespace Rcpp;
 
 // [[Rcpp::export]]
 NumericVector qcondig12_vec(NumericVector p, NumericVector v,
-                            NumericVector theta, NumericVector alpha,
-                            int mxiter, double eps, double bd)
+                            NumericVector theta, NumericVector alpha)
 { int i;
   int n = p.size();
   double qcondig12_algo(double, double, double, double, int, double, double, int);
   NumericVector qu(n);
+  double eps = 1.e-12, bd = 5.;
+  int mxiter = 20;
   for(i=0;i<n;i++) {
     qu[i] = qcondig12_algo(p[i],v[i],theta[i],alpha[i],mxiter,eps,bd, 0);
   }

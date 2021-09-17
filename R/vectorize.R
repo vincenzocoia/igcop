@@ -1,10 +1,10 @@
 y_interp_gen_inv <- function(p, eta, alpha) {
-  a <- vctrs::vec_recycle_common(p, eta, alpha)
-  p <- a[[1]]
-  eta <- a[[2]]
-  alpha <- a[[3]]
-  interp_gen_inv_vec(p, eta, alpha)
-  # formals_to("interp_gen_inv_vec")
+  # a <- vctrs::vec_recycle_common(p, eta, alpha)
+  # p <- a[[1]]
+  # eta <- a[[2]]
+  # alpha <- a[[3]]
+  # interp_gen_inv_vec(p, eta, alpha)
+  formals_to("interp_gen_inv_vec")
 }
 
 y_interp_kappa <- function(x, eta, alpha) {
