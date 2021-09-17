@@ -5,32 +5,16 @@ dig_vec <- function(u, v, theta, alpha) {
     .Call(`_igcop_dig_vec`, u, v, theta, alpha)
 }
 
-dig_single <- function(u, v, theta, alpha) {
-    .Call(`_igcop_dig_single`, u, v, theta, alpha)
-}
-
 igl_gen_vec <- function(x, alpha) {
     .Call(`_igcop_igl_gen_vec`, x, alpha)
-}
-
-igl_gen_single <- function(x, alpha) {
-    .Call(`_igcop_igl_gen_single`, x, alpha)
 }
 
 igl_gen_D_vec <- function(x, alpha) {
     .Call(`_igcop_igl_gen_D_vec`, x, alpha)
 }
 
-igl_gen_D_single <- function(x, alpha) {
-    .Call(`_igcop_igl_gen_D_single`, x, alpha)
-}
-
 igl_gen_inv_vec <- function(p, alpha) {
     .Call(`_igcop_igl_gen_inv_vec`, p, alpha)
-}
-
-igl_gen_inv_algo <- function(p, alpha, mxiter, eps, bd, iprint) {
-    .Call(`_igcop_igl_gen_inv_algo`, p, alpha, mxiter, eps, bd, iprint)
 }
 
 #' Functions generating the IG and IGL copulas
@@ -51,87 +35,35 @@ igl_kappa_vec <- function(x, alpha) {
     .Call(`_igcop_igl_kappa_vec`, x, alpha)
 }
 
-igl_kappa_single <- function(x, alpha) {
-    .Call(`_igcop_igl_kappa_single`, x, alpha)
-}
-
 igl_kappa_D_vec <- function(x, alpha) {
     .Call(`_igcop_igl_kappa_D_vec`, x, alpha)
-}
-
-igl_kappa_D_single <- function(x, alpha) {
-    .Call(`_igcop_igl_kappa_D_single`, x, alpha)
 }
 
 igl_kappa_inv_vec <- function(p, alpha) {
     .Call(`_igcop_igl_kappa_inv_vec`, p, alpha)
 }
 
-igl_kappa_inv_single <- function(p, alpha) {
-    .Call(`_igcop_igl_kappa_inv_single`, p, alpha)
-}
-
 interp_gen_vec <- function(x, eta, alpha) {
     .Call(`_igcop_interp_gen_vec`, x, eta, alpha)
-}
-
-interp_gen_single <- function(x, eta, alpha) {
-    .Call(`_igcop_interp_gen_single`, x, eta, alpha)
-}
-
-interp_gen_D1_vec <- function(x, eta, alpha) {
-    .Call(`_igcop_interp_gen_D1_vec`, x, eta, alpha)
-}
-
-interp_gen_D1_single <- function(x, eta, alpha) {
-    .Call(`_igcop_interp_gen_D1_single`, x, eta, alpha)
 }
 
 interp_gen_inv_vec <- function(p, eta, alpha) {
     .Call(`_igcop_interp_gen_inv_vec`, p, eta, alpha)
 }
 
-interp_gen_inv_algo <- function(p, eta, alpha, mxiter, eps, bd, iprint) {
-    .Call(`_igcop_interp_gen_inv_algo`, p, eta, alpha, mxiter, eps, bd, iprint)
-}
-
 interp_kappa_vec <- function(x, eta, alpha) {
     .Call(`_igcop_interp_kappa_vec`, x, eta, alpha)
-}
-
-interp_kappa_single <- function(x, eta, alpha) {
-    .Call(`_igcop_interp_kappa_single`, x, eta, alpha)
-}
-
-interp_kappa_D1_vec <- function(x, eta, alpha) {
-    .Call(`_igcop_interp_kappa_D1_vec`, x, eta, alpha)
-}
-
-interp_kappa_D1_single <- function(x, eta, alpha) {
-    .Call(`_igcop_interp_kappa_D1_single`, x, eta, alpha)
 }
 
 interp_kappa_inv_vec <- function(p, eta, alpha) {
     .Call(`_igcop_interp_kappa_inv_vec`, p, eta, alpha)
 }
 
-interp_kappa_inv_algo <- function(p, eta, alpha, mxiter, eps, bd, iprint) {
-    .Call(`_igcop_interp_kappa_inv_algo`, p, eta, alpha, mxiter, eps, bd, iprint)
-}
-
 pcondig12_vec <- function(u, v, theta, alpha) {
     .Call(`_igcop_pcondig12_vec`, u, v, theta, alpha)
 }
 
-pcondig12_single <- function(u, v, theta, alpha) {
-    .Call(`_igcop_pcondig12_single`, u, v, theta, alpha)
-}
-
 qcondig12_vec <- function(p, v, theta, alpha) {
     .Call(`_igcop_qcondig12_vec`, p, v, theta, alpha)
-}
-
-qcondig12_algo <- function(p, v, theta, alpha, mxiter, eps, bd, iprint) {
-    .Call(`_igcop_qcondig12_algo`, p, v, theta, alpha, mxiter, eps, bd, iprint)
 }
 

@@ -24,20 +24,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// dig_single
-double dig_single(double u, double v, double theta, double alpha);
-RcppExport SEXP _igcop_dig_single(SEXP uSEXP, SEXP vSEXP, SEXP thetaSEXP, SEXP alphaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type u(uSEXP);
-    Rcpp::traits::input_parameter< double >::type v(vSEXP);
-    Rcpp::traits::input_parameter< double >::type theta(thetaSEXP);
-    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
-    rcpp_result_gen = Rcpp::wrap(dig_single(u, v, theta, alpha));
-    return rcpp_result_gen;
-END_RCPP
-}
 // igl_gen_vec
 NumericVector igl_gen_vec(NumericVector x, NumericVector alpha);
 RcppExport SEXP _igcop_igl_gen_vec(SEXP xSEXP, SEXP alphaSEXP) {
@@ -47,18 +33,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type alpha(alphaSEXP);
     rcpp_result_gen = Rcpp::wrap(igl_gen_vec(x, alpha));
-    return rcpp_result_gen;
-END_RCPP
-}
-// igl_gen_single
-double igl_gen_single(double x, double alpha);
-RcppExport SEXP _igcop_igl_gen_single(SEXP xSEXP, SEXP alphaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type x(xSEXP);
-    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
-    rcpp_result_gen = Rcpp::wrap(igl_gen_single(x, alpha));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -74,18 +48,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// igl_gen_D_single
-double igl_gen_D_single(double x, double alpha);
-RcppExport SEXP _igcop_igl_gen_D_single(SEXP xSEXP, SEXP alphaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type x(xSEXP);
-    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
-    rcpp_result_gen = Rcpp::wrap(igl_gen_D_single(x, alpha));
-    return rcpp_result_gen;
-END_RCPP
-}
 // igl_gen_inv_vec
 NumericVector igl_gen_inv_vec(NumericVector p, NumericVector alpha);
 RcppExport SEXP _igcop_igl_gen_inv_vec(SEXP pSEXP, SEXP alphaSEXP) {
@@ -95,22 +57,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type p(pSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type alpha(alphaSEXP);
     rcpp_result_gen = Rcpp::wrap(igl_gen_inv_vec(p, alpha));
-    return rcpp_result_gen;
-END_RCPP
-}
-// igl_gen_inv_algo
-double igl_gen_inv_algo(double p, double alpha, int mxiter, double eps, double bd, int iprint);
-RcppExport SEXP _igcop_igl_gen_inv_algo(SEXP pSEXP, SEXP alphaSEXP, SEXP mxiterSEXP, SEXP epsSEXP, SEXP bdSEXP, SEXP iprintSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type p(pSEXP);
-    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
-    Rcpp::traits::input_parameter< int >::type mxiter(mxiterSEXP);
-    Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
-    Rcpp::traits::input_parameter< double >::type bd(bdSEXP);
-    Rcpp::traits::input_parameter< int >::type iprint(iprintSEXP);
-    rcpp_result_gen = Rcpp::wrap(igl_gen_inv_algo(p, alpha, mxiter, eps, bd, iprint));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -126,18 +72,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// igl_kappa_single
-double igl_kappa_single(double x, double alpha);
-RcppExport SEXP _igcop_igl_kappa_single(SEXP xSEXP, SEXP alphaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type x(xSEXP);
-    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
-    rcpp_result_gen = Rcpp::wrap(igl_kappa_single(x, alpha));
-    return rcpp_result_gen;
-END_RCPP
-}
 // igl_kappa_D_vec
 NumericVector igl_kappa_D_vec(NumericVector x, NumericVector alpha);
 RcppExport SEXP _igcop_igl_kappa_D_vec(SEXP xSEXP, SEXP alphaSEXP) {
@@ -150,18 +84,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// igl_kappa_D_single
-double igl_kappa_D_single(double x, double alpha);
-RcppExport SEXP _igcop_igl_kappa_D_single(SEXP xSEXP, SEXP alphaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type x(xSEXP);
-    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
-    rcpp_result_gen = Rcpp::wrap(igl_kappa_D_single(x, alpha));
-    return rcpp_result_gen;
-END_RCPP
-}
 // igl_kappa_inv_vec
 NumericVector igl_kappa_inv_vec(NumericVector p, NumericVector alpha);
 RcppExport SEXP _igcop_igl_kappa_inv_vec(SEXP pSEXP, SEXP alphaSEXP) {
@@ -171,18 +93,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type p(pSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type alpha(alphaSEXP);
     rcpp_result_gen = Rcpp::wrap(igl_kappa_inv_vec(p, alpha));
-    return rcpp_result_gen;
-END_RCPP
-}
-// igl_kappa_inv_single
-double igl_kappa_inv_single(double p, double alpha);
-RcppExport SEXP _igcop_igl_kappa_inv_single(SEXP pSEXP, SEXP alphaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type p(pSEXP);
-    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
-    rcpp_result_gen = Rcpp::wrap(igl_kappa_inv_single(p, alpha));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -199,45 +109,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// interp_gen_single
-double interp_gen_single(double x, double eta, double alpha);
-RcppExport SEXP _igcop_interp_gen_single(SEXP xSEXP, SEXP etaSEXP, SEXP alphaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type x(xSEXP);
-    Rcpp::traits::input_parameter< double >::type eta(etaSEXP);
-    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
-    rcpp_result_gen = Rcpp::wrap(interp_gen_single(x, eta, alpha));
-    return rcpp_result_gen;
-END_RCPP
-}
-// interp_gen_D1_vec
-NumericVector interp_gen_D1_vec(NumericVector x, NumericVector eta, NumericVector alpha);
-RcppExport SEXP _igcop_interp_gen_D1_vec(SEXP xSEXP, SEXP etaSEXP, SEXP alphaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type eta(etaSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type alpha(alphaSEXP);
-    rcpp_result_gen = Rcpp::wrap(interp_gen_D1_vec(x, eta, alpha));
-    return rcpp_result_gen;
-END_RCPP
-}
-// interp_gen_D1_single
-double interp_gen_D1_single(double x, double eta, double alpha);
-RcppExport SEXP _igcop_interp_gen_D1_single(SEXP xSEXP, SEXP etaSEXP, SEXP alphaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type x(xSEXP);
-    Rcpp::traits::input_parameter< double >::type eta(etaSEXP);
-    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
-    rcpp_result_gen = Rcpp::wrap(interp_gen_D1_single(x, eta, alpha));
-    return rcpp_result_gen;
-END_RCPP
-}
 // interp_gen_inv_vec
 NumericVector interp_gen_inv_vec(NumericVector p, NumericVector eta, NumericVector alpha);
 RcppExport SEXP _igcop_interp_gen_inv_vec(SEXP pSEXP, SEXP etaSEXP, SEXP alphaSEXP) {
@@ -248,23 +119,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type eta(etaSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type alpha(alphaSEXP);
     rcpp_result_gen = Rcpp::wrap(interp_gen_inv_vec(p, eta, alpha));
-    return rcpp_result_gen;
-END_RCPP
-}
-// interp_gen_inv_algo
-double interp_gen_inv_algo(double p, double eta, double alpha, int mxiter, double eps, double bd, int iprint);
-RcppExport SEXP _igcop_interp_gen_inv_algo(SEXP pSEXP, SEXP etaSEXP, SEXP alphaSEXP, SEXP mxiterSEXP, SEXP epsSEXP, SEXP bdSEXP, SEXP iprintSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type p(pSEXP);
-    Rcpp::traits::input_parameter< double >::type eta(etaSEXP);
-    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
-    Rcpp::traits::input_parameter< int >::type mxiter(mxiterSEXP);
-    Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
-    Rcpp::traits::input_parameter< double >::type bd(bdSEXP);
-    Rcpp::traits::input_parameter< int >::type iprint(iprintSEXP);
-    rcpp_result_gen = Rcpp::wrap(interp_gen_inv_algo(p, eta, alpha, mxiter, eps, bd, iprint));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -281,45 +135,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// interp_kappa_single
-double interp_kappa_single(double x, double eta, double alpha);
-RcppExport SEXP _igcop_interp_kappa_single(SEXP xSEXP, SEXP etaSEXP, SEXP alphaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type x(xSEXP);
-    Rcpp::traits::input_parameter< double >::type eta(etaSEXP);
-    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
-    rcpp_result_gen = Rcpp::wrap(interp_kappa_single(x, eta, alpha));
-    return rcpp_result_gen;
-END_RCPP
-}
-// interp_kappa_D1_vec
-NumericVector interp_kappa_D1_vec(NumericVector x, NumericVector eta, NumericVector alpha);
-RcppExport SEXP _igcop_interp_kappa_D1_vec(SEXP xSEXP, SEXP etaSEXP, SEXP alphaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type eta(etaSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type alpha(alphaSEXP);
-    rcpp_result_gen = Rcpp::wrap(interp_kappa_D1_vec(x, eta, alpha));
-    return rcpp_result_gen;
-END_RCPP
-}
-// interp_kappa_D1_single
-double interp_kappa_D1_single(double x, double eta, double alpha);
-RcppExport SEXP _igcop_interp_kappa_D1_single(SEXP xSEXP, SEXP etaSEXP, SEXP alphaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type x(xSEXP);
-    Rcpp::traits::input_parameter< double >::type eta(etaSEXP);
-    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
-    rcpp_result_gen = Rcpp::wrap(interp_kappa_D1_single(x, eta, alpha));
-    return rcpp_result_gen;
-END_RCPP
-}
 // interp_kappa_inv_vec
 NumericVector interp_kappa_inv_vec(NumericVector p, NumericVector eta, NumericVector alpha);
 RcppExport SEXP _igcop_interp_kappa_inv_vec(SEXP pSEXP, SEXP etaSEXP, SEXP alphaSEXP) {
@@ -330,23 +145,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type eta(etaSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type alpha(alphaSEXP);
     rcpp_result_gen = Rcpp::wrap(interp_kappa_inv_vec(p, eta, alpha));
-    return rcpp_result_gen;
-END_RCPP
-}
-// interp_kappa_inv_algo
-double interp_kappa_inv_algo(double p, double eta, double alpha, int mxiter, double eps, double bd, int iprint);
-RcppExport SEXP _igcop_interp_kappa_inv_algo(SEXP pSEXP, SEXP etaSEXP, SEXP alphaSEXP, SEXP mxiterSEXP, SEXP epsSEXP, SEXP bdSEXP, SEXP iprintSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type p(pSEXP);
-    Rcpp::traits::input_parameter< double >::type eta(etaSEXP);
-    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
-    Rcpp::traits::input_parameter< int >::type mxiter(mxiterSEXP);
-    Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
-    Rcpp::traits::input_parameter< double >::type bd(bdSEXP);
-    Rcpp::traits::input_parameter< int >::type iprint(iprintSEXP);
-    rcpp_result_gen = Rcpp::wrap(interp_kappa_inv_algo(p, eta, alpha, mxiter, eps, bd, iprint));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -364,20 +162,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// pcondig12_single
-double pcondig12_single(double u, double v, double theta, double alpha);
-RcppExport SEXP _igcop_pcondig12_single(SEXP uSEXP, SEXP vSEXP, SEXP thetaSEXP, SEXP alphaSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type u(uSEXP);
-    Rcpp::traits::input_parameter< double >::type v(vSEXP);
-    Rcpp::traits::input_parameter< double >::type theta(thetaSEXP);
-    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
-    rcpp_result_gen = Rcpp::wrap(pcondig12_single(u, v, theta, alpha));
-    return rcpp_result_gen;
-END_RCPP
-}
 // qcondig12_vec
 NumericVector qcondig12_vec(NumericVector p, NumericVector v, NumericVector theta, NumericVector alpha);
 RcppExport SEXP _igcop_qcondig12_vec(SEXP pSEXP, SEXP vSEXP, SEXP thetaSEXP, SEXP alphaSEXP) {
@@ -389,24 +173,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type theta(thetaSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type alpha(alphaSEXP);
     rcpp_result_gen = Rcpp::wrap(qcondig12_vec(p, v, theta, alpha));
-    return rcpp_result_gen;
-END_RCPP
-}
-// qcondig12_algo
-double qcondig12_algo(double p, double v, double theta, double alpha, int mxiter, double eps, double bd, int iprint);
-RcppExport SEXP _igcop_qcondig12_algo(SEXP pSEXP, SEXP vSEXP, SEXP thetaSEXP, SEXP alphaSEXP, SEXP mxiterSEXP, SEXP epsSEXP, SEXP bdSEXP, SEXP iprintSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type p(pSEXP);
-    Rcpp::traits::input_parameter< double >::type v(vSEXP);
-    Rcpp::traits::input_parameter< double >::type theta(thetaSEXP);
-    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
-    Rcpp::traits::input_parameter< int >::type mxiter(mxiterSEXP);
-    Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
-    Rcpp::traits::input_parameter< double >::type bd(bdSEXP);
-    Rcpp::traits::input_parameter< int >::type iprint(iprintSEXP);
-    rcpp_result_gen = Rcpp::wrap(qcondig12_algo(p, v, theta, alpha, mxiter, eps, bd, iprint));
     return rcpp_result_gen;
 END_RCPP
 }
