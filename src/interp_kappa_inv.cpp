@@ -20,6 +20,7 @@ double interp_kappa_inv_algo(double p, double eta, double alpha, int mxiter,
   double igl_kappa_D_single(double p, double alpha);
   double igl_kappa_inv_single(double p, double alpha);
   double interp_kappa_single(double x, double eta, double alpha);
+  double interp_kappa_D1_single(double x, double eta, double alpha);
   double x1,x2, p1,p2, diff1,diff2, x, ik, diff,g,gp,prod, logx;
   int iter;
   prod = alpha * eta * p;

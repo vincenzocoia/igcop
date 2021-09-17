@@ -5,7 +5,7 @@ using namespace Rcpp;
 NumericVector igl_gen_vec(NumericVector x, NumericVector alpha)
 { int n = x.size();
   int i;
-  double igl_gen (double, double);
+  double igl_gen_single (double, double);
   NumericVector out(n);
   for(i=0;i<n;i++)
   { out[i] = igl_gen_single(x[i],alpha[i]); }

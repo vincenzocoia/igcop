@@ -6,7 +6,7 @@ NumericVector dig_vec(NumericVector u, NumericVector v, NumericVector theta,
                       NumericVector alpha)
 { int i;
   int n = u.size();
-  double dig (double, double, double, double);
+  double dig_single (double, double, double, double);
   NumericVector out(n);
   for(i=0;i<n;i++)
   { out[i] = dig_single(u[i],v[i],theta[i],alpha[i]); }
