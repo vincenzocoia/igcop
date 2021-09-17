@@ -1,6 +1,17 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+// [[Rcpp::export]]
+NumericVector interp_gen_D1_vec(NumericVector x, NumericVector eta, NumericVector alpha)
+{ int n = x.size();
+  int i;
+  double interp_gen_D1_single (double, double, double);
+  NumericVector out(n);
+  for(i=0;i<n;i++)
+  { out[i] = interp_gen_D1_single(x[i], eta[i], alpha[i]); }
+  return(out);
+}
+
 double interp_gen_D1_single (double x, double eta, double alpha)
 { double igl_gen_single(double, double);
   double igl_gen_D_single(double, double);

@@ -21,7 +21,6 @@ NumericVector igl_kappa_vec(NumericVector x, NumericVector alpha)
   int i;
   double igl_kappa_single (double, double);
   NumericVector out(n);
-  n = x.size();
   for(i=0;i<n;i++)
   { out[i] = igl_kappa_single(x[i], alpha[i]); }
   return(out);
