@@ -1,6 +1,7 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+//' @rdname generators_vec
 // [[Rcpp::export]]
 NumericVector interp_kappa_inv_vec(NumericVector p, NumericVector eta,
                                    NumericVector alpha)
@@ -16,6 +17,11 @@ NumericVector interp_kappa_inv_vec(NumericVector p, NumericVector eta,
   return(inv);
 }
 
+// The `interp_kappa_inv()` function, with scalar inputs and output.
+// mxiter = the number of Newton Raphson iterations before stopping.
+// eps = precision; steps smaller than this will end the algorithm.
+// bd = truncates step sizes to this value, if exceeded.
+// iprint = 1 for printing messages to screen; 0 for no messages. 
 double interp_kappa_inv_algo(double p, double eta, double alpha, int mxiter,
                              double eps, double bd, int iprint)
 { double igl_kappa_single(double p, double alpha);

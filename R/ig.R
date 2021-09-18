@@ -36,9 +36,9 @@ pcondig21 <- function(v, u, theta, alpha) {
     check_alpha(alpha)
     u <- trim_square(u)
     v <- trim_square(v)
-    y <- y_interp_gen_inv(1 - v, eta = theta, alpha = alpha)
+    y <- interp_gen_inv(1 - v, eta = theta, alpha = alpha)
     eta <- theta * (1 - u)
-    1 - y_interp_kappa(y, eta = eta, alpha = alpha)
+    1 - interp_kappa(y, eta = eta, alpha = alpha)
 }
 
 #' @param p Vector of quantile levels between 0 and 1
@@ -50,8 +50,8 @@ qcondig21 <- function(p, u, theta, alpha) {
     check_alpha(alpha)
     u <- trim_square(u)
     p <- trim_square(p)
-    inner <- y_interp_kappa_inv(1 - p, eta = theta * (1 - u), alpha = alpha)
-    1 - y_interp_gen(inner, eta = theta, alpha = alpha)
+    inner <- interp_kappa_inv(1 - p, eta = theta * (1 - u), alpha = alpha)
+    1 - interp_gen(inner, eta = theta, alpha = alpha)
 }
 
 #' @rdname ig
@@ -99,12 +99,12 @@ logdig <- function(u, v, theta, alpha) {
     check_alpha(alpha)
     u <- trim_square(u)
     v <- trim_square(v)
-    y <- y_interp_gen_inv(1 - v, eta = theta, alpha = alpha)
+    y <- interp_gen_inv(1 - v, eta = theta, alpha = alpha)
     eta2 <- (1 - u) * theta
-    k <- y_igl_kappa(eta2 * y, alpha)
-    kD <- y_igl_kappa_D(eta2 * y, alpha)
-    g <- y_igl_gen(theta * y, alpha)
-    gD <- y_igl_gen_D(theta * y, alpha)
+    k <- igl_kappa(eta2 * y, alpha)
+    kD <- igl_kappa_D(eta2 * y, alpha)
+    g <- igl_gen(theta * y, alpha)
+    gD <- igl_gen_D(theta * y, alpha)
     log(k - eta2 * kD) - log(g - theta * gD)
 }
 
@@ -116,8 +116,8 @@ pig <- function(u, v, theta, alpha) {
     check_alpha(alpha)
     u <- trim_square(u)
     v <- trim_square(v)
-    y <- y_interp_gen_inv(1 - v, eta = theta, alpha = alpha)
-    u + v - 1 + (1 - u) * y_interp_gen(y, eta = theta * (1 - u), alpha = alpha)
+    y <- interp_gen_inv(1 - v, eta = theta, alpha = alpha)
+    u + v - 1 + (1 - u) * interp_gen(y, eta = theta * (1 - u), alpha = alpha)
 }
 
 #' @rdname ig

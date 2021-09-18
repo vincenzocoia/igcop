@@ -1,6 +1,7 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+//' @rdname generators_vec
 // [[Rcpp::export]]
 NumericVector igl_gen_inv_vec(NumericVector p, NumericVector alpha)
 { int n = p.size();
@@ -15,6 +16,11 @@ NumericVector igl_gen_inv_vec(NumericVector p, NumericVector alpha)
   return(inv);
 }
 
+// The `igl_gen_inv()` function, with scalar inputs and output.
+// mxiter = the number of Newton Raphson iterations before stopping.
+// eps = precision; steps smaller than this will end the algorithm.
+// bd = truncates step sizes to this value, if exceeded.
+// iprint = 1 for printing messages to screen; 0 for no messages. 
 double igl_gen_inv_algo (double p, double alpha, int mxiter, double eps,
                          double bd, int iprint)
 { double x1,x2,x3,p1,p2,p3,diff1,diff2,diff3;

@@ -1,6 +1,7 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+//' @rdname ig_cpp_vec
 // [[Rcpp::export]]
 NumericVector qcondig12_vec(NumericVector p, NumericVector v,
                             NumericVector theta, NumericVector alpha)
@@ -16,6 +17,11 @@ NumericVector qcondig12_vec(NumericVector p, NumericVector v,
   return(qu);
 }
 
+// The `qcondig12()` function, with scalar inputs and output.
+// mxiter = the number of Newton Raphson iterations before stopping.
+// eps = precision; steps smaller than this will end the algorithm.
+// bd = truncates step sizes to this value, if exceeded.
+// iprint = 1 for printing messages to screen; 0 for no messages. 
 double qcondig12_algo(double p, double v, double theta, double alpha,
                       int mxiter, double eps, double bd, int iprint)
 { double x0, p0, diff0;

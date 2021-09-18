@@ -1,6 +1,7 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+//' @rdname generators_vec
 // [[Rcpp::export]]
 NumericVector igl_gen_D_vec(NumericVector x, NumericVector alpha)
 { int i;
@@ -12,6 +13,7 @@ NumericVector igl_gen_D_vec(NumericVector x, NumericVector alpha)
   return(out);
 }
 
+// The `igl_gen_D()` function, with scalar inputs and output.
 double igl_gen_D_single(double x, double alpha)
 { double pgamma(double, double, double, int, int);
   double dgamma(double, double, double, int);

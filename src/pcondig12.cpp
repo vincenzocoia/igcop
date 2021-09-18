@@ -1,6 +1,7 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+//' @rdname ig_cpp_vec
 // [[Rcpp::export]]
 NumericVector pcondig12_vec(NumericVector u, NumericVector v,
                             NumericVector theta, NumericVector alpha)
@@ -13,6 +14,7 @@ NumericVector pcondig12_vec(NumericVector u, NumericVector v,
   return(out);
 }
 
+// The `pcondig12()` function, with scalar inputs and output.
 double pcondig12_single(double u, double v, double theta, double alpha)
 { double interp_gen_inv_algo (double, double, double, int, double, double, int);
   double interp_gen_D1_single(double, double, double);

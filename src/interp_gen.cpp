@@ -1,6 +1,7 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+//' @rdname generators_vec
 // [[Rcpp::export]]
 NumericVector interp_gen_vec(NumericVector x, NumericVector eta,
                              NumericVector alpha)
@@ -13,6 +14,7 @@ NumericVector interp_gen_vec(NumericVector x, NumericVector eta,
   return(out);
 }
 
+// The `interp_gen()` function, with scalar inputs and output.
 double interp_gen_single (double x, double eta, double alpha)
 { double igl_gen_single(double, double);
   double res;

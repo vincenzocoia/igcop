@@ -1,6 +1,7 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+//' @rdname generators_vec
 // [[Rcpp::export]]
 NumericVector igl_kappa_inv_vec(NumericVector p, NumericVector alpha)
 { int n = p.size();
@@ -12,6 +13,7 @@ NumericVector igl_kappa_inv_vec(NumericVector p, NumericVector alpha)
   return(out);
 }
 
+// The `igl_kappa_inv()` function, with scalar inputs and output.
 double igl_kappa_inv_single(double p, double alpha)
 { double qgamma(double, double, double, int, int);
   double res,prod;
