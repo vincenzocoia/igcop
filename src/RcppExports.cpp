@@ -176,3 +176,25 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+
+static const R_CallMethodDef CallEntries[] = {
+    {"_igcop_dig_vec", (DL_FUNC) &_igcop_dig_vec, 4},
+    {"_igcop_igl_gen_vec", (DL_FUNC) &_igcop_igl_gen_vec, 2},
+    {"_igcop_igl_gen_D_vec", (DL_FUNC) &_igcop_igl_gen_D_vec, 2},
+    {"_igcop_igl_gen_inv_vec", (DL_FUNC) &_igcop_igl_gen_inv_vec, 2},
+    {"_igcop_igl_kappa_vec", (DL_FUNC) &_igcop_igl_kappa_vec, 2},
+    {"_igcop_igl_kappa_D_vec", (DL_FUNC) &_igcop_igl_kappa_D_vec, 2},
+    {"_igcop_igl_kappa_inv_vec", (DL_FUNC) &_igcop_igl_kappa_inv_vec, 2},
+    {"_igcop_interp_gen_vec", (DL_FUNC) &_igcop_interp_gen_vec, 3},
+    {"_igcop_interp_gen_inv_vec", (DL_FUNC) &_igcop_interp_gen_inv_vec, 3},
+    {"_igcop_interp_kappa_vec", (DL_FUNC) &_igcop_interp_kappa_vec, 3},
+    {"_igcop_interp_kappa_inv_vec", (DL_FUNC) &_igcop_interp_kappa_inv_vec, 3},
+    {"_igcop_pcondig12_vec", (DL_FUNC) &_igcop_pcondig12_vec, 4},
+    {"_igcop_qcondig12_vec", (DL_FUNC) &_igcop_qcondig12_vec, 4},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_igcop(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
+}
