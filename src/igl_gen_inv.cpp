@@ -20,9 +20,8 @@ NumericVector igl_gen_inv_vec(NumericVector p, NumericVector alpha)
 // mxiter = the number of Newton Raphson iterations before stopping.
 // eps = precision; steps smaller than this will end the algorithm.
 // bd = truncates step sizes to this value, if exceeded.
-// iprint = 1 for printing messages to screen; 0 for no messages. 
 double igl_gen_inv_algo (double p, double alpha, int mxiter, double eps,
-                         double bd, int iprint)
+                         double bd)
 { double x1,x2,x3,p1,p2,p3,diff1,diff2,diff3;
   double x,best,diff,g,gp,prod;
   double qgamma(double, double, double, int, int);
@@ -64,7 +63,6 @@ double igl_gen_inv_algo (double p, double alpha, int mxiter, double eps,
     //{ diff/=2.; x += diff; R_CheckUserInterrupt(); }
     //ex = exp(x);
     iter++;
-    if(iprint) Rprintf("%d %f %f\n", iter, x, diff);
     R_CheckUserInterrupt();
   }
   //return(exp(x));

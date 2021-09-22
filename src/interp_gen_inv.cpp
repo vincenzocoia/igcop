@@ -22,9 +22,8 @@ NumericVector interp_gen_inv_vec(NumericVector p, NumericVector eta,
 // mxiter = the number of Newton Raphson iterations before stopping.
 // eps = precision; steps smaller than this will end the algorithm.
 // bd = truncates step sizes to this value, if exceeded.
-// iprint = 1 for printing messages to screen; 0 for no messages. 
 double interp_gen_inv_algo(double p, double eta, double alpha, int mxiter,
-                           double eps, double bd, int iprint)
+                           double eps, double bd)
 { double x1,x2,p1,p2,diff1,diff2;
   double x,diff,g,gp,prod;
   double interp_gen_single(double, double, double);
@@ -58,7 +57,6 @@ double interp_gen_inv_algo(double p, double eta, double alpha, int mxiter,
     //while (fabs(diff) > bd)
     //{ diff/=2.; x += diff; R_CheckUserInterrupt(); }
     iter++;
-    if(iprint) Rprintf("%d %f %f\n", iter, x, diff);
     R_CheckUserInterrupt();
   }
   //return(exp(x));

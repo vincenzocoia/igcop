@@ -21,9 +21,8 @@ NumericVector qcondig12_vec(NumericVector p, NumericVector v,
 // mxiter = the number of Newton Raphson iterations before stopping.
 // eps = precision; steps smaller than this will end the algorithm.
 // bd = truncates step sizes to this value, if exceeded.
-// iprint = 1 for printing messages to screen; 0 for no messages. 
 double qcondig12_algo(double p, double v, double theta, double alpha,
-                      int mxiter, double eps, double bd, int iprint)
+                      int mxiter, double eps, double bd)
 { double x0, p0, diff0;
   double mindiff, x, diff, ex, g, gp, prod;
   int i,iter;
@@ -66,7 +65,6 @@ double qcondig12_algo(double p, double v, double theta, double alpha,
     //while(fabs(diff) > bd)
     //{ diff /= 2.;  x += diff; R_CheckUserInterrupt(); }
     iter++;
-    if(iprint) Rprintf("%d %f %f\n", iter, x, diff);
     R_CheckUserInterrupt();
   }
   return(exp(-x));

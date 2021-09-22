@@ -21,9 +21,8 @@ NumericVector interp_kappa_inv_vec(NumericVector p, NumericVector eta,
 // mxiter = the number of Newton Raphson iterations before stopping.
 // eps = precision; steps smaller than this will end the algorithm.
 // bd = truncates step sizes to this value, if exceeded.
-// iprint = 1 for printing messages to screen; 0 for no messages. 
 double interp_kappa_inv_algo(double p, double eta, double alpha, int mxiter,
-                             double eps, double bd, int iprint)
+                             double eps, double bd)
 { double igl_kappa_single(double p, double alpha);
   double igl_kappa_D_single(double p, double alpha);
   double igl_kappa_inv_single(double p, double alpha);
@@ -64,7 +63,6 @@ double interp_kappa_inv_algo(double p, double eta, double alpha, int mxiter,
     //while(fabs(diff) > bd)
     //{ diff /= 2.;  x += diff; R_CheckUserInterrupt(); }
     iter++;
-    if(iprint) Rprintf("%d %f %f\n", iter, x, diff);
     R_CheckUserInterrupt();
   }
   return(x);
