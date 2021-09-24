@@ -17,3 +17,4 @@ test_that("exp(log IGL density) returns the IGL density", {
     )
   }
 })
+

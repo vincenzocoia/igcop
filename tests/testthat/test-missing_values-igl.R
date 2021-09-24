@@ -21,6 +21,7 @@ test_that("digl() handles missingness appropriately", {
   args <- expand.grid(u = u_na_nan,
                       v = u_na_nan,
                       alpha = u_na_nan)
+  digl(args$u, args$v, args$alpha)
   eval <- do.call(digl, args = args)
   expect_true(all(is.na(eval[-1])))
   expect_false(is.na(eval[1]))
@@ -78,7 +79,7 @@ test_that("pcondigl12() handles missingness appropriately", {
 })
 
 test_that("qcondigl12() handles missingness appropriately", {
-  args <- expand.grid(tau = u_na_nan,
+  args <- expand.grid(p = u_na_nan,
                       v = u_na_nan,
                       alpha = u_na_nan)
   eval <- do.call(qcondigl12, args = args)
@@ -93,7 +94,7 @@ test_that("qcondigl12() handles missingness appropriately", {
 })
 
 test_that("qcondigl21() handles missingness appropriately", {
-  args <- expand.grid(tau = u_na_nan,
+  args <- expand.grid(p = u_na_nan,
                       u = u_na_nan,
                       alpha = u_na_nan)
   eval <- do.call(qcondigl21, args = args)

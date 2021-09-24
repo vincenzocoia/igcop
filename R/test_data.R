@@ -2,15 +2,14 @@
 #'
 #' Internal data used in the test scripts. `.u` and `.v` are vectors of
 #' matching length containing values between 0 and 1 and reasonably cover
-#' the unit square. `.tau` is the same as `.u`, and is useful for
-#' semantics. `.cpar` is a list of IG copula parameter pairs
+#' the unit square. `.cpar` is a list of IG copula parameter pairs
 #' `c(theta, alpha)`, and `.theta` and `.alpha` are the corresponding
 #' (unique) individual values.
 #' @format Everything is a numeric vector, except `.cpar`, which is a list
-#' of bivariate numeric vectors. `.u`, `.v`, and `.tau` are of matching
+#' of bivariate numeric vectors. `.u` and `.v` are of matching
 #' length; the rest are not intended to have matching lengths.
 #' @rdname test_data
-.u <- c(10^(-(5:1)), 2:8/10, 1 - 10^(-(1:5)))
+.u <- c(10 ^ (-(5:1)), 2:8 / 10, 1 - 10 ^ (-(1:5)))
 
 #' @rdname test_data
 .v <- .u[c(4, 16, 17, 9, 10, 6, 1, 14, 11, 13, 5, 3, 7, 8, 15, 2, 12)]
@@ -20,8 +19,8 @@
   c(2.5, 12.3), # nearly independent
   c(2.5, 4.3), # weak dependence spear=.040
   c(2.5, 2.3), # spear=.145
-  c(2.5, 0.3), # spear=.244##
-  c(2.5, 0.1), # unreliable (for small k)###
+  c(2.5, 0.3), # spear=.244
+  c(2.5, 0.1),
   c(5.5,3.1),  # spear=.231
   c(8.5,3.1),  # spear=.330
   c(15.5,3.1), # spear=.462
@@ -38,10 +37,10 @@
   c(1200.5,14.1), # spear=.883
   c(2400.5,14.1), # spear=.899
   c(2400.5,34.1), # spear=.918
-  c(2400.5,54.1), # spear=.??? unstable for rhoS
+  c(2400.5,54.1), # spear=.???
   c(2400.5,44.1), # spear=.914
   c(4800.5,34.1), # spear=.937
-  c(9600.5,34.1) # spear=.947  # try inference with this parameter vector
+  c(9600.5,34.1) # spear=.947
 )
 
 #' @rdname test_data
@@ -49,6 +48,3 @@
 
 #' @rdname test_data
 .alpha <- unique(vapply(.cpar, `[`, i = 2L, FUN.VALUE = numeric(1L)))
-
-#' @rdname test_data
-.tau <- .u

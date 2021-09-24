@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">igcop</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -122,15 +122,15 @@
 
     <pre class="usage"><span class='fu'>pcondig21</span><span class='op'>(</span><span class='va'>v</span>, <span class='va'>u</span>, <span class='va'>theta</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
-<span class='fu'>qcondig21</span><span class='op'>(</span><span class='va'>tau</span>, <span class='va'>u</span>, <span class='va'>theta</span>, <span class='va'>alpha</span><span class='op'>)</span>
+<span class='fu'>qcondig21</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>u</span>, <span class='va'>theta</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
-<span class='fu'>qcondig</span><span class='op'>(</span><span class='va'>tau</span>, <span class='va'>u</span>, <span class='va'>theta</span>, <span class='va'>alpha</span><span class='op'>)</span>
+<span class='fu'>qcondig</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>u</span>, <span class='va'>theta</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
 <span class='fu'>pcondig</span><span class='op'>(</span><span class='va'>v</span>, <span class='va'>u</span>, <span class='va'>theta</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
-<span class='fu'>qcondig12</span><span class='op'>(</span><span class='va'>tau</span>, <span class='va'>v</span>, <span class='va'>theta</span>, <span class='va'>alpha</span>, mxiter <span class='op'>=</span> <span class='fl'>80</span>, eps <span class='op'>=</span> <span class='fl'>1e-12</span>, bd <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
-
 <span class='fu'>pcondig12</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, <span class='va'>theta</span>, <span class='va'>alpha</span><span class='op'>)</span>
+
+<span class='fu'>qcondig12</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>v</span>, <span class='va'>theta</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
 <span class='fu'>dig</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, <span class='va'>theta</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
@@ -157,24 +157,9 @@ and second copula variables.</p></td>
       <td><p>Parameter of the IG copula family. Vectorized; &gt;0.</p></td>
     </tr>
     <tr>
-      <th>tau</th>
+      <th>p</th>
       <td><p>Vector of quantile levels between 0 and 1
 to evaluate a quantile function at.</p></td>
-    </tr>
-    <tr>
-      <th>mxiter</th>
-      <td><p>Maximum number of iterations to run the Newton-Raphson
-algorithm when computing inverse. Positive integer, default 20.</p></td>
-    </tr>
-    <tr>
-      <th>eps</th>
-      <td><p>The Newton-Raphson algorithm for computing an inverse will
-stop if the step size is less than this small number.</p></td>
-    </tr>
-    <tr>
-      <th>bd</th>
-      <td><p>The largest acceptable step size in the Newton-Raphson
-algorithm. Step size is reduced if it reaches this large.</p></td>
     </tr>
     <tr>
       <th>n</th>
@@ -223,7 +208,10 @@ variable 2 given 1.</p>
 #&gt; </span><span style='color: #555555;'> 7</span><span> 0.051</span><span style='text-decoration: underline;'>4</span><span> 0.600 
 #&gt; </span><span style='color: #555555;'> 8</span><span> 0.530  0.944 
 #&gt; </span><span style='color: #555555;'> 9</span><span> 0.696  0.185 
-#&gt; </span><span style='color: #555555;'>10</span><span> 0.689  0.224 </div></span></pre>
+#&gt; </span><span style='color: #555555;'>10</span><span> 0.689  0.224 </div><div class='input'>
+<span class='co'># log density available for extra precision</span>
+<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='fu'>dig</span><span class='op'>(</span><span class='fl'>0.1</span>, <span class='fl'>0.1</span>, <span class='fl'>2.5</span>, <span class='fl'>12.3</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>==</span> <span class='fu'>logdig</span><span class='op'>(</span><span class='fl'>0.1</span>, <span class='fl'>0.1</span>, <span class='fl'>2.5</span>, <span class='fl'>12.3</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] FALSE</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

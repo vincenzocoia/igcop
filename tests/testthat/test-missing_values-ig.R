@@ -71,7 +71,7 @@ test_that("pcondig12() handles missingness appropriately", {
 })
 
 test_that("qcondig12() handles missingness appropriately", {
-  args <- expand.grid(tau = u_na_nan,
+  args <- expand.grid(p = u_na_nan,
                       v = u_na_nan,
                       theta = u_na_nan,
                       alpha = u_na_nan)
@@ -88,7 +88,7 @@ test_that("qcondig12() handles missingness appropriately", {
 })
 
 test_that("qcondig21() handles missingness appropriately", {
-  args <- expand.grid(tau = u_na_nan,
+  args <- expand.grid(p = u_na_nan,
                       u = u_na_nan,
                       theta = u_na_nan,
                       alpha = u_na_nan)

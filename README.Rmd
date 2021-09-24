@@ -29,10 +29,10 @@ knitr::opts_chunk$set(
 # igcop <img src="man/figures/igcop-240x278.png" align="right" height="150" />
 
 <!-- badges: start -->
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![CRAN status](https://www.r-pkg.org/badges/version/igcop)](https://CRAN.R-project.org/package=igcop)
 [![Codecov test coverage](https://codecov.io/gh/vincenzocoia/igcop/branch/master/graph/badge.svg)](https://codecov.io/gh/vincenzocoia/igcop?branch=master)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://cran.r-project.org/web/licenses/MIT)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
 The goal of igcop is to provide computational tools for the Integrated Gamma (IG) and Integrated Gamma Limit (IGL) copula families.
@@ -109,5 +109,75 @@ Generating 5 values from an IG copula:
 ```{r}
 rig(5, theta = 5, alpha = 4)
 ```
+
+## Function Nomenclature and Dependencies Map
+
+The copula quantities are the top-level functions, and are the only ones made publicly available. These include:
+
+- IG copula: `pig()`, (`log`)`dig()`, `rig()`, `qcondig()`(`21`), `pcondig()`(`21`), `qcondig12()`, `pcondig12()`.
+- IGL copula: `pigl()`, (`log`)`digl()`, `rigl()`, `qcondigl()`(`21`), `pcondigl()`(`21`), `qcondigl12()`, `pcondigl12()`.
+
+Of these, only `qcondig12()` has a direct link to a C function.
+
+All other functions are internal, and directly link to C. Using the notation of Coia [-@coia2017], the four main functions are: 
+
+- $\Psi_k$ is `y_igl_gen()` in R,
+- $\kappa_k$ is `y_igl_kappa()` in R,
+- $H_{\Psi_k}$ is `y_interp_gen()` in R, and
+- $H_{\kappa_k}$ is `y_interp_kappa()` in R
+
+Related functions have the following suffixes:
+
+- `_inv`: function inverse.
+- `_D`: function derivative.
+- `_D1`: function derivative with respect to first argument.
+
+Some Gamma distribution quantities are stored in-house as well, such as `dgamma`, `pgamma`, and `qgamma`, along with some helper functions like `fmin2`.
+
+There are three functions involved when linking to C:
+
+1. The R function first ensures all inputs are vectors of the same length (using `vctrs::vec_recycle_common()`), and passes the inputs to a void C routine via `.C()`.
+2. The void C routine loops along each entry of the vectors, passing the values into a bottom-level C function.
+3. The bottom-level C function computes the desired quantity on scalar inputs.
+
+Map of dependencies among functions:
+
+- `igl_gen` : `pgamma`
+- `igl_gen_D` : `pgamma`
+- `igl_gen_DD` : `pgamma` `dgamma` 
+- `igl_gen_inv_algo` : `qgamma` `igl_gen` `igl_gen_D`
+- `igl_gen_inv` : `igl_gen_inv_algo`
+- `interp_gen` : `igl_gen`
+- `interp_gen_D1` : `igl_gen`
+- `interp_gen_inv_algo` : `igl_gen_inv_algo` `interp_gen` `interp_gen_D1`
+- `interp_gen_inv` : `interp_gen_inv_algo`
+
+- `igl_kappa` : `pgamma`
+- `igl_kappa_D` : `dgamma`
+- `igl_kappa_inv` : `qgamma`
+- `interp_kappa` : `igl_kappa`
+- `interp_kappa_D1` : `igl_kappa` `igl_kappa_D`
+- `interp_kappa_inv_algo` : `igl_kappa_inv` `interp_kappa` `igl_kappa` `igl_kappa_D` `interp_kappa_inv`
+- `interp_kappa_inv` : `interp_kappa_inv_algo`
+
+
+- `pcondig21` : `interp_gen_inv` `interp_kappa`
+- `qcondig21` : `interp_kappa_inv`  `interp_gen`
+- `qcondig12_algo` :  `interp_gen_inv` `igl_gen` `igl_gen_D` `pcondig12`
+- `qcondig12` : `qcondig12_algo`
+- `pcondig12` : `interp_gen_inv` `interp_gen_D1`
+- `dig` : `interp_gen_inv` `interp_kappa_D1` `interp_gen_D1`
+- `logdig`  : `interp_gen_inv` `igl_kappa` `igl_kappa_D` `igl_gen` `igl_gen_D`
+- `pig` : `interp_gen_inv`
+- `rig` : `qcondig21`
+
+- `qcondigl21` : `igl_kappa_inv`
+- `pcondigl21` : `igl_gen_inv` `igl_kappa`
+- `pcondigl12` : `igl_gen_inv` `igl_gen_D`
+- `qcondigl12` : `igl_gen_inv` `pgamma` `qgamma`
+- `digl` : `igl_gen_inv` `igl_kappa_D` `igl_gen_D`
+- `pigl` : `igl_gen_inv` `igl_gen`
+- `rigl` : `qcondigl21`
+
 
 ## References

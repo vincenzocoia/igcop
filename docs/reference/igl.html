@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">igcop</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -120,17 +120,17 @@
     <p>Functions related to the IGL copula family, denoted  by <code>'igl'</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>qcondigl</span><span class='op'>(</span><span class='va'>tau</span>, <span class='va'>u</span>, <span class='va'>alpha</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>qcondigl</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>u</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
 <span class='fu'>pcondigl</span><span class='op'>(</span><span class='va'>v</span>, <span class='va'>u</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
-<span class='fu'>qcondigl21</span><span class='op'>(</span><span class='va'>tau</span>, <span class='va'>u</span>, <span class='va'>alpha</span><span class='op'>)</span>
+<span class='fu'>qcondigl21</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>u</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
 <span class='fu'>pcondigl21</span><span class='op'>(</span><span class='va'>v</span>, <span class='va'>u</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
 <span class='fu'>pcondigl12</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
-<span class='fu'>qcondigl12</span><span class='op'>(</span><span class='va'>tau</span>, <span class='va'>v</span>, <span class='va'>alpha</span><span class='op'>)</span>
+<span class='fu'>qcondigl12</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>v</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
 <span class='fu'>digl</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
@@ -144,7 +144,7 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>tau</th>
+      <th>p</th>
       <td><p>Vector of quantile levels between 0 and 1 to
 evaluate a quantile function at.</p></td>
     </tr>
@@ -172,7 +172,7 @@ IGL copula family.</p></td>
     <p>Inputting two vectors greater than length 1 is allowed, if they're
 the same length.
 Also, <code>qcondigl21</code> and <code>pcondigl21</code> are the same as
-<code>qcondigl</code> and <code>pcondigl</code> -- they're the distributions of
+<code>qcondigl</code> and <code>pcondigl</code> -- they are the distributions of
 variable 2 given 1.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -190,8 +190,8 @@ variable 2 given 1.</p>
 #&gt;  [7] 0.001353188 1.000000000 0.141933361 0.999998899</div><div class='input'><span class='fu'>qcondigl21</span><span class='op'>(</span><span class='va'>v</span>, <span class='va'>u</span>, alpha <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;  [1] 0.1204253 0.1584193 0.6289526 0.8898574 0.3855237 0.8922194 0.9535514
 #&gt;  [8] 0.8484575 0.5537787 0.3055268</div><div class='input'><span class='fu'>pcondigl12</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, alpha <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] 5.529694e-01 7.632423e-01 2.905738e-01 9.999573e-01 1.392047e-04
-#&gt;  [6] 9.997266e-01 9.997780e-01 0.000000e+00 9.216055e-01 3.539984e-06</div><div class='input'><span class='fu'>qcondigl12</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, alpha <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1]  5.529694e-01  7.632423e-01  2.905738e-01  9.999573e-01  1.392047e-04
+#&gt;  [6]  9.997266e-01  9.997780e-01 -2.220446e-16  9.216055e-01  3.539984e-06</div><div class='input'><span class='fu'>qcondigl12</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, alpha <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;  [1] 0.1253460 0.1627296 0.6762018 0.6168242 0.6525954 0.6750200 0.8416717
 #&gt;  [8] 0.9923653 0.4208920 0.5751476</div><div class='input'><span class='fu'>rigl</span><span class='op'>(</span><span class='fl'>10</span>, alpha <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 10 x 2</span><span>

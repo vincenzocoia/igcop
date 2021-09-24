@@ -7,11 +7,10 @@
 \alias{.cpar}
 \alias{.theta}
 \alias{.alpha}
-\alias{.tau}
 \title{Test data}
 \format{
 Everything is a numeric vector, except \code{.cpar}, which is a list
-of bivariate numeric vectors. \code{.u}, \code{.v}, and \code{.tau} are of matching
+of bivariate numeric vectors. \code{.u} and \code{.v} are of matching
 length; the rest are not intended to have matching lengths.
 
 An object of class \code{numeric} of length 17.
@@ -21,8 +20,6 @@ An object of class \code{list} of length 25.
 An object of class \code{numeric} of length 14.
 
 An object of class \code{numeric} of length 11.
-
-An object of class \code{numeric} of length 17.
 }
 \usage{
 .u
@@ -34,14 +31,11 @@ An object of class \code{numeric} of length 17.
 .theta
 
 .alpha
-
-.tau
 }
 \description{
 Internal data used in the test scripts. \code{.u} and \code{.v} are vectors of
 matching length containing values between 0 and 1 and reasonably cover
-the unit square. \code{.tau} is the same as \code{.u}, and is useful for
-semantics. \code{.cpar} is a list of IG copula parameter pairs
+the unit square. \code{.cpar} is a list of IG copula parameter pairs
 \code{c(theta, alpha)}, and \code{.theta} and \code{.alpha} are the corresponding
 (unique) individual values.
 }

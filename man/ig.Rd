@@ -5,8 +5,8 @@
 \alias{qcondig21}
 \alias{qcondig}
 \alias{pcondig}
-\alias{qcondig12}
 \alias{pcondig12}
+\alias{qcondig12}
 \alias{dig}
 \alias{logdig}
 \alias{pig}
@@ -15,15 +15,15 @@
 \usage{
 pcondig21(v, u, theta, alpha)
 
-qcondig21(tau, u, theta, alpha)
+qcondig21(p, u, theta, alpha)
 
-qcondig(tau, u, theta, alpha)
+qcondig(p, u, theta, alpha)
 
 pcondig(v, u, theta, alpha)
 
-qcondig12(tau, v, theta, alpha, mxiter = 80, eps = 1e-12, bd = 5)
-
 pcondig12(u, v, theta, alpha)
+
+qcondig12(p, v, theta, alpha)
 
 dig(u, v, theta, alpha)
 
@@ -41,17 +41,8 @@ and second copula variables.}
 
 \item{alpha}{Parameter of the IG copula family. Vectorized; >0.}
 
-\item{tau}{Vector of quantile levels between 0 and 1
+\item{p}{Vector of quantile levels between 0 and 1
 to evaluate a quantile function at.}
-
-\item{mxiter}{Maximum number of iterations to run the Newton-Raphson
-algorithm when computing inverse. Positive integer, default 20.}
-
-\item{eps}{The Newton-Raphson algorithm for computing an inverse will
-stop if the step size is less than this small number.}
-
-\item{bd}{The largest acceptable step size in the Newton-Raphson
-algorithm. Step size is reduced if it reaches this large.}
 
 \item{n}{Positive integer. Number of observations to randomly draw.}
 }
@@ -79,4 +70,7 @@ qcondig21(v, u, theta = 3, alpha = 6)
 pcondig12(u, v, theta = 3, alpha = 6)
 qcondig12(u, v, theta = 3, alpha = 6)
 rig(10, theta = 3, alpha = 3)
+
+# log density available for extra precision
+log(dig(0.1, 0.1, 2.5, 12.3)) == logdig(0.1, 0.1, 2.5, 12.3)
 }

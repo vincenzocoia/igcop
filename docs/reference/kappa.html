@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Kappa version of generating function — igl_kappa • igcop</title>
+<title>Kappa version of generating function — y_igl_kappa • igcop</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Kappa version of generating function — igl_kappa" />
+<meta property="og:title" content="Kappa version of generating function — y_igl_kappa" />
 <meta property="og:description" content="The kappa version of a generating function \(\psi\) is
 defined as \(\kappa(x) = \psi(x) + x \psi'(x)\).
 igl_kappa takes \(\psi\) to be the IGL generating
@@ -75,7 +75,7 @@ function, igl_gen()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">igcop</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0.9000</span>
       </span>
     </div>
 
@@ -123,14 +123,14 @@ function, igl_gen()." />
     <p>The kappa version of a generating function \(\psi\) is
 defined as \(\kappa(x) = \psi(x) + x \psi'(x)\).
 <code>igl_kappa</code> takes \(\psi\) to be the IGL generating
-function, <code><a href='igl_gen.html'>igl_gen()</a></code>.</p>
+function, <code>igl_gen()</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>igl_kappa</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>alpha</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>y_igl_kappa</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
-<span class='fu'>igl_kappa_D</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>alpha</span><span class='op'>)</span>
+<span class='fu'>y_igl_kappa_D</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
-<span class='fu'>igl_kappa_inv</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>alpha</span><span class='op'>)</span></pre>
+<span class='fu'>y_igl_kappa_inv</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>alpha</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -141,17 +141,19 @@ function, <code><a href='igl_gen.html'>igl_gen()</a></code>.</p>
     </tr>
     <tr>
       <th>alpha</th>
-      <td><p>Parameter of the IGL generating function, <code><a href='igl_gen.html'>igl_gen()</a></code>, &gt;0. Vectorized.</p></td>
+      <td><p>Parameter of the IGL generating function, <code>igl_gen()</code>, &gt;0.
+Vectorized.</p></td>
     </tr>
     <tr>
       <th>p</th>
-      <td><p>Numeric argument of the inverse function. Vectorized. Between 0 and 1.</p></td>
+      <td><p>Numeric argument of the inverse function. Vectorized.
+Between 0 and 1, inclusive.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code>igl_kappa_D()</code> is the derivative.</p>
+    <p><code>igl_kappa_D()</code> is the derivative; <code>igl_kappa_inv()</code> is the inverse.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
