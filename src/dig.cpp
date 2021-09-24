@@ -42,7 +42,7 @@ double dig_single(double u, double v, double theta, double alpha)
   double interp_gen_D1_single(double, double, double);
   double eps,bd,y,pdf;
   int mxiter;
-  mxiter=20; eps=1.e-12; bd=5.;
+  mxiter=25; eps=1.e-13; bd=5.;
   y = interp_gen_inv_algo(1.-v, theta, alpha, mxiter, eps, bd);
   pdf = interp_kappa_D1_single(y, (1.-u)*theta, alpha) /
     interp_gen_D1_single(y, theta, alpha);
