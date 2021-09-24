@@ -7,12 +7,12 @@ NumericVector interp_gen_inv_vec(NumericVector p, NumericVector eta,
                                  NumericVector alpha)
 { int i;
   int n = p.size();
-  double interp_gen_inv_algo (double, double, double, int, double, double, int);
+  double interp_gen_inv_algo (double, double, double, int, double, double);
   NumericVector inv(n);
-  double eps = 1.e-12, bd = 5.;
-  int mxiter = 20;
+  double eps = 1.e-13, bd = 5.;
+  int mxiter = 25;
   for(i=0;i<n;i++) {
-    inv[i] = interp_gen_inv_algo(p[i],eta[i],alpha[i],mxiter,eps,bd, 0);
+    inv[i] = interp_gen_inv_algo(p[i],eta[i],alpha[i],mxiter,eps,bd);
     R_CheckUserInterrupt();
   }
   return(inv);
@@ -28,14 +28,14 @@ double interp_gen_inv_algo(double p, double eta, double alpha, int mxiter,
   double x,diff,g,gp,prod;
   double interp_gen_single(double, double, double);
   double interp_gen_D1_single(double, double, double);
-  double igl_gen_inv_algo (double, double, int, double, double, int);
+  double igl_gen_inv_algo (double, double, int, double, double);
   int iter;
   prod = alpha * eta * p;
   if (ISNAN(prod)) return(prod);
   if (p <= 0.) return(DBL_MAX); // Inf
   if (p >= 1.) return(0.);
   x1 = -log(p);
-  x2 = igl_gen_inv_algo(p, alpha, mxiter, eps, bd, 0) / eta;
+  x2 = igl_gen_inv_algo(p, alpha, mxiter, eps, bd) / eta;
   p1 = interp_gen_single(x1, eta, alpha);
   p2 = interp_gen_single(x2, eta, alpha);
   diff1 = fabs(p1-p); diff2 = fabs(p2-p);

@@ -6,12 +6,12 @@ using namespace Rcpp;
 NumericVector igl_gen_inv_vec(NumericVector p, NumericVector alpha)
 { int n = p.size();
   int i;
-  double igl_gen_inv_algo (double, double, int, double, double, int);
+  double igl_gen_inv_algo (double, double, int, double, double);
   NumericVector inv(n);
-  double eps = 1.e-12, bd = 5.;
-  int mxiter = 20;
+  double eps = 1.e-13, bd = 5.;
+  int mxiter = 25;
   for(i=0;i<n;i++) {
-    inv[i] = igl_gen_inv_algo(p[i],alpha[i],mxiter,eps,bd, 0);
+    inv[i] = igl_gen_inv_algo(p[i],alpha[i],mxiter,eps,bd);
   }
   return(inv);
 }

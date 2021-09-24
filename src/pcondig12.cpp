@@ -16,12 +16,12 @@ NumericVector pcondig12_vec(NumericVector u, NumericVector v,
 
 // The `pcondig12()` function, with scalar inputs and output.
 double pcondig12_single(double u, double v, double theta, double alpha)
-{ double interp_gen_inv_algo (double, double, double, int, double, double, int);
+{ double interp_gen_inv_algo (double, double, double, int, double, double);
   double interp_gen_D1_single(double, double, double);
   double eps,bd,y,pcond;
   int mxiter;
   mxiter=20; eps=1.e-12; bd=5.;
-  y = interp_gen_inv_algo(1.-v, theta, alpha, mxiter, eps, bd, 0);
+  y = interp_gen_inv_algo(1.-v, theta, alpha, mxiter, eps, bd);
   pcond = 1. - (1.-u) *
     interp_gen_D1_single(y, theta*(1.-u), alpha) /
       interp_gen_D1_single(y, theta, alpha);

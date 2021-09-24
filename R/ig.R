@@ -34,8 +34,6 @@
 pcondig21 <- function(v, u, theta, alpha) {
     check_theta(theta)
     check_alpha(alpha)
-    u <- trim_square(u)
-    v <- trim_square(v)
     y <- interp_gen_inv(1 - v, eta = theta, alpha = alpha)
     eta <- theta * (1 - u)
     1 - interp_kappa(y, eta = eta, alpha = alpha)
@@ -48,8 +46,6 @@ pcondig21 <- function(v, u, theta, alpha) {
 qcondig21 <- function(p, u, theta, alpha) {
     check_theta(theta)
     check_alpha(alpha)
-    u <- trim_square(u)
-    p <- trim_square(p)
     inner <- interp_kappa_inv(1 - p, eta = theta * (1 - u), alpha = alpha)
     1 - interp_gen(inner, eta = theta, alpha = alpha)
 }
@@ -67,8 +63,6 @@ pcondig <- pcondig21
 pcondig12 <- function(u, v, theta, alpha) {
   check_theta(theta)
   check_alpha(alpha)
-  u <- trim_square(u)
-  v <- trim_square(v)
   formals_to("pcondig12_vec")
 }
 
@@ -77,8 +71,6 @@ pcondig12 <- function(u, v, theta, alpha) {
 qcondig12 <- function(p, v, theta, alpha) {
   check_theta(theta)
   check_alpha(alpha)
-  p <- trim_square(p)
-  v <- trim_square(v)
   formals_to("qcondig12_vec")
 }
 
@@ -87,8 +79,6 @@ qcondig12 <- function(p, v, theta, alpha) {
 dig <- function(u, v, theta, alpha) {
   check_theta(theta)
   check_alpha(alpha)
-  u <- trim_square(u)
-  v <- trim_square(v)
   formals_to("dig_vec")
 }
 
@@ -97,8 +87,6 @@ dig <- function(u, v, theta, alpha) {
 logdig <- function(u, v, theta, alpha) {
     check_theta(theta)
     check_alpha(alpha)
-    u <- trim_square(u)
-    v <- trim_square(v)
     y <- interp_gen_inv(1 - v, eta = theta, alpha = alpha)
     eta2 <- (1 - u) * theta
     k <- igl_kappa(eta2 * y, alpha)
@@ -114,8 +102,6 @@ logdig <- function(u, v, theta, alpha) {
 pig <- function(u, v, theta, alpha) {
     check_theta(theta)
     check_alpha(alpha)
-    u <- trim_square(u)
-    v <- trim_square(v)
     y <- interp_gen_inv(1 - v, eta = theta, alpha = alpha)
     u + v - 1 + (1 - u) * interp_gen(y, eta = theta * (1 - u), alpha = alpha)
 }
@@ -127,8 +113,6 @@ rig <- function(n, theta, alpha) {
     check_alpha(alpha)
     u <- stats::runif(n)
     p <- stats::runif(n)
-    u <- trim_square(u)
-    p <- trim_square(p)
     v <- qcondig(p, u, theta = theta, alpha = alpha)
     v_na <- vctrs::vec_slice(v, is.na(v))
     u <- vctrs::vec_assign(u, is.na(v), v_na)

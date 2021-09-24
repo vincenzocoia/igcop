@@ -9,18 +9,18 @@
 #' need to be vectors of the same length.
 #' These functions are called by the R functions of the
 #' same name, without the `_vec` suffix.
-#' 
+#'
 #' @param u,v Copula arguments. Vector of values between 0 and 1.
 #' @param p Function inverse argument. Vector of values between 0 and 1.
 #' @param theta,alpha IG copula parameters. Vector of positive values.
 #' @note If calling these functions manually, make sure each input
-#' are vectors of a common length. 
+#' are vectors of a common length.
 #' @details The `qcondig12()` function needs its own Newton
-#' Raphson algorithm. It also needs access to some version 
+#' Raphson algorithm. It also needs access to some version
 #' of `pcondig12()` and `dig()`. So, these three functions
 #' are coded up in C++, each with a scalar and vector pair
-#' of functions. 
-#' @seealso `dig()`, `pcondig12()`, and `qcondig12()`; 
+#' of functions.
+#' @seealso `dig()`, `pcondig12()`, and `qcondig12()`;
 #' and `igl_gen_vec()` and family.
 #' @rdname ig_cpp_vec
 dig_vec <- function(u, v, theta, alpha) {

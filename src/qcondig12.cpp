@@ -7,12 +7,12 @@ NumericVector qcondig12_vec(NumericVector p, NumericVector v,
                             NumericVector theta, NumericVector alpha)
 { int i;
   int n = p.size();
-  double qcondig12_algo(double, double, double, double, int, double, double, int);
+  double qcondig12_algo(double, double, double, double, int, double, double);
   NumericVector qu(n);
-  double eps = 1.e-12, bd = 5.;
-  int mxiter = 20;
+  double eps = 1.e-13, bd = 5.;
+  int mxiter = 25;
   for(i=0;i<n;i++) {
-    qu[i] = qcondig12_algo(p[i],v[i],theta[i],alpha[i],mxiter,eps,bd, 0);
+    qu[i] = qcondig12_algo(p[i],v[i],theta[i],alpha[i],mxiter,eps,bd);
   }
   return(qu);
 }
