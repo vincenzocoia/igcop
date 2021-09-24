@@ -5,14 +5,14 @@
 
 <!-- badges: start -->
 
-[![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/igcop)](https://CRAN.R-project.org/package=igcop)
 [![Codecov test
 coverage](https://codecov.io/gh/vincenzocoia/igcop/branch/master/graph/badge.svg)](https://codecov.io/gh/vincenzocoia/igcop?branch=master)
 [![License:
 MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://cran.r-project.org/web/licenses/MIT)
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
 The goal of igcop is to provide computational tools for the Integrated
@@ -128,13 +128,13 @@ Generating 5 values from an IG copula:
 ``` r
 rig(5, theta = 5, alpha = 4)
 #> # A tibble: 5 x 2
-#>       u      v
-#>   <dbl>  <dbl>
-#> 1 0.534 0.224 
-#> 2 0.525 0.0973
-#> 3 0.239 0.585 
-#> 4 0.498 0.721 
-#> 5 0.306 0.815
+#>        u     v
+#>    <dbl> <dbl>
+#> 1 0.617  0.736
+#> 2 0.0370 0.805
+#> 3 0.594  0.872
+#> 4 0.181  0.692
+#> 5 0.116  0.267
 ```
 
 ## Function Nomenclature and Dependencies Map

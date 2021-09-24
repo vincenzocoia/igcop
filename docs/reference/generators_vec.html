@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • igcop</title>
+<title>IG/IGL Generators and Related Functions: matching inputs — igl_gen_vec • igcop</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,12 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="IG/IGL Generators and Related Functions: matching inputs — igl_gen_vec" />
+<meta property="og:description" content="These are the psi, H, and kappa functions
+of the IG and IGL copula families, but with inputs
+needing to be vectors of the same length.
+These functions are called by the R functions of the
+same name, without the _vec suffix." />
 
 
 
@@ -58,7 +63,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -108,90 +113,68 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>IG/IGL Generators and Related Functions: matching inputs</h1>
+    
+    <div class="hidden name"><code>generators_vec.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>These are the psi, H, and kappa functions
+of the IG and IGL copula families, but with inputs
+needing to be vectors of the same length.
+These functions are called by the R functions of the
+same name, without the <code>_vec</code> suffix.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>igl_gen_vec</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>alpha</span><span class='op'>)</span>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="check_params.html">check_alpha()</a></code> <code><a href="check_params.html">check_theta()</a></code> </p>
-        </td>
-        <td><p>Check validity of copula parameters</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="dot-onUnload.html">.onUnload()</a></code> </p>
-        </td>
-        <td><p>Clean up DLL</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="formals_to.html">formals_to()</a></code> </p>
-        </td>
-        <td><p>Send arguments to a function after vectorizing</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="generators.html">interp_gen_inv()</a></code> <code><a href="generators.html">interp_kappa()</a></code> <code><a href="generators.html">interp_kappa_inv()</a></code> <code><a href="generators.html">interp_gen()</a></code> <code><a href="generators.html">igl_kappa()</a></code> <code><a href="generators.html">igl_kappa_D()</a></code> <code><a href="generators.html">igl_kappa_inv()</a></code> <code><a href="generators.html">igl_gen()</a></code> <code><a href="generators.html">igl_gen_D()</a></code> <code><a href="generators.html">igl_gen_inv()</a></code> </p>
-        </td>
-        <td><p>IG/IGL Generators and Related Functions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="generators_vec.html">igl_gen_vec()</a></code> <code><a href="generators_vec.html">igl_gen_D_vec()</a></code> <code><a href="generators_vec.html">igl_gen_inv_vec()</a></code> <code><a href="generators_vec.html">igl_kappa_vec()</a></code> <code><a href="generators_vec.html">igl_kappa_D_vec()</a></code> <code><a href="generators_vec.html">igl_kappa_inv_vec()</a></code> <code><a href="generators_vec.html">interp_gen_vec()</a></code> <code><a href="generators_vec.html">interp_gen_inv_vec()</a></code> <code><a href="generators_vec.html">interp_kappa_vec()</a></code> <code><a href="generators_vec.html">interp_kappa_inv_vec()</a></code> </p>
-        </td>
-        <td><p>IG/IGL Generators and Related Functions: matching inputs</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ig.html">pcondig21()</a></code> <code><a href="ig.html">qcondig21()</a></code> <code><a href="ig.html">qcondig()</a></code> <code><a href="ig.html">pcondig()</a></code> <code><a href="ig.html">pcondig12()</a></code> <code><a href="ig.html">qcondig12()</a></code> <code><a href="ig.html">dig()</a></code> <code><a href="ig.html">logdig()</a></code> <code><a href="ig.html">pig()</a></code> <code><a href="ig.html">rig()</a></code> </p>
-        </td>
-        <td><p>IG Copula Family Functions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="ig_cpp_vec.html">dig_vec()</a></code> <code><a href="ig_cpp_vec.html">pcondig12_vec()</a></code> <code><a href="ig_cpp_vec.html">qcondig12_vec()</a></code> </p>
-        </td>
-        <td><p>Select IG copula quantities: matching inputs</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="igl.html">qcondigl()</a></code> <code><a href="igl.html">pcondigl()</a></code> <code><a href="igl.html">qcondigl21()</a></code> <code><a href="igl.html">pcondigl21()</a></code> <code><a href="igl.html">pcondigl12()</a></code> <code><a href="igl.html">qcondigl12()</a></code> <code><a href="igl.html">digl()</a></code> <code><a href="igl.html">pigl()</a></code> <code><a href="igl.html">rigl()</a></code> <code><a href="igl.html">logdigl()</a></code> </p>
-        </td>
-        <td><p>IGL Copula Family Functions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="test_data.html">.u</a></code> <code><a href="test_data.html">.v</a></code> <code><a href="test_data.html">.cpar</a></code> <code><a href="test_data.html">.theta</a></code> <code><a href="test_data.html">.alpha</a></code> </p>
-        </td>
-        <td><p>Test data</p></td>
-      </tr>
-    </tbody>
+<span class='fu'>igl_gen_D_vec</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>alpha</span><span class='op'>)</span>
+
+<span class='fu'>igl_gen_inv_vec</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>alpha</span><span class='op'>)</span>
+
+<span class='fu'>igl_kappa_vec</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>alpha</span><span class='op'>)</span>
+
+<span class='fu'>igl_kappa_D_vec</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>alpha</span><span class='op'>)</span>
+
+<span class='fu'>igl_kappa_inv_vec</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>alpha</span><span class='op'>)</span>
+
+<span class='fu'>interp_gen_vec</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>eta</span>, <span class='va'>alpha</span><span class='op'>)</span>
+
+<span class='fu'>interp_gen_inv_vec</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>eta</span>, <span class='va'>alpha</span><span class='op'>)</span>
+
+<span class='fu'>interp_kappa_vec</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>eta</span>, <span class='va'>alpha</span><span class='op'>)</span>
+
+<span class='fu'>interp_kappa_inv_vec</span><span class='op'>(</span><span class='va'>p</span>, <span class='va'>eta</span>, <span class='va'>alpha</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>Function argument. Vector of non-negative values.</p></td>
+    </tr>
+    <tr>
+      <th>p</th>
+      <td><p>Function inverse argument. Vector of values between 0 and 1.</p></td>
+    </tr>
+    <tr>
+      <th>eta, alpha</th>
+      <td><p>Function parameters. Vector of positive values.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>If calling this function manually, make sure each input
+are vectors of a common length.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='interp_gen_inv.html'>igl_gen()</a></code> and family;
+<code><a href='dig_vec.html'>dig_vec()</a></code>, <code><a href='dig_vec.html'>pcondig12_vec()</a></code>, and <code><a href='dig_vec.html'>qcondig12_vec()</a></code>.</p></div>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

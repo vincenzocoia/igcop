@@ -29,10 +29,10 @@ knitr::opts_chunk$set(
 # igcop <img src="man/figures/igcop-240x278.png" align="right" height="150" />
 
 <!-- badges: start -->
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![CRAN status](https://www.r-pkg.org/badges/version/igcop)](https://CRAN.R-project.org/package=igcop)
 [![Codecov test coverage](https://codecov.io/gh/vincenzocoia/igcop/branch/master/graph/badge.svg)](https://codecov.io/gh/vincenzocoia/igcop?branch=master)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://cran.r-project.org/web/licenses/MIT)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
 The goal of igcop is to provide computational tools for the Integrated Gamma (IG) and Integrated Gamma Limit (IGL) copula families.

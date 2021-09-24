@@ -154,13 +154,13 @@
 <div class="sourceCode" id="cb7"><pre class="downlit">
 <span class="fu"><a href="reference/pcondig21.html">rig</a></span><span class="op">(</span><span class="fl">5</span>, theta <span class="op">=</span> <span class="fl">5</span>, alpha <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 5 x 2</span>
-<span class="co">#&gt;       u      v</span>
-<span class="co">#&gt;   &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 0.534 0.224 </span>
-<span class="co">#&gt; 2 0.525 0.0973</span>
-<span class="co">#&gt; 3 0.239 0.585 </span>
-<span class="co">#&gt; 4 0.498 0.721 </span>
-<span class="co">#&gt; 5 0.306 0.815</span></pre></div>
+<span class="co">#&gt;        u     v</span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 0.617  0.736</span>
+<span class="co">#&gt; 2 0.0370 0.805</span>
+<span class="co">#&gt; 3 0.594  0.872</span>
+<span class="co">#&gt; 4 0.181  0.692</span>
+<span class="co">#&gt; 5 0.116  0.267</span></pre></div>
 </div>
 <div id="function-nomenclature-and-dependencies-map" class="section level2">
 <h2 class="hasAnchor">
@@ -174,13 +174,13 @@
 <p>All other functions are internal, and directly link to C. Using the notation of Coia (2017), the four main functions are:</p>
 <ul>
 <li>
-<em>Ψ</em><sub><em>k</em></sub> is <code><a href="reference/y_igl_gen.html">y_igl_gen()</a></code> in R,</li>
+<em>Ψ</em><sub><em>k</em></sub> is <code>y_igl_gen()</code> in R,</li>
 <li>
-<em>κ</em><sub><em>k</em></sub> is <code><a href="reference/y_igl_kappa.html">y_igl_kappa()</a></code> in R,</li>
+<em>κ</em><sub><em>k</em></sub> is <code>y_igl_kappa()</code> in R,</li>
 <li>
-<em>H</em><sub><em>Ψ</em><sub><em>k</em></sub></sub> is <code><a href="reference/y_interp_gen.html">y_interp_gen()</a></code> in R, and</li>
+<em>H</em><sub><em>Ψ</em><sub><em>k</em></sub></sub> is <code>y_interp_gen()</code> in R, and</li>
 <li>
-<em>H</em><sub><em>κ</em><sub><em>k</em></sub></sub> is <code><a href="reference/y_interp_gen.html">y_interp_kappa()</a></code> in R</li>
+<em>H</em><sub><em>κ</em><sub><em>k</em></sub></sub> is <code>y_interp_kappa()</code> in R</li>
 </ul>
 <p>Related functions have the following suffixes:</p>
 <ul>
@@ -273,10 +273,10 @@ Coia, Vincenzo. 2017. “Forecasting of Nonlinear Extreme Quantiles Using Copula
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
 <li><a href="https://CRAN.R-project.org/package=igcop"><img src="https://www.r-pkg.org/badges/version/igcop" alt="CRAN status"></a></li>
 <li><a href="https://codecov.io/gh/vincenzocoia/igcop?branch=master"><img src="https://codecov.io/gh/vincenzocoia/igcop/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
 <li><a href="https://cran.r-project.org/web/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
 </ul>
 </div>
 </div>
