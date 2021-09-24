@@ -27,6 +27,7 @@ VignetteBuilder: knitr
 Imports: 
     stats,
     vctrs,
-    Rcpp
+    Rcpp,
+    rlang
 LinkingTo: 
     Rcpp

@@ -34,11 +34,9 @@
 pcondig21 <- function(v, u, theta, alpha) {
     check_theta(theta)
     check_alpha(alpha)
-    u <- trim_square(u)
-    v <- trim_square(v)
-    y <- y_interp_gen_inv(1 - v, eta = theta, alpha = alpha)
+    y <- interp_gen_inv(1 - v, eta = theta, alpha = alpha)
     eta <- theta * (1 - u)
-    1 - y_interp_kappa(y, eta = eta, alpha = alpha)
+    1 - interp_kappa(y, eta = eta, alpha = alpha)
 }
 
 #' @param p Vector of quantile levels between 0 and 1
@@ -48,10 +46,8 @@ pcondig21 <- function(v, u, theta, alpha) {
 qcondig21 <- function(p, u, theta, alpha) {
     check_theta(theta)
     check_alpha(alpha)
-    u <- trim_square(u)
-    p <- trim_square(p)
-    inner <- y_interp_kappa_inv(1 - p, eta = theta * (1 - u), alpha = alpha)
-    1 - y_interp_gen(inner, eta = theta, alpha = alpha)
+    inner <- interp_kappa_inv(1 - p, eta = theta * (1 - u), alpha = alpha)
+    1 - interp_gen(inner, eta = theta, alpha = alpha)
 }
 
 #' @rdname ig
@@ -65,44 +61,17 @@ pcondig <- pcondig21
 #' @rdname ig
 #' @export
 pcondig12 <- function(u, v, theta, alpha) {
-    check_theta(theta)
-    check_alpha(alpha)
-    u <- trim_square(u)
-    v <- trim_square(v)
-    v <- vctrs::vec_recycle_common(u, v, theta, alpha)
-    uvec <- v[[1L]]
-    vvec <- v[[2L]]
-    tvec <- v[[3L]]
-    avec <- v[[4L]]
-    nn <- length(uvec)
-    out <- .C("pcondig12_vec", as.integer(nn), as.double(uvec), as.double(vvec),
-              as.double(tvec), as.double(avec), out = as.double(rep(0, nn)),
-              NAOK = TRUE)
-    out$out
+  check_theta(theta)
+  check_alpha(alpha)
+  formals_to("pcondig12_vec")
 }
 
 #' @rdname ig
 #' @export
-qcondig12 <- function(p, v, theta, alpha)
-{
+qcondig12 <- function(p, v, theta, alpha) {
   check_theta(theta)
   check_alpha(alpha)
-  v <- trim_square(v)
-  p <- trim_square(p)
-  recycled <- vctrs::vec_recycle_common(p, v, theta, alpha)
-  pvec <- recycled[[1L]]
-  vvec <- recycled[[2L]]
-  thvec <- recycled[[3L]]
-  avec <- recycled[[4L]]
-  nn <- length(pvec)
-  mxiter <- 20
-  eps <- 1.e-12
-  bd <- 5
-  out <- .C("qcondig12", as.integer(nn), as.double(pvec), as.double(vvec),
-            as.double(thvec), as.double(avec),
-            as.integer(mxiter), as.double(eps), as.double(bd),
-            qu = as.double(rep(0, nn)), NAOK = TRUE)
-  out$qu
+  formals_to("qcondig12_vec")
 }
 
 #' @rdname ig
@@ -110,34 +79,20 @@ qcondig12 <- function(p, v, theta, alpha)
 dig <- function(u, v, theta, alpha) {
   check_theta(theta)
   check_alpha(alpha)
-  u <- trim_square(u)
-  v <- trim_square(v)
-  v <- vctrs::vec_recycle_common(u, v, theta, alpha)
-  uvec <- v[[1L]]
-  vvec <- v[[2L]]
-  tvec <- v[[3L]]
-  avec <- v[[4L]]
-  nn <- length(uvec)
-  out <- .C("dig_vec", as.integer(nn), as.double(uvec), as.double(vvec),
-            as.double(tvec), as.double(avec), out = as.double(rep(0, nn)),
-            NAOK = TRUE)
-  out$out
+  formals_to("dig_vec")
 }
-
 
 #' @rdname ig
 #' @export
 logdig <- function(u, v, theta, alpha) {
     check_theta(theta)
     check_alpha(alpha)
-    u <- trim_square(u)
-    v <- trim_square(v)
-    y <- y_interp_gen_inv(1 - v, eta = theta, alpha = alpha)
+    y <- interp_gen_inv(1 - v, eta = theta, alpha = alpha)
     eta2 <- (1 - u) * theta
-    k <- y_igl_kappa(eta2 * y, alpha)
-    kD <- y_igl_kappa_D(eta2 * y, alpha)
-    g <- y_igl_gen(theta * y, alpha)
-    gD <- y_igl_gen_D(theta * y, alpha)
+    k <- igl_kappa(eta2 * y, alpha)
+    kD <- igl_kappa_D(eta2 * y, alpha)
+    g <- igl_gen(theta * y, alpha)
+    gD <- igl_gen_D(theta * y, alpha)
     log(k - eta2 * kD) - log(g - theta * gD)
 }
 
@@ -147,10 +102,8 @@ logdig <- function(u, v, theta, alpha) {
 pig <- function(u, v, theta, alpha) {
     check_theta(theta)
     check_alpha(alpha)
-    u <- trim_square(u)
-    v <- trim_square(v)
-    y <- y_interp_gen_inv(1 - v, eta = theta, alpha = alpha)
-    u + v - 1 + (1 - u) * y_interp_gen(y, eta = theta * (1 - u), alpha = alpha)
+    y <- interp_gen_inv(1 - v, eta = theta, alpha = alpha)
+    u + v - 1 + (1 - u) * interp_gen(y, eta = theta * (1 - u), alpha = alpha)
 }
 
 #' @rdname ig
@@ -160,8 +113,6 @@ rig <- function(n, theta, alpha) {
     check_alpha(alpha)
     u <- stats::runif(n)
     p <- stats::runif(n)
-    u <- trim_square(u)
-    p <- trim_square(p)
     v <- qcondig(p, u, theta = theta, alpha = alpha)
     v_na <- vctrs::vec_slice(v, is.na(v))
     u <- vctrs::vec_assign(u, is.na(v), v_na)

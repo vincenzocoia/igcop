@@ -2,7 +2,7 @@
 % Please edit documentation in R/unload.R
 \name{.onUnload}
 \alias{.onUnload}
-\title{Clean up due to the use of C code}
+\title{Clean up DLL}
 \usage{
 .onUnload(libpath)
 }
