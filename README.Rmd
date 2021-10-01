@@ -193,5 +193,8 @@ Map of dependencies among functions:
 - `pigl` : `igl_gen_inv` `igl_gen`
 - `rigl` : `qcondigl21`
 
+## Attributions
+
+Package developed and maintained by [Vincenzo Coia](https://vincenzocoia.com/), with thanks to Harry Joe for his help converting the Newton Raphson algorithms and related functions to C (originally coded in R in igcop Version 0.2.0).
 
 ## References

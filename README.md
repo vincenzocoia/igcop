@@ -132,13 +132,13 @@ Generating 5 values from an IG copula:
 ``` r
 rig(5, theta = 5, alpha = 4)
 #> # A tibble: 5 x 2
-#>        u     v
-#>    <dbl> <dbl>
-#> 1 0.749  0.404
-#> 2 0.0433 0.741
-#> 3 0.104  0.284
-#> 4 0.387  0.740
-#> 5 0.987  0.603
+#>       u      v
+#>   <dbl>  <dbl>
+#> 1 0.792 0.360 
+#> 2 0.958 0.950 
+#> 3 0.155 0.200 
+#> 4 0.422 0.0165
+#> 5 0.146 0.286
 ```
 
 ## Developers
@@ -209,6 +209,13 @@ Map of dependencies among functions:
 -   `digl` : `igl_gen_inv` `igl_kappa_D` `igl_gen_D`
 -   `pigl` : `igl_gen_inv` `igl_gen`
 -   `rigl` : `qcondigl21`
+
+## Attributions
+
+Package developed and maintained by [Vincenzo
+Coia](https://vincenzocoia.com/), with thanks to Harry Joe for his help
+converting the Newton Raphson algorithms and related functions to C
+(originally coded in R in igcop Version 0.2.0).
 
 ## References
 
