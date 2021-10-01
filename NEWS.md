@@ -1,3 +1,9 @@
+# igcop 1.0.1
+
+* Ensure specification of bd,eps,mxiter parameters match across all calls to the Newton Raphson algorithms.
+* Add tests for `interp_gen_D1` at 0.
+* Added package documentation.
+
 # igcop 1.0.0
 
 * The package now has a C++ backend, by converting the four Newton-Raphson algorithms and their dependencies from R to C++. 
