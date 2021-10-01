@@ -7,8 +7,7 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/igcop)](https://CRAN.R-project.org/package=igcop)
-[![Codecov test
-coverage](https://codecov.io/gh/vincenzocoia/igcop/branch/master/graph/badge.svg)](https://codecov.io/gh/vincenzocoia/igcop?branch=master)
+[![codecov](https://codecov.io/gh/vincenzocoia/igcop/branch/main/graph/badge.svg?token=RS6IYZFX5U)](https://codecov.io/gh/vincenzocoia/igcop)
 [![License:
 MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://cran.r-project.org/web/licenses/MIT)
 [![Lifecycle:
@@ -133,13 +132,13 @@ Generating 5 values from an IG copula:
 ``` r
 rig(5, theta = 5, alpha = 4)
 #> # A tibble: 5 x 2
-#>       u     v
-#>   <dbl> <dbl>
-#> 1 0.759 0.803
-#> 2 0.480 0.306
-#> 3 0.373 0.349
-#> 4 0.660 0.858
-#> 5 0.441 0.641
+#>        u     v
+#>    <dbl> <dbl>
+#> 1 0.749  0.404
+#> 2 0.0433 0.741
+#> 3 0.104  0.284
+#> 4 0.387  0.740
+#> 5 0.987  0.603
 ```
 
 ## Developers
