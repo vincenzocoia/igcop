@@ -46,6 +46,18 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/Formulas.html">Formulas for the IG and IGL Copula Families</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="news/index.html">Changelog</a>
 </li>
@@ -86,14 +98,18 @@
 <div id="definition" class="section level2">
 <h2 class="hasAnchor">
 <a href="#definition" class="anchor"></a>Definition</h2>
-<p>The IG copula family is defined by parameters <em>θ</em> &gt; 0 and <em>α</em> &gt; 0, with the IGL copula family obtained with <em>θ</em> → ∞. So, the IGL copula family only has one parameter, <em>α</em> &gt; 0. For a detailed definition, see Coia (2017). Note, however, that this package uses a different parameterization that is more computationally stable.</p>
-<p>The IG and IGL copula families are unique in that they are not permutation symmetric. Also, when used in a regression context, the conditional distribution of the response (the 2nd copula variable) has an EVI that increases with the predictor for an IG copula, and reduces a heavy-tailed response to a light-tailed conditional distribution for an IGL copula.</p>
+<p>The IG copula family is defined by parameters <em>θ</em> &gt; 0 and <em>α</em> &gt; 0, with the IGL copula family obtained with <em>θ</em> → ∞. See the vignette for a detailed definition.</p>
+<p>Here are some contour plots of some normal scores copula densities.</p>
+<p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"></p>
+<p>The IG and IGL copula families are unique in that, when used in a regression context, the conditional distribution of the response (the 2nd copula variable) has an EVI that increases with the predictor for an IG copula, and reduces a heavy-tailed response to a light-tailed conditional distribution for an IGL copula. Specifically, the EVI of the 2|1 distribution when Variable 2 has a Pareto(1) marginal distribution is 0 for an IGL copula, and is (1 + <em>θ</em>(1 − <em>u</em>))<sup> − 1</sup> for an IG copula (Coia 2017).</p>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">igcop</span><span class="op">)</span></pre></div>
 <p>This package piggybacks on the base R syntax for distributions, such as <code><a href="https://rdrr.io/r/stats/Normal.html">dnorm()</a></code> and <code><a href="https://rdrr.io/r/stats/Exponential.html">pexp()</a></code>, whose functions adopt the convention:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&lt;</span>prefix<span class="sc">&gt;</span><span class="er">&lt;</span>name<span class="sc">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&lt;</span>prefix<span class="sc">&gt;</span><span class="er">&lt;</span>name<span class="sc">&gt;</span></span></code></pre></div>
 <p>For IG and IGL copulas:</p>
 <ul>
 <li>
@@ -121,13 +137,12 @@
 </ul>
 </li>
 </ul>
-<p>Here are some examples, starting with evaluating the density of an IG copula at (0.3, 0.6):</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">igcop</span><span class="op">)</span>
+<p>Here are some examples, starting with the density of an IG copula:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit">
 <span class="fu"><a href="reference/pcondig21.html">dig</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">0.6</span>, theta <span class="op">=</span> <span class="fl">3</span>, alpha <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
 <span class="co">#&gt; [1] 1.096211</span></pre></div>
-<p>Computations are vectorized over both <code>u</code> and <code>v</code> (first and second variables), along with the parameter values. Here’s the cdf and density of an IGL copula at different values:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
+<p>Computations are vectorized over each argument. Here’s the cdf and density of an IGL copula at different values:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit">
 <span class="va">u</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.9</span>, length.out <span class="op">=</span> <span class="fl">9</span><span class="op">)</span>
 <span class="va">v</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">0.5</span>, length.out <span class="op">=</span> <span class="fl">9</span><span class="op">)</span>
 <span class="fu"><a href="reference/qcondigl.html">pigl</a></span><span class="op">(</span><span class="va">u</span>, <span class="va">v</span>, alpha <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
@@ -136,9 +151,9 @@
 <span class="fu"><a href="reference/qcondigl.html">digl</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="va">v</span>, alpha <span class="op">=</span> <span class="va">u</span><span class="op">)</span>
 <span class="co">#&gt; [1] 0.8522462 0.8230206 0.8471676 0.8915708 0.9458967 1.0058156 1.0691273</span>
 <span class="co">#&gt; [8] 1.1345476 1.2012456</span></pre></div>
-<p>It doesn’t make sense to talk about quantiles for a multivariate distribution, so this is only defined for conditional distributions.</p>
+<p>It doesn’t make sense to talk about quantiles for a multivariate distribution, so these are only defined for conditional distributions.</p>
 <p>Here is an example of a distribution given the first variable (“2 given 1”). Note that the “2 given 1” distributions swap the <code>u</code> and <code>v</code> arguments to better align with the conditioning, and you can either explicitly include the <code>21</code> suffix or not.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
+<div class="sourceCode" id="cb6"><pre class="downlit">
 <span class="fu"><a href="reference/pcondig21.html">qcondig</a></span><span class="op">(</span><span class="va">v</span>, <span class="va">u</span>, theta <span class="op">=</span> <span class="fl">5</span>, alpha <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
 <span class="co">#&gt; [1] 0.7435415 0.7228302 0.7121613 0.7073784 0.7056649 0.7039164 0.6972994</span>
 <span class="co">#&gt; [8] 0.6777041 0.6356285</span>
@@ -146,41 +161,35 @@
 <span class="co">#&gt; [1] 0.7435415 0.7228302 0.7121613 0.7073784 0.7056649 0.7039164 0.6972994</span>
 <span class="co">#&gt; [8] 0.6777041 0.6356285</span></pre></div>
 <p>Here is the corresponding “1 given 2” distribution. Since this is less common in regression scenarios, you have to explicitly add the <code>12</code> prefix for “1 given 2.”</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
+<div class="sourceCode" id="cb7"><pre class="downlit">
 <span class="fu"><a href="reference/pcondig21.html">qcondig12</a></span><span class="op">(</span><span class="va">v</span>, <span class="va">u</span>, theta <span class="op">=</span> <span class="fl">5</span>, alpha <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
 <span class="co">#&gt; [1] 0.8896885 0.8114873 0.7297887 0.6598357 0.6097781 0.5811235 0.5749922</span>
 <span class="co">#&gt; [8] 0.5976573 0.6689895</span></pre></div>
 <p>Generating 5 values from an IG copula:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
+<div class="sourceCode" id="cb8"><pre class="downlit">
 <span class="fu"><a href="reference/pcondig21.html">rig</a></span><span class="op">(</span><span class="fl">5</span>, theta <span class="op">=</span> <span class="fl">5</span>, alpha <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 5 x 2</span>
-<span class="co">#&gt;        u     v</span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 0.617  0.736</span>
-<span class="co">#&gt; 2 0.0370 0.805</span>
-<span class="co">#&gt; 3 0.594  0.872</span>
-<span class="co">#&gt; 4 0.181  0.692</span>
-<span class="co">#&gt; 5 0.116  0.267</span></pre></div>
+<span class="co">#&gt;       u     v</span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 0.759 0.803</span>
+<span class="co">#&gt; 2 0.480 0.306</span>
+<span class="co">#&gt; 3 0.373 0.349</span>
+<span class="co">#&gt; 4 0.660 0.858</span>
+<span class="co">#&gt; 5 0.441 0.641</span></pre></div>
 </div>
-<div id="function-nomenclature-and-dependencies-map" class="section level2">
+<div id="developers" class="section level2">
 <h2 class="hasAnchor">
-<a href="#function-nomenclature-and-dependencies-map" class="anchor"></a>Function Nomenclature and Dependencies Map</h2>
-<p>The copula quantities are the top-level functions, and are the only ones made publicly available. These include:</p>
-<ul>
-<li>IG copula: <code><a href="reference/pcondig21.html">pig()</a></code>, (<code>log</code>)<code><a href="reference/pcondig21.html">dig()</a></code>, <code><a href="reference/pcondig21.html">rig()</a></code>, <code><a href="reference/pcondig21.html">qcondig()</a></code>(<code>21</code>), <code><a href="reference/pcondig21.html">pcondig()</a></code>(<code>21</code>), <code><a href="reference/pcondig21.html">qcondig12()</a></code>, <code><a href="reference/pcondig21.html">pcondig12()</a></code>.</li>
-<li>IGL copula: <code><a href="reference/qcondigl.html">pigl()</a></code>, (<code>log</code>)<code><a href="reference/qcondigl.html">digl()</a></code>, <code><a href="reference/qcondigl.html">rigl()</a></code>, <code><a href="reference/qcondigl.html">qcondigl()</a></code>(<code>21</code>), <code><a href="reference/qcondigl.html">pcondigl()</a></code>(<code>21</code>), <code><a href="reference/qcondigl.html">qcondigl12()</a></code>, <code><a href="reference/qcondigl.html">pcondigl12()</a></code>.</li>
-</ul>
-<p>Of these, only <code><a href="reference/pcondig21.html">qcondig12()</a></code> has a direct link to a C function.</p>
-<p>All other functions are internal, and directly link to C. Using the notation of Coia (2017), the four main functions are:</p>
+<a href="#developers" class="anchor"></a>Developers</h2>
+<p>Besides the copula quantities described above, the generating functions (as outlined in the vignette) are included in this package as internal functions, and directly link to C++. The notation is:</p>
 <ul>
 <li>
-<em>Ψ</em><sub><em>k</em></sub> is <code>y_igl_gen()</code> in R,</li>
+<em>ψ</em><sub><em>α</em></sub> is <code><a href="reference/interp_gen_inv.html">igl_gen()</a></code>;</li>
 <li>
-<em>κ</em><sub><em>k</em></sub> is <code>y_igl_kappa()</code> in R,</li>
+<em>κ</em><sub><em>α</em></sub> is <code><a href="reference/interp_gen_inv.html">igl_kappa()</a></code>;</li>
 <li>
-<em>H</em><sub><em>Ψ</em><sub><em>k</em></sub></sub> is <code>y_interp_gen()</code> in R, and</li>
+<em>H</em><sub><em>α</em></sub> is <code><a href="reference/interp_gen_inv.html">interp_gen()</a></code>; and</li>
 <li>
-<em>H</em><sub><em>κ</em><sub><em>k</em></sub></sub> is <code>y_interp_kappa()</code> in R</li>
+<em>H</em><sub><em>κ</em><sub><em>α</em></sub></sub> is <code><a href="reference/interp_gen_inv.html">interp_kappa()</a></code>.</li>
 </ul>
 <p>Related functions have the following suffixes:</p>
 <ul>
@@ -191,47 +200,107 @@
 <li>
 <code>_D1</code>: function derivative with respect to first argument.</li>
 </ul>
-<p>Some Gamma distribution quantities are stored in-house as well, such as <code>dgamma</code>, <code>pgamma</code>, and <code>qgamma</code>, along with some helper functions like <code>fmin2</code>.</p>
 <p>There are three functions involved when linking to C:</p>
 <ol>
-<li>The R function first ensures all inputs are vectors of the same length (using <code><a href="https://vctrs.r-lib.org/reference/vec_recycle.html">vctrs::vec_recycle_common()</a></code>), and passes the inputs to a void C routine via <code><a href="https://rdrr.io/r/base/Foreign.html">.C()</a></code>.</li>
-<li>The void C routine loops along each entry of the vectors, passing the values into a bottom-level C function.</li>
-<li>The bottom-level C function computes the desired quantity on scalar inputs.</li>
+<li>The R function (such as <code><a href="reference/interp_gen_inv.html">igl_gen()</a></code>) recycles the arguments by passing them through the <code><a href="reference/formals_to.html">formals_to()</a></code> function, which uses <code><a href="https://vctrs.r-lib.org/reference/vec_recycle.html">vctrs::vec_recycle_common()</a></code>.</li>
+<li>These recycled arguments are passed to the corresponding R function with the <code>_vec</code> suffix, which passes these functions into C++ (via the infrastructure created by running <code><a href="https://rdrr.io/pkg/Rcpp/man/compileAttributes.html">Rcpp::compileAttributes()</a></code>).</li>
+<li>The C++ functions that accept vector inputs have the <code>_vec</code> suffix. These functions loop along each entry, and feeds the scalar values into a C++ function for computation (either with the <code>_single</code> prefix, or the <code>_algo</code> prefix when the function contains a Newton-Raphson algorithm).</li>
 </ol>
 <p>Map of dependencies among functions:</p>
 <ul>
-<li><p><code>igl_gen</code> : <code>pgamma</code></p></li>
-<li><p><code>igl_gen_D</code> : <code>pgamma</code></p></li>
-<li><p><code>igl_gen_DD</code> : <code>pgamma</code> <code>dgamma</code></p></li>
-<li><p><code>igl_gen_inv_algo</code> : <code>qgamma</code> <code>igl_gen</code> <code>igl_gen_D</code></p></li>
-<li><p><code>igl_gen_inv</code> : <code>igl_gen_inv_algo</code></p></li>
-<li><p><code>interp_gen</code> : <code>igl_gen</code></p></li>
-<li><p><code>interp_gen_D1</code> : <code>igl_gen</code></p></li>
-<li><p><code>interp_gen_inv_algo</code> : <code>igl_gen_inv_algo</code> <code>interp_gen</code> <code>interp_gen_D1</code></p></li>
-<li><p><code>interp_gen_inv</code> : <code>interp_gen_inv_algo</code></p></li>
-<li><p><code>igl_kappa</code> : <code>pgamma</code></p></li>
-<li><p><code>igl_kappa_D</code> : <code>dgamma</code></p></li>
-<li><p><code>igl_kappa_inv</code> : <code>qgamma</code></p></li>
-<li><p><code>interp_kappa</code> : <code>igl_kappa</code></p></li>
-<li><p><code>interp_kappa_D1</code> : <code>igl_kappa</code> <code>igl_kappa_D</code></p></li>
-<li><p><code>interp_kappa_inv_algo</code> : <code>igl_kappa_inv</code> <code>interp_kappa</code> <code>igl_kappa</code> <code>igl_kappa_D</code> <code>interp_kappa_inv</code></p></li>
-<li><p><code>interp_kappa_inv</code> : <code>interp_kappa_inv_algo</code></p></li>
-<li><p><code>pcondig21</code> : <code>interp_gen_inv</code> <code>interp_kappa</code></p></li>
-<li><p><code>qcondig21</code> : <code>interp_kappa_inv</code> <code>interp_gen</code></p></li>
-<li><p><code>qcondig12_algo</code> : <code>interp_gen_inv</code> <code>igl_gen</code> <code>igl_gen_D</code> <code>pcondig12</code></p></li>
-<li><p><code>qcondig12</code> : <code>qcondig12_algo</code></p></li>
-<li><p><code>pcondig12</code> : <code>interp_gen_inv</code> <code>interp_gen_D1</code></p></li>
-<li><p><code>dig</code> : <code>interp_gen_inv</code> <code>interp_kappa_D1</code> <code>interp_gen_D1</code></p></li>
-<li><p><code>logdig</code> : <code>interp_gen_inv</code> <code>igl_kappa</code> <code>igl_kappa_D</code> <code>igl_gen</code> <code>igl_gen_D</code></p></li>
-<li><p><code>pig</code> : <code>interp_gen_inv</code></p></li>
-<li><p><code>rig</code> : <code>qcondig21</code></p></li>
-<li><p><code>qcondigl21</code> : <code>igl_kappa_inv</code></p></li>
-<li><p><code>pcondigl21</code> : <code>igl_gen_inv</code> <code>igl_kappa</code></p></li>
-<li><p><code>pcondigl12</code> : <code>igl_gen_inv</code> <code>igl_gen_D</code></p></li>
-<li><p><code>qcondigl12</code> : <code>igl_gen_inv</code> <code>pgamma</code> <code>qgamma</code></p></li>
-<li><p><code>digl</code> : <code>igl_gen_inv</code> <code>igl_kappa_D</code> <code>igl_gen_D</code></p></li>
-<li><p><code>pigl</code> : <code>igl_gen_inv</code> <code>igl_gen</code></p></li>
-<li><p><code>rigl</code> : <code>qcondigl21</code></p></li>
+<li>
+<code>igl_gen</code> : <code>pgamma</code>
+</li>
+<li>
+<code>igl_gen_D</code> : <code>pgamma</code>
+</li>
+<li>
+<code>igl_gen_inv_algo</code> : <code>qgamma</code> <code>igl_gen</code> <code>igl_gen_D</code>
+</li>
+<li>
+<code>igl_gen_inv</code> : <code>igl_gen_inv_algo</code>
+</li>
+<li>
+<code>interp_gen</code> : <code>igl_gen</code>
+</li>
+<li>
+<code>interp_gen_D1</code> : <code>igl_gen</code>
+</li>
+<li>
+<code>interp_gen_inv_algo</code> : <code>igl_gen_inv_algo</code> <code>interp_gen</code> <code>interp_gen_D1</code>
+</li>
+<li>
+<code>interp_gen_inv</code> : <code>interp_gen_inv_algo</code>
+</li>
+<li>
+<code>igl_kappa</code> : <code>pgamma</code>
+</li>
+<li>
+<code>igl_kappa_D</code> : <code>dgamma</code>
+</li>
+<li>
+<code>igl_kappa_inv</code> : <code>qgamma</code>
+</li>
+<li>
+<code>interp_kappa</code> : <code>igl_kappa</code>
+</li>
+<li>
+<code>interp_kappa_D1</code> : <code>igl_kappa</code> <code>igl_kappa_D</code>
+</li>
+<li>
+<code>interp_kappa_inv_algo</code> : <code>igl_kappa_inv</code> <code>interp_kappa</code> <code>igl_kappa</code> <code>igl_kappa_D</code> <code>interp_kappa_inv</code>
+</li>
+<li>
+<code>interp_kappa_inv</code> : <code>interp_kappa_inv_algo</code>
+</li>
+<li>
+<code>pcondig21</code> : <code>interp_gen_inv</code> <code>interp_kappa</code>
+</li>
+<li>
+<code>qcondig21</code> : <code>interp_kappa_inv</code> <code>interp_gen</code>
+</li>
+<li>
+<code>qcondig12_algo</code> : <code>interp_gen_inv</code> <code>igl_gen</code> <code>igl_gen_D</code> <code>pcondig12</code>
+</li>
+<li>
+<code>qcondig12</code> : <code>qcondig12_algo</code>
+</li>
+<li>
+<code>pcondig12</code> : <code>interp_gen_inv</code> <code>interp_gen_D1</code>
+</li>
+<li>
+<code>dig</code> : <code>interp_gen_inv</code> <code>interp_kappa_D1</code> <code>interp_gen_D1</code>
+</li>
+<li>
+<code>logdig</code> : <code>interp_gen_inv</code> <code>igl_kappa</code> <code>igl_kappa_D</code> <code>igl_gen</code> <code>igl_gen_D</code>
+</li>
+<li>
+<code>pig</code> : <code>interp_gen_inv</code>
+</li>
+<li>
+<code>rig</code> : <code>qcondig21</code>
+</li>
+<li>
+<code>qcondigl21</code> : <code>igl_kappa_inv</code>
+</li>
+<li>
+<code>pcondigl21</code> : <code>igl_gen_inv</code> <code>igl_kappa</code>
+</li>
+<li>
+<code>pcondigl12</code> : <code>igl_gen_inv</code> <code>igl_gen_D</code>
+</li>
+<li>
+<code>qcondigl12</code> : <code>igl_gen_inv</code> <code>pgamma</code> <code>qgamma</code>
+</li>
+<li>
+<code>digl</code> : <code>igl_gen_inv</code> <code>igl_kappa_D</code> <code>igl_gen_D</code>
+</li>
+<li>
+<code>pigl</code> : <code>igl_gen_inv</code> <code>igl_gen</code>
+</li>
+<li>
+<code>rigl</code> : <code>qcondigl21</code>
+</li>
 </ul>
 </div>
 <div id="references" class="section level2">

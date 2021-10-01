@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>IG Copula Family Functions — pcondigcop • igcop</title>
+<title>igcop: Computational Tools for the IG and IGL Copula Families — igcop • igcop</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,12 @@
 
 
 
-<meta property="og:title" content="IG Copula Family Functions — pcondigcop" />
-<meta property="og:description" content="Functions related to the IG copula family, denoted  by 'igcop'." />
+<meta property="og:title" content="igcop: Computational Tools for the IG and IGL Copula Families — igcop" />
+<meta property="og:description" content="Compute distributional quantities for an
+Integrated Gamma (IG) or IG Limit (IGL) copula, such
+as a cdf and density, along with conditional quantities
+such as the cdf, quantiles, and densities. Generate
+data from a copula." />
 
 
 
@@ -72,7 +76,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">igcop</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -80,7 +84,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -95,15 +99,18 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/definition.html">Integrated Gamma Copula Definition</a>
+      <a href="../articles/Formulas.html">Formulas for the IG and IGL Copula Families</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/vincenzocoia/igcop">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
@@ -120,65 +127,28 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>IG Copula Family Functions</h1>
+    <h1>igcop: Computational Tools for the IG and IGL Copula Families</h1>
     
     <div class="hidden name"><code>igcop.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Functions related to the IG copula family, denoted  by <code>'igcop'</code>.</p>
+    <p>Compute distributional quantities for an
+Integrated Gamma (IG) or IG Limit (IGL) copula, such
+as a cdf and density, along with conditional quantities
+such as the cdf, quantiles, and densities. Generate
+data from a copula.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pcondigcop</span><span class='op'>(</span><span class='va'>v</span>, <span class='va'>u</span>, <span class='va'>cpar</span><span class='op'>)</span>
 
-<span class='fu'>qcondigcop</span><span class='op'>(</span><span class='va'>tau</span>, <span class='va'>u</span>, <span class='va'>cpar</span><span class='op'>)</span>
 
-<span class='fu'>qcondigcop21</span><span class='op'>(</span><span class='va'>tau</span>, <span class='va'>u</span>, <span class='va'>cpar</span><span class='op'>)</span>
+    <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
 
-<span class='fu'>pcondigcop21</span><span class='op'>(</span><span class='va'>v</span>, <span class='va'>u</span>, <span class='va'>cpar</span><span class='op'>)</span>
+    
 
-<span class='fu'>pcondigcop12</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, <span class='va'>cpar</span><span class='op'>)</span>
-
-<span class='fu'>digcop</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, <span class='va'>cpar</span><span class='op'>)</span>
-
-<span class='fu'>logdigcop</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, <span class='va'>cpar</span><span class='op'>)</span>
-
-<span class='fu'>pigcop</span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>v</span>, <span class='va'>cpar</span><span class='op'>)</span>
-
-<span class='fu'>rigcop</span><span class='op'>(</span><span class='va'>n</span>, <span class='va'>cpar</span><span class='op'>)</span>
-
-<span class='fu'>riglcop</span><span class='op'>(</span><span class='va'>n</span>, <span class='va'>cpar</span><span class='op'>)</span></pre>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>u, v</th>
-      <td><p>Vectors of values in 0,1 representing values of the first
-and second copula variables.</p></td>
-    </tr>
-    <tr>
-      <th>cpar</th>
-      <td><p>Vector of length 2 corresponding to the copula
-parameters <code>theta&gt;0</code> and <code>k&gt;1</code>, respectively.</p></td>
-    </tr>
-    <tr>
-      <th>tau</th>
-      <td><p>Vector of quantile levels in 0,1 to evaluate a quantile function
-at.</p></td>
-    </tr>
-    </table>
-
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Numeric vector of length equal to the length of the input vector(s).</p>
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
-
-    <p>Inputting two vectors greater than length 1 is allowed, if they're
-the same length.
-Also, <code>qcondigcop21</code> and <code>pcondigcop21</code> are the same as
-<code>qcondigcop</code> and <code>pcondigcop</code> -- their the distributions of
-variable 2 given 1.</p>
+<p>Access copula quantities by starting with the <code>p</code>, <code>d</code>, <code>q</code>, or <code>r</code>
+prefixes, followed by the copula name -- either <code>ig</code> or <code>igl</code>, or
+their conditional versions, <code>condig</code> or <code>condigl</code>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
