@@ -21,31 +21,34 @@ alpha_title <- fct_reorder(paste("alpha =", select_alpha), select_alpha)
 eta_title <- fct_reorder(paste("eta =", select_eta), select_eta)
 ```
 
-The formulas behind the Integrated Gamma (IG) and IG Limit (IGL) copula families are best presented in terms of their corresponding wider classes of copulas, since the formulas do not usually simplify. Specifically,
+The IG and IGL copula families (short for "Integrated Gamma" and "Integrated Gamma Limit") copula families are special cases of a wider class of copulas, and most of the formulas for IG and IGL copula quantities don't simplify from their more general form. 
+- The IGL copula family is a special case of a class of copulas first defined by @dj2012 (hence is referred to as the _DJ copula class_).
+- The IG copula family is a special case of an interpolated version of the DJ copula class, first described by @coia2017.
 
-- the IGL copula family is a special case of a class of copulas first defined by Durante and Jaworski [@DJ] (which we call the _DJ copula class_), and
-- the IG copula family is a special cases of an interpolated version of the DJ copula class [@coia2017].
+We'll start with formulas for a general DJ copula and its interpolated copulas, and end with formulas specific to the IG and IGL copula families, where relevant. 
 
-# Formulas
+# General Definition
 
 ## Definition via cdf
 
-Both the DJ and the Interpolated DJ copula classes are characterized by a _generating function_ $\psi:[0, \infty) \rightarrow (0, 1]$, which needs to be a concave distribution function or convex survival function.
+Both the DJ and the Interpolated DJ copula classes (and thus the IG and IGL copulas) are characterized by a _generating function_ $\psi:[0, \infty) \rightarrow (0, 1]$, which is a concave distribution function or convex survival function.
 
-The DJ copula class (corresponding to the IGL copula family) has cdf
+A DJ copula (and thus an IGL copula family) has cdf
 $$C_{\text{DJ}}(u, v; \psi) = u + v - 1 + (1 - u) \psi\left((1 - u) \psi^{\leftarrow}(1 - v)\right),$$
-for $(u, v)$ in the unit square, and $\psi^{\leftarrow}$ the left-inverse of $\psi$. 
+for $(u, v)$ in the unit square, where $\psi^{\leftarrow}$ is the left-inverse of $\psi$. 
 
-But, this class does not contain the independence copula, so we can introduce an interpolating parameter $\theta \geq 0$ such that $\theta = 0$ results in the independence copula, and $\theta = \infty$ results in the DJ copula class -- hence _interpolating_ DJ copulas with the independence copula. The cdf of an interpolated DJ copula (corresponding to the IG copula family) is
+But, this class does not contain the independence copula, so we can introduce an interpolating parameter $\theta \geq 0$ such that $\theta = 0$ results in the independence copula, and $\theta = \infty$ results in the DJ copula class -- hence _interpolating_ DJ copulas with the independence copula. 
+
+An interpolated DJ copula (and thus an IG copula) has cdf
 $$C_{\text{intDJ}}(u, v; \theta, \psi) = u + v - 1 + (1 - u) H_{\psi}\left(H_{\psi}^{\leftarrow}(1 - v; \theta); (1 - u) \theta \right)$$
 for $(u, v)$ in the unit square, where $H_{\psi}$ is the interpolating function of $\psi$, defined as
 $$H_{\psi}(x; \eta) = e ^ {-x} \psi(\eta x)$$
-for $x > 0$ and $\eta \geq 0$. The derivative of the interpolating function (with respect to the first argument) shows up in formulas for copula quantities, and is
+for $x > 0$ and $\eta \geq 0$, and has a range between 0 and 1. Its derivative (with respect to the first argument) is also useful:
 $$\text{D}_1 H_{\psi}(x; \eta) = - e ^ {-x} (\psi(\eta x) - \eta \psi'(\eta x)).$$
 
-Although the DJ copula class can be considered part of the Interpolated DJ class if we include $\theta = \infty$ in the parameter space, the formulas do not simplify in an obvious way, so I'll continue to give the two classes separate treatment. 
+Although the DJ copula class can be considered part of the Interpolated DJ class if we include $\theta = \infty$ in the parameter space, the formulas when $\theta = \infty$ do not simplify in an obvious way, so it's best to treat the two classes separately.
 
-These formulas are originally found in [@coia2017], but under a different (and more complex) parameterization: the $\psi$ function is $\psi(1/x)$ and the $H$ function is $H_{\psi}(x; \theta) = \frac{1}{x} \psi(1 / (\theta \log x))$, and the copula formulas differ slightly.
+All formulas in this vignette can be found in @coia2017, but under a different (and more complex) parameterization: the $\psi$ function is $\psi(1/x)$ and the $H$ function is $H_{\psi}(x; \theta) = \frac{1}{x} \psi(1 / (\theta \log x))$, and the copula formulas are correspondingly slightly different.
 
 ## Kappa Transform of $\psi$
 
@@ -66,14 +69,14 @@ $$c_{\text{DJ}}(u, v; \psi) = (1 - u) \frac{\kappa_{\psi}'((1 - u) y)}{\psi'(y)}
 The two families of conditional distributions, obtained by conditioning on either the 1st or 2nd variable, are
 \begin{equation}
 \begin{split}
-C_{\text{DJ}, 2 | 1}(v | u; \psi) & = 1 - \kappa_{\psi}((1 - u) y) \\
+C_{\text{DJ}, 2 | 1}(v | u; \psi) & = 1 - \kappa_{\psi}((1 - u) y); \\
 C_{\text{DJ}, 1 | 2}(u | v; \psi) & = 1 - (1 - u) ^ 2 \frac{\psi'((1 - u) y)}{\psi'(y)}.
 \end{split}
 \end{equation}
 The corresponding quantile functions are the (left) inverses of these functions, for which the 2|1 quantile function has a closed form:
 $$C_{\text{DJ}, 2 | 1}^{-1}(p | u; \psi) = 1 - \psi\left((1 - u) ^ {-1} \kappa_{\psi}^{\leftarrow}(1 - p) \right)$$
 
-To check these equations, note that $\frac{\text{d}y}{\text{d}v} = - 1 / \psi'(y)$. Note that [@coia2017] in E.1.2 mistakenly writes these distributional quantities as if the family was defined as its reflections.
+To check these equations, note that $\frac{\text{d}y}{\text{d}v} = - 1 / \psi'(y)$. If comparing to the formulas from @coia2017 Section E.1.2, note that the formulas there are defined for the copula reflections.
 
 ## Copula Quantities: Interpolated DJ copula class (IG copula family)
 
@@ -110,25 +113,25 @@ To check these equations, note that $\frac{\text{d}y}{\text{d}v} = - 1 / \text{D
 
 ## Generating Functions
 
-The generating functions of the IG and IGL copula families rely on the Gamma distribution, which has cdf
+The generating functions of the IG and IGL copula families rely on the Gamma($\alpha$) distribution, which has cdf
 $$F_{\alpha}(x) = \frac{\Gamma(\alpha) - \Gamma^{*}(\alpha, x)}{\Gamma(\alpha)}$$
 for $\alpha > 0$ and $x \ge 0$,
 where $\Gamma$ is the Gamma function, and $\Gamma^{*}$ is the (upper) incomplete Gamma function defined as
 $$\Gamma^{*}(\alpha, x) = \int_x^{\infty} t ^ {\alpha - 1} e ^ {-t} \text{d} t.$$
 The density function is denoted by $f_{\alpha}$.
 
-To emphasize the dependence of $\psi$, $\kappa$, and $H$ on the parameter $\alpha$, the parameter is written as a subscript. The $\psi$ function and its derivative are
+To emphasize the dependence of $\psi$, $\kappa$, and $H$ on the parameter $\alpha$, this parameter is written as a subscript. The $\psi$ function and its derivative are
 \begin{equation}
 \begin{split}
 \psi_{\alpha}(x) & = 1 - F_{\alpha}(x) + \frac{\alpha}{x} F_{\alpha + 1}(x); \\
 \psi_{\alpha}'(x) & = - \frac{\alpha}{x ^ 2} F_{\alpha + 1}(x).
 \end{split}
 \end{equation}
-Here are some plots of these functions.
+Here are some plots of these functions for various values of $\alpha$. 
 ```{r, echo = FALSE, fig.width = 7, fig.height = 2, fig.align = "center"}
 expand_grid(nesting(alpha = select_alpha,
                     alpha_title = alpha_title),
-            x = seq(0, 8, length.out = 1000)) %>% 
+            x = seq(0, 50, length.out = 1000)) %>% 
   mutate(psi = map2_dbl(x, alpha, igcop:::igl_gen)) %>% 
   ggplot(aes(x, psi)) +
   facet_wrap(~ alpha_title, nrow = 1) +
@@ -173,9 +176,9 @@ For the IGL copula family:
 \begin{equation}
 \begin{split}
 C_{\text{IGL}, 1 | 2}(u | v; \theta, \alpha) & = 
-  1 - \frac{F_{\alpha + 1}((1 - u) y)}{F_{\alpha + 1}(y)} \\
+  1 - \frac{F_{\alpha + 1}((1 - u) y)}{F_{\alpha + 1}(y)}; \\
 C_{\text{IGL}, 1 | 2}^{-1}(p | v; \theta, \alpha) & = 1 - \frac{1}{y}
-  F_{\alpha + 1}^{-1}\left((1 - p) F_{\alpha + 1}(y)\right)
+  F_{\alpha + 1}^{-1}\left((1 - p) F_{\alpha + 1}(y)\right).
 \end{split}
 \end{equation}
 
