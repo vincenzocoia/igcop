@@ -4,7 +4,7 @@ Version: 1.0.1
 Authors@R: c(
     person("Vincenzo", "Coia", 
            role = c("aut", "cre"),
-           email = "vincen.coia@stat.ubc.ca"),
+           email = "vincenzo.coia@gmail.com"),
     person("Harry", "Joe", role = "aut")
     )
 Description: Compute distributional quantities for an
