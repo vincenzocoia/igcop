@@ -14,11 +14,11 @@ bibliography: ref.bib
 
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
 library(igcop)
-library(tidyverse)
+library(ggplot2)
 select_alpha <- c(0.1, 0.5, 1, 3, 9)
 select_eta <- c(0.1, 2, 20, 200)
-alpha_title <- fct_reorder(paste("alpha =", select_alpha), select_alpha)
-eta_title <- fct_reorder(paste("eta =", select_eta), select_eta)
+alpha_title <- paste("alpha =", select_alpha)
+eta_title <- paste("eta =", select_eta)
 ```
 
 The IG and IGL copula families (short for "Integrated Gamma" and "Integrated Gamma Limit") copula families are special cases of a wider class of copulas, and most of the formulas for IG and IGL copula quantities don't simplify from their more general form. 
@@ -129,11 +129,11 @@ To emphasize the dependence of $\psi$, $\kappa$, and $H$ on the parameter $\alph
 \end{equation}
 Here are some plots of these functions for various values of $\alpha$. 
 ```{r, echo = FALSE, fig.width = 7, fig.height = 2, fig.align = "center"}
-expand_grid(nesting(alpha = select_alpha,
-                    alpha_title = alpha_title),
-            x = seq(0, 50, length.out = 1000)) %>% 
-  mutate(psi = map2_dbl(x, alpha, igcop:::igl_gen)) %>% 
-  ggplot(aes(x, psi)) +
+dat1 <- expand.grid(alpha = select_alpha, 
+                   x = seq(0, 50, length.out = 1000))
+dat1$alpha_title <- paste("alpha =", dat1$alpha)
+dat1$psi <- igcop:::igl_gen(dat1$x, dat1$alpha)
+ggplot(dat1, aes(x, psi)) +
   facet_wrap(~ alpha_title, nrow = 1) +
   geom_line() +
   theme_bw() +
@@ -147,15 +147,28 @@ $$\kappa_{\alpha}(x) = 1 - F_{\alpha}(x).$$
 The $H$ function does not simplify, although for convenience, $H_{\psi_{\alpha}}$ is simply denoted $H_{\alpha}$. Here are some plots of these functions, compared with the plot of the negative exponential $e^{-x}$ as the faded dotted line. Notice that increasing $\alpha$ draws $H_{\alpha}(\cdot, \eta)$ closer to the negative exponential, whereas increasing $\eta$ pulls it further.
 
 ```{r, echo = FALSE, fig.width = 7, fig.height = 4, fig.align = "center"}
-df <- expand_grid(nesting(alpha = select_alpha,
-                    alpha_title = alpha_title),
-            nesting(eta = select_eta,
-                    eta_title = eta_title),
-            x = seq(0, 2.5, length.out = 1000)) %>%
-  mutate(H = pmap_dbl(list(x, eta, alpha), igcop:::interp_gen),
-         e = exp(-x)) %>%
-  pivot_longer(cols = c("H", "e"), names_to = "fun", values_to = "eval")
-ggplot(df, aes(x, eval)) +
+dat2 <- expand.grid(alpha = select_alpha,
+                    eta = select_eta,
+                    x = seq(0, 2.5, length.out = 1000))
+dat2$alpha_title <- paste("alpha =", dat2$alpha)
+dat2$eta_title <- paste("eta =", dat2$eta)
+dat2H <- dat2
+dat2e <- dat2
+dat2H$eval <- igcop:::interp_gen(dat2$x, eta = dat2$eta, alpha = dat2$alpha)
+dat2H$fun <- "H"
+dat2e$eval <- exp(-dat2$x)
+dat2e$fun <- "e"
+dat2 <- rbind(dat2H, dat2e)
+
+# df <- expand_grid(nesting(alpha = select_alpha,
+#                     alpha_title = alpha_title),
+#             nesting(eta = select_eta,
+#                     eta_title = eta_title),
+#             x = seq(0, 2.5, length.out = 1000)) %>%
+#   mutate(H = pmap_dbl(list(x, eta, alpha), igcop:::interp_gen),
+#          e = exp(-x)) %>%
+#   pivot_longer(cols = c("H", "e"), names_to = "fun", values_to = "eval")
+ggplot(dat2, aes(x, eval)) +
   facet_grid(eta_title ~ alpha_title) +
   geom_line(aes(group = fun, linetype = fun, alpha = fun)) +
   ylab(expression(H[alpha](x*";"~eta))) +

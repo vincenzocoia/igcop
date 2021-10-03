@@ -12,6 +12,7 @@ status](https://www.r-pkg.org/badges/version/igcop)](https://CRAN.R-project.org/
 MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://cran.r-project.org/web/licenses/MIT)
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![R-CMD-check](https://github.com/vincenzocoia/igcop/workflows/R-CMD-check/badge.svg)](https://github.com/vincenzocoia/igcop/actions)
 <!-- badges: end -->
 
 The goal of igcop is to provide computational tools for the Integrated
@@ -30,7 +31,7 @@ devtools::install_github("vincenzocoia/igcop")
 
 ## Definition
 
-The IG copula family is defined by parameters *θ* &gt; 0 and *α* &gt; 0,
+The IG copula family is defined by parameters *θ* \> 0 and *α* \> 0,
 with the IGL copula family obtained with *θ* → ∞. See the vignette for a
 detailed definition.
 
@@ -44,8 +45,8 @@ regression context, the conditional distribution of the response (the
 IG copula, and reduces a heavy-tailed response to a light-tailed
 conditional distribution for an IGL copula. Specifically, the EVI of the
 2\|1 distribution when Variable 2 has a Pareto(1) marginal distribution
-is 0 for an IGL copula, and is (1 + *θ*(1 − *u*))<sup> − 1</sup> for an
-IG copula (Coia 2017).
+is 0 for an IGL copula, and is (1+*θ*(1−*u*))<sup>−1</sup> for an IG
+copula (Coia 2017).
 
 ## Usage
 
@@ -131,14 +132,14 @@ Generating 5 values from an IG copula:
 
 ``` r
 rig(5, theta = 5, alpha = 4)
-#> # A tibble: 5 x 2
+#> # A tibble: 5 × 2
 #>       u      v
 #>   <dbl>  <dbl>
-#> 1 0.792 0.360 
-#> 2 0.958 0.950 
-#> 3 0.155 0.200 
-#> 4 0.422 0.0165
-#> 5 0.146 0.286
+#> 1 0.760 0.368 
+#> 2 0.185 0.118 
+#> 3 0.257 0.0154
+#> 4 0.465 0.618 
+#> 5 0.953 0.986
 ```
 
 ## Developers
