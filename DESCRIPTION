@@ -8,10 +8,10 @@ Authors@R: c(
     person("Harry", "Joe", role = "aut")
     )
 Description: Compute distributional quantities for an
-    Integrated Gamma (IG) or IG Limit (IGL) copula, such
-    as a cdf and density, along with conditional quantities
-    such as the cdf, quantiles, and densities. Generate
-    data from a copula.
+    Integrated Gamma (IG) or Integrated Gamma Limit (IGL) copula, such
+    as a cdf and density. Compute corresponding conditional quantities
+    such as the cdf and quantiles. Generate
+    data from an IG or IGL copula.
 License: MIT + file LICENSE
 Suggests: 
     testthat,
