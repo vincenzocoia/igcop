@@ -76,7 +76,7 @@ dat %>%
   theme_bw()
 ```
 
-The IG and IGL copula families are unique in that, when used in a regression context, the conditional distribution of the response (the 2nd copula variable) has an EVI that increases with the predictor for an IG copula, and reduces a heavy-tailed response to a light-tailed conditional distribution for an IGL copula. Specifically, the EVI of the 2|1 distribution when Variable 2 has a Pareto(1) marginal distribution is 0 for an IGL copula, and is $(1 + \theta (1 - u)) ^ {-1}$ for an IG copula [@coia2017].
+The IG and IGL copula families are unique in that, when used in a regression context, the conditional distribution of the response (the 2nd copula variable) has an Extreme Value Index that increases with the predictor for an IG copula, and reduces a heavy-tailed response to a light-tailed conditional distribution for an IGL copula. Specifically, the Extreme Value Index of the 2|1 distribution when Variable 2 has a Pareto(1) marginal distribution is 0 for an IGL copula, and is $(1 + \theta (1 - u)) ^ {-1}$ for an IG copula [@coia2017].
 
 ## Usage
 

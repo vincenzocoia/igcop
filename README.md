@@ -41,12 +41,12 @@ Here are some contour plots of some normal scores copula densities.
 
 The IG and IGL copula families are unique in that, when used in a
 regression context, the conditional distribution of the response (the
-2nd copula variable) has an EVI that increases with the predictor for an
-IG copula, and reduces a heavy-tailed response to a light-tailed
-conditional distribution for an IGL copula. Specifically, the EVI of the
-2\|1 distribution when Variable 2 has a Pareto(1) marginal distribution
-is 0 for an IGL copula, and is (1+*θ*(1−*u*))<sup>−1</sup> for an IG
-copula (Coia 2017).
+2nd copula variable) has an Extreme Value Index that increases with the
+predictor for an IG copula, and reduces a heavy-tailed response to a
+light-tailed conditional distribution for an IGL copula. Specifically,
+the Extreme Value Index of the 2\|1 distribution when Variable 2 has a
+Pareto(1) marginal distribution is 0 for an IGL copula, and is
+(1+*θ*(1−*u*))<sup>−1</sup> for an IG copula (Coia 2017).
 
 ## Usage
 
@@ -133,13 +133,13 @@ Generating 5 values from an IG copula:
 ``` r
 rig(5, theta = 5, alpha = 4)
 #> # A tibble: 5 × 2
-#>         u     v
-#>     <dbl> <dbl>
-#> 1 0.300   0.893
-#> 2 0.157   0.546
-#> 3 0.00318 0.641
-#> 4 0.666   0.970
-#> 5 0.0348  0.891
+#>       u      v
+#>   <dbl>  <dbl>
+#> 1 0.721 0.952 
+#> 2 0.496 0.790 
+#> 3 0.509 0.0193
+#> 4 0.872 0.271 
+#> 5 0.333 0.672
 ```
 
 ## Developers

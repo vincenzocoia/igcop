@@ -101,7 +101,7 @@
 <p>The IG copula family is defined by parameters <em>θ</em> &gt; 0 and <em>α</em> &gt; 0, with the IGL copula family obtained with <em>θ</em> → ∞. See the vignette for a detailed definition.</p>
 <p>Here are some contour plots of some normal scores copula densities.</p>
 <p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"></p>
-<p>The IG and IGL copula families are unique in that, when used in a regression context, the conditional distribution of the response (the 2nd copula variable) has an EVI that increases with the predictor for an IG copula, and reduces a heavy-tailed response to a light-tailed conditional distribution for an IGL copula. Specifically, the EVI of the 2|1 distribution when Variable 2 has a Pareto(1) marginal distribution is 0 for an IGL copula, and is (1+<em>θ</em>(1−<em>u</em>))<sup>−1</sup> for an IG copula (Coia 2017).</p>
+<p>The IG and IGL copula families are unique in that, when used in a regression context, the conditional distribution of the response (the 2nd copula variable) has an Extreme Value Index that increases with the predictor for an IG copula, and reduces a heavy-tailed response to a light-tailed conditional distribution for an IGL copula. Specifically, the Extreme Value Index of the 2|1 distribution when Variable 2 has a Pareto(1) marginal distribution is 0 for an IGL copula, and is (1+<em>θ</em>(1−<em>u</em>))<sup>−1</sup> for an IG copula (Coia 2017).</p>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
@@ -169,13 +169,13 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/pcondig21.html">rig</a></span><span class="op">(</span><span class="fl">5</span>, theta <span class="op">=</span> <span class="fl">5</span>, alpha <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 5 × 2</span>
-<span class="co">#&gt;         u     v</span>
-<span class="co">#&gt;     &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 0.300   0.893</span>
-<span class="co">#&gt; 2 0.157   0.546</span>
-<span class="co">#&gt; 3 0.00318 0.641</span>
-<span class="co">#&gt; 4 0.666   0.970</span>
-<span class="co">#&gt; 5 0.0348  0.891</span></code></pre></div>
+<span class="co">#&gt;       u      v</span>
+<span class="co">#&gt;   &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 0.721 0.952 </span>
+<span class="co">#&gt; 2 0.496 0.790 </span>
+<span class="co">#&gt; 3 0.509 0.0193</span>
+<span class="co">#&gt; 4 0.872 0.271 </span>
+<span class="co">#&gt; 5 0.333 0.672</span></code></pre></div>
 </div>
 <div id="developers" class="section level2">
 <h2 class="hasAnchor">
