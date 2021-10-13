@@ -1,3 +1,5 @@
+# igcop (development version)
+
 # igcop 1.0.1
 
 * Ensure specification of bd,eps,mxiter parameters match across all calls to the Newton Raphson algorithms.
