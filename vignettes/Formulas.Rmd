@@ -172,7 +172,7 @@ ggplot(dat2, aes(x, eval)) +
   facet_grid(eta_title ~ alpha_title) +
   geom_line(aes(group = fun, linetype = fun, alpha = fun)) +
   ylab(expression(H[alpha](x*";"~eta))) +
-  guides(linetype = FALSE, alpha = FALSE) + 
+  guides(linetype = "none", alpha = "none") + 
   scale_alpha_manual(values = c(0.5, 1)) +
   scale_linetype_manual(values = c("dotted", "solid")) +
   scale_x_continuous(breaks = 0:2) +

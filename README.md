@@ -20,13 +20,11 @@ Gamma (IG) and Integrated Gamma Limit (IGL) copula families.
 
 ## Installation
 
-igcop is not yet available on [CRAN](https://CRAN.R-project.org), but
-can be downloaded from this repository using devtools. Just execute this
-line of code in an R instance, after ensuring you have the devtools R
-package installed:
+igcop is available on [CRAN](https://CRAN.R-project.org), and can be
+installed by running
 
 ``` r
-devtools::install_github("vincenzocoia/igcop")
+install.packages("igcop")
 ```
 
 ## Definition
@@ -133,13 +131,13 @@ Generating 5 values from an IG copula:
 ``` r
 rig(5, theta = 5, alpha = 4)
 #> # A tibble: 5 × 2
-#>       u      v
-#>   <dbl>  <dbl>
-#> 1 0.721 0.952 
-#> 2 0.496 0.790 
-#> 3 0.509 0.0193
-#> 4 0.872 0.271 
-#> 5 0.333 0.672
+#>        u      v
+#>    <dbl>  <dbl>
+#> 1 0.407  0.540 
+#> 2 0.238  0.418 
+#> 3 0.0729 0.419 
+#> 4 0.763  0.415 
+#> 5 0.595  0.0999
 ```
 
 ## Developers

@@ -41,10 +41,10 @@ The goal of igcop is to provide computational tools for the Integrated Gamma (IG
 
 ## Installation
 
-igcop is not yet available on [CRAN](https://CRAN.R-project.org), but can be downloaded from this repository using devtools. Just execute this line of code in an R instance, after ensuring you have the devtools R package installed:
+igcop is available on [CRAN](https://CRAN.R-project.org), and can be installed by running
 
 ``` r
-devtools::install_github("vincenzocoia/igcop")
+install.packages("igcop")
 ```
 
 ## Definition

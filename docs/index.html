@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">igcop</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.9000</span>
       </span>
     </div>
 
@@ -91,9 +91,9 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>igcop is not yet available on <a href="https://CRAN.R-project.org">CRAN</a>, but can be downloaded from this repository using devtools. Just execute this line of code in an R instance, after ensuring you have the devtools R package installed:</p>
+<p>igcop is available on <a href="https://CRAN.R-project.org">CRAN</a>, and can be installed by running</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"vincenzocoia/igcop"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"igcop"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="definition" class="section level2">
 <h2 class="hasAnchor">
@@ -169,13 +169,13 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/pcondig21.html">rig</a></span><span class="op">(</span><span class="fl">5</span>, theta <span class="op">=</span> <span class="fl">5</span>, alpha <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 5 × 2</span>
-<span class="co">#&gt;       u      v</span>
-<span class="co">#&gt;   &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 0.721 0.952 </span>
-<span class="co">#&gt; 2 0.496 0.790 </span>
-<span class="co">#&gt; 3 0.509 0.0193</span>
-<span class="co">#&gt; 4 0.872 0.271 </span>
-<span class="co">#&gt; 5 0.333 0.672</span></code></pre></div>
+<span class="co">#&gt;        u      v</span>
+<span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 0.407  0.540 </span>
+<span class="co">#&gt; 2 0.238  0.418 </span>
+<span class="co">#&gt; 3 0.0729 0.419 </span>
+<span class="co">#&gt; 4 0.763  0.415 </span>
+<span class="co">#&gt; 5 0.595  0.0999</span></code></pre></div>
 </div>
 <div id="developers" class="section level2">
 <h2 class="hasAnchor">
@@ -321,7 +321,14 @@ Coia, Vincenzo. 2017. “Forecasting of Nonlinear Extreme Quantiles Using Copula
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="license">
+    <div class="links">
+<h2>Links</h2>
+<ul class="list-unstyled">
+<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=igcop">https://​cloud.r-project.org/​package=igcop</a>
+</li>
+</ul>
+</div>
+<div class="license">
 <h2>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
