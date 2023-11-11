@@ -14,4 +14,4 @@
 #' @name igcop
 #' @importFrom Rcpp evalCpp
 #' @useDynLib igcop, .registration = TRUE
-NULL
+"_PACKAGE"
