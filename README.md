@@ -130,15 +130,16 @@ qcondig12(v, u, theta = 5, alpha = 3)
 Generating 5 values from an IG copula:
 
 ``` r
+set.seed(42)
 rig(5, theta = 5, alpha = 4)
 #> # A tibble: 5 × 2
-#>       u      v
-#>   <dbl>  <dbl>
-#> 1 0.783 0.940 
-#> 2 0.713 0.970 
-#> 3 0.915 0.467 
-#> 4 0.382 0.0351
-#> 5 0.753 0.534
+#>       u     v
+#>   <dbl> <dbl>
+#> 1 0.915 0.598
+#> 2 0.937 0.848
+#> 3 0.286 0.134
+#> 4 0.830 0.761
+#> 5 0.642 0.770
 ```
 
 ## Developers

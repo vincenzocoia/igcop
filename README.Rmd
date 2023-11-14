@@ -137,6 +137,7 @@ qcondig12(v, u, theta = 5, alpha = 3)
 Generating 5 values from an IG copula:
 
 ```{r}
+set.seed(42)
 rig(5, theta = 5, alpha = 4)
 ```
 
