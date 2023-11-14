@@ -3,6 +3,7 @@
 \docType{package}
 \name{igcop}
 \alias{igcop}
+\alias{igcop-package}
 \title{igcop: Computational Tools for the IG and IGL Copula Families}
 \description{
 Compute distributional quantities for an
@@ -18,3 +19,12 @@ prefixes, followed by the copula name -- either \code{ig} or \code{igl}, or
 their conditional versions, \code{condig} or \code{condigl}.
 }
 
+\author{
+\strong{Maintainer}: Vincenzo Coia \email{vincenzo.coia@gmail.com}
+
+Authors:
+\itemize{
+  \item Harry Joe
+}
+
+}

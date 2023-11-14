@@ -13,6 +13,7 @@ MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://cran.r-project.
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R-CMD-check](https://github.com/vincenzocoia/igcop/workflows/R-CMD-check/badge.svg)](https://github.com/vincenzocoia/igcop/actions)
+[![R-CMD-check](https://github.com/vincenzocoia/igcop/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/vincenzocoia/igcop/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of igcop is to provide computational tools for the Integrated
@@ -129,15 +130,16 @@ qcondig12(v, u, theta = 5, alpha = 3)
 Generating 5 values from an IG copula:
 
 ``` r
+set.seed(42)
 rig(5, theta = 5, alpha = 4)
 #> # A tibble: 5 × 2
-#>        u      v
-#>    <dbl>  <dbl>
-#> 1 0.407  0.540 
-#> 2 0.238  0.418 
-#> 3 0.0729 0.419 
-#> 4 0.763  0.415 
-#> 5 0.595  0.0999
+#>       u     v
+#>   <dbl> <dbl>
+#> 1 0.915 0.598
+#> 2 0.937 0.848
+#> 3 0.286 0.134
+#> 4 0.830 0.761
+#> 5 0.642 0.770
 ```
 
 ## Developers

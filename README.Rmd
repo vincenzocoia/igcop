@@ -35,6 +35,7 @@ knitr::opts_chunk$set(
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://cran.r-project.org/web/licenses/MIT)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R-CMD-check](https://github.com/vincenzocoia/igcop/workflows/R-CMD-check/badge.svg)](https://github.com/vincenzocoia/igcop/actions)
+[![R-CMD-check](https://github.com/vincenzocoia/igcop/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/vincenzocoia/igcop/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of igcop is to provide computational tools for the Integrated Gamma (IG) and Integrated Gamma Limit (IGL) copula families.
@@ -136,6 +137,7 @@ qcondig12(v, u, theta = 5, alpha = 3)
 Generating 5 values from an IG copula:
 
 ```{r}
+set.seed(42)
 rig(5, theta = 5, alpha = 4)
 ```
 

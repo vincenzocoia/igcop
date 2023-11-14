@@ -1,6 +1,6 @@
 Package: igcop
 Title: Computational Tools for the IG and IGL Copula Families
-Version: 1.0.1.9000
+Version: 1.0.2
 Authors@R: c(
     person("Vincenzo", "Coia", 
            role = c("aut", "cre"),
@@ -26,7 +26,7 @@ Suggests:
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 Imports: 
     stats,

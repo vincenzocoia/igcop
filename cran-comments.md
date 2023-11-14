@@ -1,12 +1,14 @@
-## Test environments
-
-* GitHub Actions (ubuntu-16.04): 3.3, 3.4, 3.5, oldrel, release, devel
-* GitHub Actions (windows): release
-* Github Actions (macOS): release, devel
-* win-builder: devel
-
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+0 errors | 0 warnings | 0 notes
 
-* This is a new release.
+* https://win-builder.r-project.org/ returns a NOTE:
+  
+  > * checking CRAN incoming feasibility ... NOTE   
+  > Maintainer: 'Vincenzo Coia <vincenzo.coia@gmail.com>'   
+  >    
+  > Possibly misspelled words in DESCRIPTION:   
+  > Coia (15:30)   
+  > Quantiles (16:13)
+  
+  These are not misspellings.
