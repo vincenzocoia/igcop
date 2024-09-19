@@ -13,6 +13,17 @@ authors:
   Vincenzo Coia:
     href: http://vincenzocoia.com
 
-# template:
-#   params:
-#     ganalytics: UA-163983022-1
+url: https://igcop.netlify.app/
+template:
+  bootstrap: 5
+  includes:
+    in_header: |
+      <!-- Google tag (gtag.js) -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-HHDWDLYZKX"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-HHDWDLYZKX');
+      </script>
