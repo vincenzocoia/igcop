@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# igcop <img src="man/figures/igcop-240x278.png" align="right" height="150" />
+# igcop <a href="https://igcop.netlify.app/"><img src="man/figures/logo.png" align="right" height="139" alt="igcop website" /></a>
 
 <!-- badges: start -->
 
